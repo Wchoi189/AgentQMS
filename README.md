@@ -1,4 +1,4 @@
-# AI Collaboration Framework
+# AI Collaboration Framework (Version: v001_c)
 
 A reusable framework for facilitating AI-to-human collaboration through standardized artifact generation, directory scaffolding, and project conventions.
 
@@ -16,10 +16,24 @@ This framework provides:
 
 ### 1. Installation
 
-Copy this framework to your project root:
+If you're using this framework from the v001_c branch:
+
+The framework contents are already at the project root. Simply ensure you're on the `v001_c` branch:
 
 ```bash
-cp -r ai-collaboration-framework/* /path/to/your/project/
+git checkout v001_c
+```
+
+If you're copying this framework to a different project:
+
+```bash
+# Clone or download this repository
+git clone <repository-url>
+cd <repository-name>
+git checkout v001_c
+
+# Copy the framework contents to your project root
+cp -r agent_qms artifacts docs examples scripts .cursor /path/to/your/project/
 ```
 
 ### 2. Setup
@@ -34,6 +48,8 @@ cp -r ai-collaboration-framework/* /path/to/your/project/
    - Cursor will automatically pick up these rules
 
 3. **Verify installation:**
+   
+   From the project root directory:
    ```python
    from agent_qms.toolbelt import AgentQMSToolbelt
 
@@ -41,8 +57,12 @@ cp -r ai-collaboration-framework/* /path/to/your/project/
    print(toolbelt.list_artifact_types())
    # Should output: ['implementation_plan', 'assessment', 'bug_report', 'data_contract']
    ```
+   
+   **Note:** Make sure you're running Python from the project root where the `agent_qms/` directory is located.
 
 ### 3. Create Your First Artifact
+
+Run this from the project root directory:
 
 ```python
 from agent_qms.toolbelt import AgentQMSToolbelt
@@ -184,7 +204,7 @@ If you have existing artifacts with the old frontmatter format:
 
 ## License
 
-[Add your license here]
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
