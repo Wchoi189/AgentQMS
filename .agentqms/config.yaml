@@ -1,0 +1,9 @@
+framework:
+  name: AgentQMS
+  container_name: AgentQMS
+  required_version: ">=0.1.0"
+paths:
+  artifacts: artifacts
+  docs: docs
+notes:
+  - "Generated during v002_b refactor"

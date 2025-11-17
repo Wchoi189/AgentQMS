@@ -11,9 +11,14 @@ tags: ["export", "framework", "resources", "ai_agent"]
 
 This document lists all useful resources for exporting and reusing the AI agent framework.
 
+> **Containerized Framework (v002_b)**  
+> Always copy the full `AgentQMS/` directory **and** the hidden `.agentqms/`
+> metadata folder when exporting the framework. The metadata directory contains
+> version/config/state that the tooling now expects.
+
 ## 📁 Core Framework Components
 
-### 1. `scripts/agent_tools/` - Implementation Layer
+### 1. `AgentQMS/agent_tools/` - Implementation Layer
 
 **Status**: ✅ **95% Ready for Export** (Minimal changes needed)
 
@@ -85,7 +90,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
 
 ### Adaptation Tools
 
-1. **`scripts/agent_tools/utilities/adapt_project.py`** ✅ **NEW**
+1. **`AgentQMS/agent_tools/utilities/adapt_project.py`** ✅ **NEW**
    - Automated project adaptation
    - Interactive setup wizard
    - Config file generation
@@ -98,7 +103,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
 
 ### Discovery Tools
 
-1. **`scripts/agent_tools/core/discover.py`**
+1. **`AgentQMS/agent_tools/core/discover.py`**
    - Lists all available tools
    - Shows tool descriptions
    - Provides usage examples
@@ -109,12 +114,12 @@ This document lists all useful resources for exporting and reusing the AI agent 
 
 ### Validation Tools
 
-1. **`scripts/agent_tools/compliance/validate_artifacts.py`**
+1. **`AgentQMS/agent_tools/compliance/validate_artifacts.py`**
    - Validates naming conventions
    - Checks frontmatter
    - Ensures compliance
 
-2. **`scripts/agent_tools/compliance/monitor_artifacts.py`**
+2. **`AgentQMS/agent_tools/compliance/monitor_artifacts.py`**
    - Compliance monitoring
    - Issue detection
    - Status reporting
@@ -143,7 +148,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
    - Core rules and guidelines
    - Quick reference
 
-2. **`scripts/agent_tools/README.md`**
+2. **`AgentQMS/agent_tools/README.md`**
    - Tool implementation guide
    - Usage examples
    - Architecture overview
@@ -162,7 +167,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
 These are already generic and ready:
 
 ```
-scripts/agent_tools/
+AgentQMS/agent_tools/
 ├── core/
 │   ├── artifact_workflow.py       ✅ Generic
 │   ├── discover.py                 ✅ Generic
@@ -290,10 +295,10 @@ cd ai_agent_framework_export
 # Copy framework
 cp -r ../docs/ai_handbook/ .
 cp -r ../agent/ .
-cp -r ../scripts/agent_tools/ scripts/
+cp -r ../AgentQMS/agent_tools/ scripts/
 
 # Copy utilities
-cp ../scripts/agent_tools/utilities/adapt_project.py scripts/
+cp ../AgentQMS/agent_tools/utilities/adapt_project.py scripts/
 cp ../docs/ai_handbook/config/project_config.yaml.template config/
 
 # Copy documentation
@@ -310,7 +315,7 @@ echo "📦 Package location: $(pwd)"
 
 | Component | Readiness | Action Needed |
 |-----------|-----------|---------------|
-| `scripts/agent_tools/` | 95% | ✅ Path verification only |
+| `AgentQMS/agent_tools/` | 95% | ✅ Path verification only |
 | `agent/` | 90% | ✅ Config template created |
 | `docs/ai_handbook/` | 60% | ⚠️ Create templates for 4 files |
 | **Overall** | **80%** | ⚠️ Template creation needed |

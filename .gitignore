@@ -45,3 +45,5 @@ logs/
 *.sqlite
 data/
 outputs/
+.agentqms/state/agent_state.json
+.agentqms/state/*.sqlite

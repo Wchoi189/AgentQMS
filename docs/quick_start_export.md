@@ -17,9 +17,9 @@ This guide provides a quick-start approach to exporting and reusing the AI agent
 
 ```bash
 # From your current project
+cp -r AgentQMS/ export/AgentQMS/
+cp -r .agentqms/ export/.agentqms/
 cp -r docs/ai_handbook/ export/ai_handbook/
-cp -r agent/ export/agent/
-cp -r scripts/agent_tools/ export/agent_tools/
 ```
 
 ### Step 2: Create Export Package
@@ -29,13 +29,13 @@ mkdir -p ai_agent_framework_export
 cd ai_agent_framework_export
 
 # Copy framework
-cp -r ../export/ai_handbook/ .
-cp -r ../export/agent/ .
-cp -r ../export/agent_tools/ scripts/
+cp -r ../export/AgentQMS/ .
+cp -r ../export/.agentqms/ .
+cp -r ../export/ai_handbook/ docs/
 
 # Copy utilities
-cp ../scripts/agent_tools/utilities/adapt_project.py scripts/
-cp ../docs/ai_handbook/config/project_config.yaml.template config/
+cp ../AgentQMS/agent_tools/utilities/adapt_project.py AgentQMS/agent_scripts/
+cp ../docs/ai_handbook/config/project_config.yaml.template docs/
 
 # Copy documentation
 cp ../docs/export_guide.md .
@@ -58,9 +58,9 @@ python scripts/adapt_project.py --config config/project_config.yaml.template --d
 
 ```bash
 # 1. Copy directories
+cp -r AgentQMS/ new_project/AgentQMS/
+cp -r .agentqms/ new_project/.agentqms/
 cp -r ai_handbook/ new_project/docs/
-cp -r agent/ new_project/
-cp -r scripts/agent_tools/ new_project/scripts/
 
 # 2. Create project config
 cd new_project/
@@ -68,7 +68,7 @@ cp docs/ai_handbook/config/project_config.yaml.template docs/ai_handbook/config/
 # Edit project_config.yaml with your project details
 
 # 3. Run adaptation
-python scripts/agent_tools/utilities/adapt_project.py --config docs/ai_handbook/config/project_config.yaml
+python AgentQMS/agent_scripts/adapt_project.py --config docs/ai_handbook/config/project_config.yaml
 
 # 4. Verify installation
 cd agent/
@@ -82,11 +82,11 @@ make status
 # 1. Copy framework
 cp -r ai_handbook/ new_project/docs/
 cp -r agent/ new_project/
-cp -r scripts/agent_tools/ new_project/scripts/
+cp -r AgentQMS/agent_tools/ new_project/scripts/
 
 # 2. Run interactive setup
 cd new_project/
-python scripts/agent_tools/utilities/adapt_project.py --interactive
+python AgentQMS/agent_tools/utilities/adapt_project.py --interactive
 
 # 3. Verify installation
 cd agent/
@@ -113,7 +113,7 @@ After installation, verify:
 {
   "tool_mappings": {
     "artifact_workflow": {
-      "path": "../scripts/agent_tools/core/artifact_workflow.py"
+      "path": "../AgentQMS/agent_tools/core/artifact_workflow.py"
     }
   }
 }
@@ -139,5 +139,5 @@ After installation, verify:
 ## 🆘 Need Help?
 
 - See `export_guide.md` for comprehensive documentation
-- Check `scripts/agent_tools/README.md` for tool documentation
+- Check `AgentQMS/agent_tools/README.md` for tool documentation
 - Review `docs/ai_handbook/index.md` for handbook structure

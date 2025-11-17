@@ -11,7 +11,7 @@ tags: ["export", "framework", "ai_agent", "documentation"]
 
 **Version**: 1.0
 **Date**: 2025-11-01
-**Purpose**: Complete guide for exporting and reusing `docs/ai_handbook/`, `agent/`, and `scripts/agent_tools/` in other projects
+**Purpose**: Complete guide for exporting and reusing `docs/ai_handbook/`, `agent/`, and `AgentQMS/agent_tools/` in other projects
 
 ---
 
@@ -34,8 +34,12 @@ This guide enables you to export and reuse the AI agent framework components:
 1. **`docs/ai_handbook/`** - AI agent documentation and protocols
 2. **`docs/ai_agent/`** - AI agent domain documentation (system.md, tracking, automation, etc.)
 3. **`agent/`** - Agent-only interface layer (Makefile, wrappers, config)
-4. **`scripts/agent_tools/`** - Implementation layer (Python automation scripts)
+4. **`AgentQMS/agent_tools/`** - Implementation layer (Python automation scripts)
 5. **Templates** - Artifact and blueprint templates
+
+> **New in v002_b**: The framework ships as the containerized `AgentQMS/` directory.
+> Always copy `AgentQMS/` and `.agentqms/` together so the configuration and
+> future state metadata remain in sync.
 
 ### Why Export?
 
@@ -54,7 +58,7 @@ cd agent/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
-python scripts/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
 ```
 
 **Features**:
@@ -81,9 +85,9 @@ Most of the code is already generic! The automated export utility handles:
 
 ### ✅ **Fully Exportable (Minimal Changes)**
 
-#### `scripts/agent_tools/` - 95% Ready
+#### `AgentQMS/agent_tools/` - 95% Ready
 ```
-scripts/agent_tools/
+AgentQMS/agent_tools/
 ├── core/                    # ✅ Generic - artifact creation, discovery
 ├── compliance/              # ✅ Generic - validation, monitoring
 ├── documentation/           # ✅ Generic - index generation, link validation
@@ -165,7 +169,7 @@ grep -ri "Solar Pro\|solar.*pro" docs/ai_handbook/
 - Lines 44-56: Project-specific debugging methods
 
 #### In Configuration Files:
-- `agent/config/tool_mappings.json`: Path references (`../scripts/agent_tools/`)
+- `agent/config/tool_mappings.json`: Path references (`../AgentQMS/agent_tools/`)
 - `agent/config/agent_config.yaml`: Generic but may have project-specific settings
 
 ---
@@ -252,7 +256,7 @@ cd agent/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
-python scripts/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
 ```
 
 ### 📋 **Export Commands**
@@ -274,13 +278,13 @@ make export-validate OUTPUT=../export_package/
 
 ```bash
 # Export framework
-python scripts/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
 
 # Dry run (see what would be exported)
-python scripts/agent_tools/utilities/export_framework.py --output export_package/ --dry-run
+python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/ --dry-run
 
 # Export with validation
-python scripts/agent_tools/utilities/export_framework.py --output export_package/ --validate
+python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/ --validate
 ```
 
 ### 📦 **What Gets Exported**
@@ -317,7 +321,7 @@ The export utility automatically includes:
 - Handbook templates
 
 ✅ **Adaptation Tools**:
-- `scripts/adapt_project.py` - Project adaptation script
+- `AgentQMS/agent_scripts/adapt_project.py` - Project adaptation script
 - Export documentation
 
 ### 🚫 **What Gets Excluded**
@@ -425,13 +429,13 @@ If you need manual control:
   ```bash
   cp -r docs/ai_handbook/ docs/ai_handbook.backup/
   cp -r agent/ agent.backup/
-  cp -r scripts/agent_tools/ scripts/agent_tools.backup/
+  cp -r AgentQMS/agent_tools/ AgentQMS/agent_tools.backup/
   ```
 
 - [ ] **Identify Project-Specific Content**
   ```bash
   # Run search patterns
-  grep -ri "PROJECT_SPECIFIC_TERM" docs/ai_handbook/ agent/ scripts/agent_tools/
+  grep -ri "PROJECT_SPECIFIC_TERM" docs/ai_handbook/ agent/ AgentQMS/agent_tools/
   ```
 
 - [ ] **Document Dependencies**
@@ -554,7 +558,7 @@ If you need manual control:
 # Copy three directories
 cp -r docs/ai_handbook/ new_project/docs/
 cp -r agent/ new_project/
-cp -r scripts/agent_tools/ new_project/scripts/
+cp -r AgentQMS/agent_tools/ new_project/scripts/
 ```
 
 #### Step 2: Create Project Configuration
@@ -577,7 +581,7 @@ EOF
 #### Step 3: Run Adaptation Script
 ```bash
 # If you created an adaptation script
-python scripts/agent_tools/utilities/adapt_project.py \
+python AgentQMS/agent_tools/utilities/adapt_project.py \
   --config docs/ai_handbook/config/project_config.yaml \
   --project-root .
 ```
@@ -641,9 +645,9 @@ If automated script isn't available:
 - `docs/ai_handbook/02_protocols/governance/01_artifact_management_protocol.md` - Artifact system
 
 #### Tool Documentation
-- `scripts/agent_tools/README.md` - Tool implementation guide
-- `scripts/agent_tools/core/discover.py` - Tool discovery script
-- `scripts/agent_tools/core/artifact_workflow.py` - Artifact creation tool
+- `AgentQMS/agent_tools/README.md` - Tool implementation guide
+- `AgentQMS/agent_tools/core/discover.py` - Tool discovery script
+- `AgentQMS/agent_tools/core/artifact_workflow.py` - Artifact creation tool
 
 #### Configuration
 - `agent/config/agent_config.yaml` - Agent configuration template
@@ -651,7 +655,7 @@ If automated script isn't available:
 - `agent/Makefile` - Command interface
 
 #### Templates
-- `scripts/agent_tools/core/artifact_templates.py` - Artifact templates (generic)
+- `AgentQMS/agent_tools/core/artifact_templates.py` - Artifact templates (generic)
 - `docs/ai_handbook/templates/` - Documentation templates
 
 ### 🔧 **Utility Scripts**
@@ -659,7 +663,7 @@ If automated script isn't available:
 #### Discovery Tools
 ```bash
 # List all available tools
-python scripts/agent_tools/core/discover.py
+python AgentQMS/agent_tools/core/discover.py
 
 # Check system status
 cd agent/ && make status
@@ -668,28 +672,28 @@ cd agent/ && make status
 #### Validation Tools
 ```bash
 # Validate all artifacts
-python scripts/agent_tools/compliance/validate_artifacts.py --all
+python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
 
 # Check compliance
-python scripts/agent_tools/compliance/monitor_artifacts.py --check
+python AgentQMS/agent_tools/compliance/monitor_artifacts.py --check
 ```
 
 #### Documentation Tools
 ```bash
 # Generate documentation index
-python scripts/agent_tools/documentation/auto_generate_index.py --validate
+python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
 
 # Validate links
-python scripts/agent_tools/documentation/validate_links.py
+python AgentQMS/agent_tools/documentation/validate_links.py
 ```
 
 ### 📋 **What's Already Generic**
 
 ✅ **Fully Generic (No Changes Needed)**:
-- `scripts/agent_tools/core/artifact_templates.py` - Pure templates
-- `scripts/agent_tools/compliance/` - Generic validation
-- `scripts/agent_tools/documentation/` - Generic doc tools
-- `scripts/agent_tools/utilities/` - Generic utilities
+- `AgentQMS/agent_tools/core/artifact_templates.py` - Pure templates
+- `AgentQMS/agent_tools/compliance/` - Generic validation
+- `AgentQMS/agent_tools/documentation/` - Generic doc tools
+- `AgentQMS/agent_tools/utilities/` - Generic utilities
 - Most protocol files in `docs/ai_handbook/02_protocols/`
 
 ⚠️ **Mostly Generic (Minor Path Updates)**:
@@ -809,13 +813,13 @@ if __name__ == '__main__':
 
 | Component | Readiness | Changes Needed |
 |-----------|-----------|----------------|
-| `scripts/agent_tools/` | 95% | Minimal path checks |
+| `AgentQMS/agent_tools/` | 95% | Minimal path checks |
 | `agent/` | 90% | Config template creation |
 | `docs/ai_handbook/` | 60% | Abstract project-specific content |
 
 ### 🎯 **Quick Wins**
 
-1. **Export `scripts/agent_tools/`** - Already mostly generic
+1. **Export `AgentQMS/agent_tools/`** - Already mostly generic
 2. **Export `agent/`** - Only needs config template
 3. **Create templates** - For project-specific handbook sections
 4. **Write adaptation script** - Automate the process
