@@ -1,28 +1,15 @@
 """Path resolution helpers for AgentQMS.
 
-All file-system lookups flow through this module so that the framework can
-support both the new containerized layout (AgentQMS/) and the legacy
-scattered layout while migrations are in progress.
+All file-system lookups flow through this module to ensure consistent
+path resolution across the framework.
 """
 
 from __future__ import annotations
 
 from functools import lru_cache
 from pathlib import Path
-from typing import Literal
 
 from .config import get_config_loader, load_config
-
-
-Structure = Literal["containerized", "scattered"]
-
-
-def detect_structure() -> Structure:
-    """Return the detected project structure."""
-    loader = get_config_loader()
-    if loader.framework_root.name == "AgentQMS":
-        return "containerized"
-    return "scattered"
 
 
 def get_framework_root() -> Path:
@@ -42,8 +29,7 @@ def get_container_path(component_key: str) -> Path:
     if not relative:
         raise KeyError(f"Unknown framework path key: {component_key}")
 
-    base = get_framework_root() if detect_structure() == "containerized" else get_project_root()
-    return (base / relative).resolve()
+    return (get_framework_root() / relative).resolve()
 
 
 def get_artifacts_dir() -> Path:

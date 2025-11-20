@@ -17,7 +17,6 @@ import os
 
 import yaml
 
-from .migration import warn_if_legacy_directories, warn_if_legacy_paths
 
 
 _DEFAULT_CONFIG: Dict[str, Any] = {}
@@ -30,7 +29,6 @@ class ConfigLoader:
         self._config_cache: Optional[Dict[str, Any]] = None
         self.framework_root = self._detect_framework_root()
         self.project_root = self._detect_project_root(self.framework_root)
-        warn_if_legacy_directories(self.framework_root)
 
     # ------------------------------------------------------------------
     # Public API
@@ -44,7 +42,6 @@ class ConfigLoader:
         config = self._merge_config(config, self._load_framework_defaults())
         config = self._merge_config(config, self._load_project_overrides())
         config = self._merge_config(config, self._load_environment_overrides())
-        warn_if_legacy_paths(config)
         self._write_runtime_snapshot(config)
 
         self._config_cache = config
@@ -69,11 +66,6 @@ class ConfigLoader:
         current = Path(__file__).resolve()
         for parent in (current,) + tuple(current.parents):
             if parent.name == "AgentQMS":
-                return parent
-
-        # Fallback: scattered layout (pre-containerization)
-        for parent in (current,) + tuple(current.parents):
-            if (parent / "agent_tools").exists() and (parent / "agent").exists():
                 return parent
         raise RuntimeError("Could not determine framework root. Is AgentQMS installed?")
 
@@ -100,6 +92,7 @@ class ConfigLoader:
         return config
 
     def _load_project_overrides(self) -> Dict[str, Any]:
+        # Check for project-level config/ (used by consuming projects)
         config_dir = self.project_root / "config"
         config: Dict[str, Any] = {}
 
@@ -115,8 +108,20 @@ class ConfigLoader:
             config = self._merge_directory_overrides(config, config_dir / "environments")
             config = self._merge_directory_overrides(config, config_dir / "overrides")
         else:
-            legacy_project_config = self.project_root / ".agentqms" / "config.yaml"
-            config = self._merge_yaml_if_exists(config, legacy_project_config)
+            # Framework project's own config in .agentqms/project_config/
+            # (avoids conflicts when framework is imported into projects with their own config/)
+            framework_config_dir = self.project_root / ".agentqms" / "project_config"
+            if framework_config_dir.exists():
+                yaml_files: Iterable[Path] = (
+                    framework_config_dir / "framework.yaml",
+                    framework_config_dir / "interface.yaml",
+                    framework_config_dir / "paths.yaml",
+                )
+                for path in yaml_files:
+                    config = self._merge_yaml_if_exists(config, path)
+
+                config = self._merge_directory_overrides(config, framework_config_dir / "environments")
+                config = self._merge_directory_overrides(config, framework_config_dir / "overrides")
 
         return config
 
@@ -160,7 +165,7 @@ class ConfigLoader:
     def _write_runtime_snapshot(self, config: Dict[str, Any]) -> None:
         runtime_dir = self.project_root / ".agentqms"
         runtime_dir.mkdir(parents=True, exist_ok=True)
-        runtime_config = runtime_dir / "config.yaml"
+        runtime_config = runtime_dir / "effective.yaml"
 
         payload = {
             "layers": {

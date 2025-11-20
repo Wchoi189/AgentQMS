@@ -9,7 +9,7 @@
 
 ## 🎯 **Purpose**
 
-This reference defines standardized schemas for common module types in the Korean GEC project. By following these schemas, agents can predict and plan file/folder structures in advance, ensuring consistent organization and reducing refactoring overhead.
+This reference defines standardized schemas for common module types that can be applied to any project. By following these schemas, agents can predict and plan file/folder structures in advance, ensuring consistent organization and reducing refactoring overhead.
 
 ## 📁 **Module Type Schemas**
 
@@ -63,7 +63,7 @@ api_service/
 ├── __init__.py
 ├── clients/
 │   ├── __init__.py
-│   ├── upstage_client.py
+│   ├── api_client.py
 │   ├── openai_client.py
 │   └── anthropic_client.py
 ├── auth/
@@ -90,8 +90,8 @@ api_service/
 ```
 
 **Key Files**:
-- `clients/upstage_client.py`: Upstage API client
-- `requests/prompt_request.py`: Prompt submission logic
+- `clients/api_client.py`: Main API client implementation
+- `requests/prompt_request.py`: Request submission logic
 - `responses/response_parser.py`: API response processing
 - `auth/token_manager.py`: Authentication handling
 
@@ -105,7 +105,7 @@ evaluation/
 ├── metrics/
 │   ├── __init__.py
 │   ├── accuracy_metrics.py
-│   ├── grammatical_metrics.py
+│   ├── quality_metrics.py
 │   ├── semantic_metrics.py
 │   └── custom_metrics.py
 ├── analyzers/
@@ -137,12 +137,12 @@ evaluation/
 - `reporters/file_reporter.py`: Result file generation
 - `comparers/baseline_comparer.py`: Baseline vs experiment comparison
 
-### **4. Streamlit Page Module**
-**Purpose**: Individual Streamlit application pages with schema-driven components.
+### **4. UI Page Module**
+**Purpose**: Individual application pages with schema-driven components (applicable to web frameworks like Streamlit, Flask, etc.).
 
 **Standard Structure**:
 ```
-streamlit_page/
+ui_page/
 ├── __init__.py
 ├── page.py                    # Main page logic
 ├── components/
@@ -169,7 +169,7 @@ streamlit_page/
 ```
 
 **Key Files**:
-- `page.py`: Main Streamlit page function
+- `page.py`: Main page function/route handler
 - `components/data_display.py`: Data visualization components
 - `services/api_service.py`: Page-specific API calls
 - `schemas/page_schema.yaml`: Page configuration schema

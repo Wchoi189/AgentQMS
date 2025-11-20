@@ -96,7 +96,7 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 | 1 | P1-T2 | Approve configuration hierarchy RFC | Platform WG | ✅ Completed | RFC signed; helper scope confirmed |
 | 1 | P1-T3 | Inventory `agent_scripts/` overlap | Tooling WG | ✅ Completed | Documented in `2025-11-20_PHASE1_kickoff` (no external consumers) |
 | 2 | P2-T1 | Create `config_defaults/` and move framework defaults | Infra | ✅ Completed | Defaults moved to `AgentQMS/config_defaults/` |
-| 2 | P2-T2 | Introduce root `config/` & refresh `.agentqms/config.yaml` | Infra | ✅ Completed | New `config/` tree + runtime snapshot writer |
+| 2 | P2-T2 | Introduce root `config/` & refresh `.agentqms/effective.yaml` | Infra | ✅ Completed | New `config/` tree + runtime snapshot writer |
 | 2 | P2-T3 | Rename directories + install shims/logging | Infra + Docs | ✅ Completed | `agent/`→`agent_interface/`, `conventions/`→`project_conventions/`, migration warnings added |
 | 2 | P2-T4 | Migrate config files + generator | Infra | ✅ Completed | ConfigLoader rewired to new hierarchy |
 | 3 | P3-T1 | Implement config/path helper APIs | Tooling WG | ✅ Completed | New getters in `agent_tools.utils.paths` |
@@ -114,7 +114,7 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 | P1-T1 | Coordinator Agent | RFT feedback window closes | `scripts/rft/collect_feedback.py --rft directory_naming` | Decision checklist rows updated, approvals logged in kickoff note |
 | P1-T2 | Coordinator + Tooling Agent | Config RFC draft ready | `scripts/rft/collect_feedback.py --rft config_hierarchy` | Signed RFC PDF, schema questions resolved |
 | P2-T1 | Infra Agent | Phase 1 complete | `make config_defaults.init` | `config_defaults/` committed, tests `pytest tests/config_defaults` green |
-| P2-T2 | Infra Agent | After P2-T1 | `make agentqms-init-config` | Root `config/` scaffolded, `.agentqms/config.yaml` regen diff attached |
+| P2-T2 | Infra Agent | After P2-T1 | `make agentqms-init-config` | Root `config/` scaffolded, `.agentqms/effective.yaml` regen diff attached |
 | P2-T3 | Infra Agent | After P2-T2 | `scripts/migrate/rename_dirs.py --apply --telemetry` | Directory rename logs stored, shims emitting telemetry |
 | P2-T4 | Infra Agent | After shims verified | `scripts/migrate/config_files.py --dry-run/--apply` | Legacy configs relocated, generator snapshot attached |
 | P3-T1 | Tooling Agent | Helper API spec approved | `scripts/helpers/generate_paths.py` + `make lint-helpers` | Helper package published, CLIs import helpers |
@@ -149,14 +149,14 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 2. [ ] **Task 2.2: Introduce Root `config/` & `.agentqms/` Updates**
    - [ ] Scaffold directory with sample overrides
    - [ ] Update installer/export instructions (internal notes only)
-   - [ ] Ensure `.agentqms/config.yaml` generation reflects new layers
+   - [ ] Ensure `.agentqms/effective.yaml` generation reflects new layers
 3. [ ] **Task 2.3: Rename Directories**
    - [ ] `agent/` → `agent_interface/`
    - [ ] `conventions/` → `project_conventions/`
    - [ ] Provide compatibility shims/logging
 4. [ ] **Task 2.4: Migrate Config Files**
    - [ ] Move contents of `agent/config/` into new hierarchy
-   - [ ] Update `.agentqms/config.yaml` generator
+   - [ ] Update `.agentqms/effective.yaml` generator
 
 ### **Phase 3: Tooling & Validation (Week 3–4)**
 1. [ ] **Task 3.1: Update Path Helpers**
@@ -191,7 +191,7 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 
 ### Phase 2 – Directory & Config Restructure
 - **Task 2.1 `config_defaults/`:** Create tree containing `framework.yaml`, `interface.yaml`, and schema-driven defaults; update loaders and add merge tests.
-- **Task 2.2 Root `config/`:** Scaffold overrides (`config/environments/<env>.yaml`, `config/overrides/local.yaml`, `config/paths.yaml`), update installer + `.agentqms/config.yaml` generator.
+- **Task 2.2 Root `config/`:** Scaffold overrides (`config/environments/<env>.yaml`, `config/overrides/local.yaml`, `config/paths.yaml`), update installer + `.agentqms/effective.yaml` generator.
 - **Task 2.3 Renames:** Rename `agent/`→`agent_interface/` and `conventions/`→`project_conventions/`; add shim module with warnings + telemetry.
 - **Task 2.4 Config Migration:** Move legacy `agent/config/` contents into new hierarchy, update generators + CI to consume helpers.
 - **Exit Criteria:** New layout merged to default branch, shims logging, migration script dry-run success on seed repo.
@@ -231,7 +231,7 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 - **Execution Cadence:**
   - **Week 2 (Days 1–2):** Create `config_defaults/`, scaffold root `config/`, add precedence tests.
   - **Week 2 (Days 3–4):** Commit directory renames with shims + telemetry; run smoke/regression tests.
-  - **Week 3 (Days 1–3):** Migrate configs/generator, regenerate `.agentqms/config.yaml`, capture dry-run logs.
+  - **Week 3 (Days 1–3):** Migrate configs/generator, regenerate `.agentqms/effective.yaml`, capture dry-run logs.
   - **Week 3 (Day 4):** Consolidate findings, prep helper adoption plan for Phase 3.
 - **Checkpoints:** Mid-week rename go/no-go, end-of-week readiness review (sign-off recorded in kickoff note).
 - **Outputs:** Updated tree on default branch, migration script dry-run artifacts, release note draft, telemetry dashboard URL.

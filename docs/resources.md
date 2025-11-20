@@ -11,10 +11,11 @@ tags: ["export", "framework", "resources", "ai_agent"]
 
 This document lists all useful resources for exporting and reusing the AI agent framework.
 
-> **Containerized Framework (v002_b)**  
-> Always copy the full `AgentQMS/` directory **and** the hidden `.agentqms/`
-> metadata folder when exporting the framework. The metadata directory contains
-> version/config/state that the tooling now expects.
+> **Containerized Framework Structure**  
+> The framework ships as the containerized `AgentQMS/` directory. Framework
+> defaults are in `AgentQMS/config_defaults/`. Project-specific configuration
+> should be in `config/` at the project root (not inside AgentQMS/). The
+> `.agentqms/` directory contains runtime state and the effective merged config.
 
 ## 📁 Core Framework Components
 
@@ -40,23 +41,26 @@ This document lists all useful resources for exporting and reusing the AI agent 
 
 ---
 
-### 2. `agent/` - Interface Layer
+### 2. `AgentQMS/agent_interface/` - Interface Layer
 
-**Status**: ✅ **90% Ready for Export** (Config template needed)
+**Status**: ✅ **95% Ready for Export**
 
 **What's Included**:
 - `Makefile` - Command interface (uses relative paths)
-- `config/` - Configuration files
 - `tools/` - Thin wrapper scripts
 - `workflows/` - Workflow scripts
+- `README.md` - Usage guide
 
 **Key Files**:
 - `Makefile` - Complete command interface
-- `config/agent_config.yaml` - Agent configuration
-- `config/tool_mappings.json` - Tool path mappings
 - `README.md` - Usage guide
 
-**Export Readiness**: ✅ Ready - Only config template creation needed
+**Configuration**:
+- Framework defaults: `AgentQMS/config_defaults/interface.yaml`
+- Project overrides: `config/interface.yaml` (at project root)
+- Tool mappings: `AgentQMS/config_defaults/tool_mappings.json`
+
+**Export Readiness**: ✅ Ready - Configuration handled via config hierarchy
 
 ---
 
@@ -108,7 +112,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
    - Shows tool descriptions
    - Provides usage examples
 
-2. **`agent/Makefile`** - `make discover`
+2. **`AgentQMS/agent_interface/Makefile`** - `make discover`
    - Convenient wrapper for discovery
    - Shows tool organization
 
@@ -153,10 +157,16 @@ This document lists all useful resources for exporting and reusing the AI agent 
    - Usage examples
    - Architecture overview
 
-3. **`agent/README.md`**
+3. **`AgentQMS/agent_interface/README.md`**
    - Agent interface guide
    - Usage instructions
    - Quick start
+
+4. **`AgentQMS/config_defaults/`**
+   - Framework configuration defaults
+   - Interface settings
+   - Path definitions
+   - Tool mappings
 
 ---
 
@@ -182,10 +192,16 @@ AgentQMS/agent_tools/
     ├── adapt_project.py            ✅ NEW - Generic
     └── get_context.py               ✅ Generic
 
-agent/
+AgentQMS/agent_interface/
 ├── Makefile                         ✅ Generic (relative paths)
 ├── tools/                           ✅ Generic wrappers
 └── workflows/                       ✅ Generic scripts
+
+AgentQMS/config_defaults/
+├── framework.yaml                   ✅ Framework defaults
+├── interface.yaml                   ✅ Interface defaults
+├── paths.yaml                       ✅ Path definitions
+└── tool_mappings.json               ✅ Tool mappings
 
 docs/ai_handbook/
 └── 02_protocols/                   ✅ Generic protocols
@@ -292,14 +308,12 @@ grep -ri "Solar Pro\|solar.*pro" docs/ai_handbook/
 mkdir -p ai_agent_framework_export
 cd ai_agent_framework_export
 
-# Copy framework
-cp -r ../docs/ai_handbook/ .
-cp -r ../agent/ .
-cp -r ../AgentQMS/agent_tools/ scripts/
+# Copy framework (containerized structure)
+cp -r ../AgentQMS/ .
+cp -r ../docs/ai_handbook/ docs/
 
 # Copy utilities
-cp ../AgentQMS/agent_tools/utilities/adapt_project.py scripts/
-cp ../docs/ai_handbook/config/project_config.yaml.template config/
+cp ../AgentQMS/agent_tools/utilities/adapt_project.py AgentQMS/agent_scripts/
 
 # Copy documentation
 cp ../docs/export_guide.md .
@@ -307,6 +321,8 @@ cp ../docs/quick_start_export.md .
 
 echo "✅ Export complete!"
 echo "📦 Package location: $(pwd)"
+echo "📝 Note: Framework defaults are in AgentQMS/config_defaults/"
+echo "📝 Create config/ directory in target project for overrides"
 ```
 
 ---
@@ -316,9 +332,10 @@ echo "📦 Package location: $(pwd)"
 | Component | Readiness | Action Needed |
 |-----------|-----------|---------------|
 | `AgentQMS/agent_tools/` | 95% | ✅ Path verification only |
-| `agent/` | 90% | ✅ Config template created |
+| `AgentQMS/agent_interface/` | 95% | ✅ Ready to use |
+| `AgentQMS/config_defaults/` | 100% | ✅ Framework defaults included |
 | `docs/ai_handbook/` | 60% | ⚠️ Create templates for 4 files |
-| **Overall** | **80%** | ⚠️ Template creation needed |
+| **Overall** | **85%** | ⚠️ Template creation needed |
 
 ---
 
@@ -333,5 +350,12 @@ echo "📦 Package location: $(pwd)"
 
 ---
 
-**Last Updated**: 2025-11-01
-**Version**: 1.0
+**Last Updated**: 2025-11-20
+**Version**: 1.1
+
+## Recent Changes
+
+- **Configuration Structure**: Framework defaults moved to `AgentQMS/config_defaults/`. Project-specific config should be in `config/` at project root.
+- **Runtime Config**: Effective merged configuration is generated in `.agentqms/effective.yaml`.
+- **No Legacy Support**: Removed all legacy configuration paths and scattered layout support. Only containerized structure supported.
+- **Interface Directory**: Renamed `agent/` to `AgentQMS/agent_interface/` for clarity.

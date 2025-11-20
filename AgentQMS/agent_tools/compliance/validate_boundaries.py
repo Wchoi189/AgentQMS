@@ -16,7 +16,6 @@ from pathlib import Path
 from typing import List
 
 from AgentQMS.agent_tools.utils.paths import (
-    detect_structure,
     get_artifacts_dir,
     get_docs_dir,
     get_framework_root,
@@ -40,7 +39,6 @@ class BoundaryValidator:
     def __init__(self) -> None:
         self.project_root = get_project_root().resolve()
         self.framework_root = get_framework_root().resolve()
-        self.structure = detect_structure()
         self.violations: List[BoundaryViolation] = []
 
     def validate(self) -> List[BoundaryViolation]:
@@ -54,9 +52,6 @@ class BoundaryValidator:
     # Validation helpers
     # ------------------------------------------------------------------
     def _check_framework_boundary(self) -> None:
-        if self.structure != "containerized":
-            return
-
         forbidden = [
             "artifacts",
             "docs",
@@ -75,9 +70,6 @@ class BoundaryValidator:
                 )
 
     def _check_project_boundary(self) -> None:
-        if self.structure != "containerized":
-            return
-
         legacy = ["agent", "agent_tools", "quality_management_framework", "scripts"]
         for name in legacy:
             candidate = self.project_root / name
@@ -98,7 +90,7 @@ class BoundaryValidator:
             self.violations.append(
                 BoundaryViolation(
                     artifacts_dir,
-                    "Artifacts directory configured inside AgentQMS/. Update .agentqms/config.yaml.",
+                    "Artifacts directory configured inside AgentQMS/. Update .agentqms/project_config/paths.yaml.",
                 )
             )
 

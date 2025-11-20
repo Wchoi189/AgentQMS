@@ -52,7 +52,7 @@ workspace_root/
 
 ### Key Points
 
-- `AgentQMS/agent_interface_interface/config/agent_config.yaml` is decomposed: defaults move to `config_defaults/`, project-specific values go to `config/`, runtime values to `.agentqms/config.yaml`.
+- `AgentQMS/agent_interface_interface/config/agent_config.yaml` is decomposed: defaults move to `config_defaults/`, project-specific values go to `config/` (or `.agentqms/project_config/` for framework project), runtime values to `.agentqms/effective.yaml`.
 - Merged configuration logic handles precedence: `defaults ⊕ project overrides ⊕ runtime`.
 - JSON Schemas stored alongside defaults validate merged outputs.
 
@@ -70,7 +70,7 @@ workspace_root/
 4. Update tooling to read from helper APIs.
 5. Provide migration script that:
    - Copies existing files into new layers.
-   - Regenerates `.agentqms/config.yaml`.
+   - Regenerates `.agentqms/effective.yaml`.
    - Logs operations to `.agentqms/migration.log`.
 6. Deprecate `AgentQMS/agent_interface_interface/config/` (warnings, then removal).
 

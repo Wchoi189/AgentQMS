@@ -246,7 +246,7 @@ class MigrationManager:
 
         if not dry_run:
             load_config(force=True)
-            log_migration_event("Regenerated .agentqms/config.yaml via ConfigLoader")
+            log_migration_event("Regenerated .agentqms/effective.yaml via ConfigLoader")
 
     def discover_state(self) -> dict:
         legacy_dirs = [

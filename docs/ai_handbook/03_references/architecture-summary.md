@@ -1,16 +1,20 @@
 # Architecture Summary for AI Agents
 
-**Purpose**: High-level system understanding without deep code diving
+**Purpose**: High-level system architecture patterns applicable to any project using the framework
 
-## 🏗️ **System Overview**
+---
+
+## 🏗️ **General System Architecture Pattern**
+
+Most projects using this framework follow a layered architecture pattern:
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Streamlit UI  │    │   Service Layer  │    │   Data Layer    │
+│   User Layer    │    │   Service Layer  │    │   Data Layer    │
 │                 │    │                  │    │                 │
-│ • Data Explorer │◄──►│ • Data Service   │◄──►│ • CSV Files     │
-│ • Inference     │    │ • Inference Svc  │    │ • Cache System  │
-│ • Analysis      │    │ • Analysis Svc   │    │ • Config Files  │
+│ • UI/Interface  │◄──►│ • Business Logic │◄──►│ • Data Storage  │
+│ • User Input    │    │ • Orchestration  │    │ • Cache System  │
+│ • Results Display│    │ • Processing     │    │ • Config Files  │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
          │                       │                       │
          └───────────────────────┼───────────────────────┘
@@ -18,52 +22,143 @@
                     ┌──────────────────┐
                     │   External APIs  │
                     │                  │
-                    │ • Upstage Solar  │
-                    │ • Seroost Search │
+                    │ • Third-party APIs│
+                    │ • ML Models      │
                     └──────────────────┘
 ```
 
-## 🔄 **Data Flow**
+---
 
-1. **User Input** → Streamlit UI
-2. **UI** → Service Layer (business logic)
-3. **Service** → Data Layer (loading/caching)
-4. **Service** → External APIs (inference)
-5. **Response** → UI (display results)
+## 🔄 **Standard Data Flow Pattern**
 
-## 🧩 **Key Components**
+1. **User Input** → User Layer (interface/UI)
+2. **User Layer** → Service Layer (business logic processing)
+3. **Service Layer** → Data Layer (loading/caching persistent data)
+4. **Service Layer** → External APIs (external services, ML inference)
+5. **Response** → User Layer (display results to user)
 
-### **Inference Service** (Most Complex)
-- **Purpose**: Orchestrates all inference operations
-- **Key Files**:
-  - `service.py` - Main coordinator
-  - `model_manager.py` - Model configuration
-  - `prompt_formatter.py` - Template processing
-  - `api_client_manager.py` - API lifecycle
+---
+
+## 🧩 **Common Component Patterns**
+
+### **Service Layer Components**
+
+Most projects will have some combination of:
+
+#### **Core Service** (Orchestration)
+- **Purpose**: Coordinates operations across services
 - **Pattern**: Composition over inheritance
+- **Key Responsibilities**:
+  - Request coordination
+  - Result aggregation
+  - Error handling
+  - Workflow orchestration
 
-### **Data Service**
+#### **Data Service**
 - **Purpose**: Centralized data management
-- **Features**: Caching, validation, loading
-- **Key Files**: `data_service.py`, `data_loader.py`
+- **Features**: Loading, validation, caching, persistence
+- **Key Files**: `data_service.py`, `data_loader.py`, `cache_manager.py`
 
-### **Analysis Service**
+#### **Processing Service**
+- **Purpose**: Business logic and data processing
+- **Pattern**: Stateless operations when possible
+- **Key Files**: `processing_service.py`, `transformer.py`
+
+#### **Analysis/Evaluation Service**
 - **Purpose**: Metrics calculation and evaluation
-- **Key Files**: `analysis_service.py`, `metrics.py`
+- **Pattern**: Separated concerns for analytics
+- **Key Files**: `analysis_service.py`, `metrics.py`, `evaluator.py`
 
-## 🔧 **Configuration System**
-- **Environment**: `.env.local` → `.streamlit/secrets.toml`
-- **App Config**: `streamlit_app/config/*.yaml`
-- **Models**: Pydantic V2 models in `streamlit_app/models/`
+---
 
-## 🚀 **Performance Considerations**
-- **Caching**: Aggressive caching in data service
-- **Async**: API calls are async where possible
-- **Memory**: Large datasets loaded on-demand
-- **UI**: Pagination for large tables
+## 🔧 **Configuration System Pattern**
 
-## 🔍 **Debugging Points**
-- **API Issues**: Check `api_client_manager.py`
-- **Data Issues**: Check `data_service.py`
-- **UI Issues**: Check individual page files
-- **Config Issues**: Check `config.py` and YAML files
+Projects typically use a hierarchical configuration approach:
+
+- **Environment Variables**: `.env.local` or system environment
+- **Application Config**: YAML or JSON files in `config/` directory
+- **Models/Schemas**: Data models (e.g., Pydantic) in `models/` directory
+- **Framework Defaults**: `AgentQMS/config_defaults/` (framework-provided)
+- **Project Overrides**: `config/` at project root (project-specific)
+- **Effective Config**: `.agentqms/effective.yaml` (merged runtime config)
+
+**Configuration Precedence** (lowest to highest):
+1. Framework defaults
+2. Project configuration files
+3. Environment variables
+4. Runtime overrides
+
+---
+
+## 🚀 **Performance Pattern Considerations**
+
+Common performance strategies:
+
+- **Caching**: Aggressive caching in service layer (in-memory, disk, distributed)
+- **Async Operations**: Non-blocking I/O for external API calls
+- **Lazy Loading**: Load large datasets on-demand, not at startup
+- **Pagination**: Chunk large result sets for UI display
+- **Connection Pooling**: Reuse connections for external services
+- **Batch Processing**: Group operations when possible
+
+---
+
+## 🔍 **Common Debugging Entry Points**
+
+When issues arise, check these typical locations:
+
+- **External API Issues**: Check API client managers and request handlers
+- **Data Issues**: Check data service, loaders, and validators
+- **UI/Interface Issues**: Check page/route handlers and component renderers
+- **Configuration Issues**: Check config loaders and environment variable resolution
+- **Performance Issues**: Check caching strategies and async/await usage
+- **Error Handling**: Check exception handlers and logging systems
+
+---
+
+## 📋 **Framework-Specific Architecture**
+
+The AgentQMS framework provides:
+
+### **AgentQMS/agent_tools/** - Implementation Layer
+- Core automation tools (artifact creation, validation, compliance)
+- Utilities and helpers
+- Framework-specific functionality
+
+### **AgentQMS/agent_interface/** - Interface Layer  
+- Command-line interfaces
+- Workflow scripts
+- User-facing tools
+
+### **AgentQMS/config_defaults/** - Configuration Defaults
+- Framework configuration templates
+- Default paths and settings
+- Tool mappings
+
+### **Project Structure**
+- `config/` - Project-specific configuration overrides
+- `.agentqms/` - Runtime state and effective configuration
+- `docs/` - Project documentation
+- `artifacts/` - Generated artifacts (if using framework artifact system)
+
+---
+
+## 🎯 **Architecture Principles**
+
+When designing with this framework:
+
+1. **Separation of Concerns**: Clear boundaries between layers
+2. **Configuration Over Convention**: Use config files, not hardcoded values
+3. **Framework Abstractions**: Use framework helpers rather than direct implementations
+4. **Modularity**: Keep components focused and independent
+5. **Testability**: Design for easy testing and mocking
+6. **Extensibility**: Allow customization through configuration and inheritance
+
+---
+
+## 🔗 **Related References**
+
+- [Module Schema Reference](./development/module_schema_reference.md) - Standard module structures
+- [Import Handling Reference](./development/import_handling_reference.md) - Import patterns
+- [Proactive Modularity Protocol](../02_protocols/development/22_proactive_modularity_protocol.md) - Modular design principles
+- [Configuration Guidelines](../configuration_guidelines.md) - Configuration best practices

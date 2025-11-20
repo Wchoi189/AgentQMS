@@ -2,120 +2,182 @@
 
 **Document ID**: `PROTO-GOV-002`
 **Status**: ACTIVE
-**Created**: 2025-10-25
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-11-20
 **Type**: Governance Protocol
-
-## Rules
-
-### Mandatory Progress Tracker
-All plans MUST include:
-- **STATUS**: Current state (Not Started, In Progress, Completed)
-- **CURRENT STEP**: Current phase and task
-- **LAST COMPLETED TASK**: Description of last completed task
-- **NEXT TASK**: Description of immediate next task
-
-### Autonomous Agent Prompt
-All plans MUST include agent prompt:
-- Defines agent as "Chief of Staff"
-- Primary responsibility for systematic execution
-- Instructs not to ask for clarification
-- Provides clear role and authority
-
-### Blueprint Protocol Template
-Use blueprint template unless:
-- Draft conceptual plan
-- Circumstances make format inappropriate
-- Agent asks for confirmation
-
-### Source Attribution
-Reference source documents and maintain traceability
-
-### Living Document Structure
-Update as progress made with clear protocols
-
-### **Step 1: Plan Creation**
-1. Determine if blueprint protocol template is appropriate
-2. Create progress tracker with initial status
-3. Add autonomous agent prompt
-4. Structure as living implementation blueprint
-5. Include source attribution
-
-### **Step 2: Content Development**
-1. Define phases and tasks with clear checklists
-2. Include technical requirements checklist
-3. Add success criteria validation
-4. Include risk mitigation and fallbacks
-5. Define blueprint update protocol
-
-### **Step 3: Validation**
-1. Ensure progress tracker is complete
-2. Verify autonomous agent prompt is present
-3. Check source attribution
-4. Validate blueprint structure
-5. Confirm update protocols
-
-### **Step 4: Activation**
-1. Set initial status to "Not Started"
-2. Define immediate next action
-3. Create in appropriate artifact directory
-4. Update master artifact registry
-5. Begin systematic execution
-
-## Compliance Validation
-
-### **Required Elements Checklist**
-- [ ] Progress tracker with all required fields
-- [ ] Autonomous agent prompt at the top
-- [ ] Source document attribution
-- [ ] Blueprint protocol structure (if applicable)
-- [ ] Technical requirements checklist
-- [ ] Success criteria validation
-- [ ] Risk mitigation strategies
-- [ ] Update protocols defined
-
-### **Quality Standards**
-- [ ] Clear, actionable tasks
-- [ ] Measurable success criteria
-- [ ] Realistic timelines and phases
-- [ ] Comprehensive risk assessment
-- [ ] Proper artifact management compliance
-
-## Enforcement
-
-### **Automated Checks**
-- Progress tracker format validation
-- Autonomous agent prompt presence
-- Source attribution verification
-- Blueprint structure compliance
-
-### **Manual Review**
-- Content quality assessment
-- Feasibility evaluation
-- Risk assessment adequacy
-- Update protocol clarity
-
-## Troubleshooting
-
-### **Common Issues**
-- **Missing Progress Tracker**: Add required fields at top of document
-- **No Autonomous Agent Prompt**: Include Chief of Staff prompt
-- **Inappropriate Blueprint Use**: Ask for confirmation before applying template
-- **Poor Source Attribution**: Reference original documents clearly
-
-### **Escalation Path**
-1. Consult project lead for template appropriateness
-2. Review with stakeholders for complex implementations
-3. Document exceptions and rationale
-4. Update protocol based on learnings
-
-## Related Documents
-
-- [Blueprint Protocol Template](03_blueprint_protocol_template.md)
-- [Artifact Management Protocol](01_artifact_management_protocol.md)
-- [Implementation Plan Template](../templates/implementation_plan_template.md)
-- [Master Artifact Registry](../../artifacts/MASTER_INDEX.md)
 
 ---
 
-*This protocol ensures all implementation plans are structured for autonomous execution with clear progress tracking and systematic approach to project delivery.*
+## 🎯 Purpose
+
+This protocol describes **when** and **how** to create implementation plans using the framework tools. The framework provides templates that automatically include required structure.
+
+---
+
+## 🛠️ Framework Tool
+
+**Use the framework artifact workflow tool**:
+```bash
+python -m AgentQMS.agent_tools.core.artifact_workflow create \
+  --type implementation_plan \
+  --name "feature-name" \
+  --title "Feature Name Implementation Plan"
+```
+
+The framework template automatically includes:
+- ✅ Progress tracker structure
+- ✅ Blueprint protocol format
+- ✅ Required frontmatter
+- ✅ Standard sections
+- ✅ Compliance validation
+
+**See tool help**:
+```bash
+python -m AgentQMS.agent_tools.core.artifact_workflow create --help
+```
+
+---
+
+## 📋 When to Create Implementation Plans
+
+### **Create Implementation Plans For:**
+
+- ✅ Major feature development (multi-phase, multi-session)
+- ✅ Significant refactoring work
+- ✅ Architecture changes
+- ✅ Multi-file, multi-component changes
+- ✅ Work requiring systematic execution
+
+### **Don't Create Implementation Plans For:**
+
+- ❌ Simple bug fixes
+- ❌ Single-file changes
+- ❌ Trivial modifications
+- ❌ One-off scripts
+
+---
+
+## 🔄 Workflow
+
+### **Step 1: Create Plan**
+
+```bash
+python -m AgentQMS.agent_tools.core.artifact_workflow create \
+  --type implementation_plan \
+  --name "my-feature" \
+  --title "My Feature Implementation"
+```
+
+The framework creates the plan with:
+- Correct naming convention
+- Proper directory placement
+- Template structure
+- Required fields pre-filled
+
+### **Step 2: Customize Plan**
+
+Edit the generated plan to add:
+- **Progress Tracker**: Current status, current step, last completed, next task
+- **Agent Prompt** (if using autonomous execution): Chief of Staff role definition
+- **Phases and Tasks**: Break down work into manageable phases
+- **Success Criteria**: How to know work is complete
+- **Source Attribution**: Reference original requirements/documents
+
+### **Step 3: Validate Plan**
+
+```bash
+python -m AgentQMS.agent_tools.core.artifact_workflow validate \
+  --file docs/artifacts/implementation_plans/YYYY-MM-DD_IMPLEMENTATION_PLAN_my-feature.md
+```
+
+### **Step 4: Update Progress**
+
+As work progresses:
+- Update progress tracker (status, current step, last completed, next task)
+- Mark completed tasks
+- Update phases
+- Document decisions and changes
+
+---
+
+## 📝 Plan Structure
+
+The framework template provides the structure. Key elements:
+
+### **Required Elements**
+
+1. **Progress Tracker** (framework template includes this)
+   - STATUS: Not Started, In Progress, Completed
+   - CURRENT STEP: Current phase and task
+   - LAST COMPLETED TASK: Description
+   - NEXT TASK: Description
+
+2. **Agent Prompt** (optional, for autonomous execution)
+   - Define agent role (e.g., "Chief of Staff")
+   - Set execution authority
+   - Provide context and constraints
+
+3. **Phases and Tasks**
+   - Clear phase breakdown
+   - Actionable task lists
+   - Dependencies identified
+
+4. **Success Criteria**
+   - How to validate completion
+   - Testing requirements
+   - Acceptance criteria
+
+5. **Source Attribution**
+   - Reference original requirements
+   - Link to related documents
+   - Maintain traceability
+
+---
+
+## ✅ Validation Checklist
+
+Use the framework validation tool - it checks:
+
+- ✅ Proper naming convention
+- ✅ Required frontmatter fields
+- ✅ Directory placement
+- ✅ Structure compliance
+- ✅ Cross-references
+
+**Manual checklist** (in addition to framework validation):
+
+- [ ] Progress tracker present and current
+- [ ] Phases and tasks clearly defined
+- [ ] Success criteria measurable
+- [ ] Source documents referenced
+- [ ] Related artifacts cross-referenced
+
+---
+
+## 🔗 Related
+
+- **Framework Tool**: `AgentQMS/agent_tools/core/artifact_workflow.py`
+- **Template**: `AgentQMS/agent_tools/core/artifact_templates.py` (implementation_plan template)
+- **Blueprint Protocol**: [03_blueprint_protocol_template.md](03_blueprint_protocol_template.md)
+- **Artifact Management Protocol**: [01_artifact_management_protocol.md](01_artifact_management_protocol.md)
+
+---
+
+## ❓ Troubleshooting
+
+**Q: What if the template doesn't fit my needs?**
+- The template is a starting point - customize as needed
+- Framework validation checks structure, not content
+- For major deviations, document rationale
+
+**Q: How do I track progress?**
+- Update the progress tracker regularly
+- Use checkboxes in task lists
+- Document decisions in the plan
+
+**Q: Can I use blueprint protocol format?**
+- Yes - see [Blueprint Protocol Template](03_blueprint_protocol_template.md)
+- Framework supports blueprint format in templates
+
+---
+
+*This protocol focuses on **workflow** and **tool usage**. The framework template provides the structure - customize as needed while maintaining compliance.*

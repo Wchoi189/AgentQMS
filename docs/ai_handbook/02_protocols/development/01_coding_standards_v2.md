@@ -17,16 +17,16 @@
 - One import per line, alphabetical within groups
 
 ### Path Management
-- **ALWAYS** use `setup_project_paths()` from `path_utils` for path setup
-- **NEVER** manually manipulate `sys.path` (use `setup_project_paths()` instead)
-- See: `docs/ai_handbook/03_references/development/path_utils_migration_quickstart.md`
+- **ALWAYS** use framework path utilities for path setup
+- **NEVER** manually manipulate `sys.path`
+- See: [Import Handling Protocol](23_import_handling_protocol.md) for framework patterns
 
 ```python
-# ✅ CORRECT
-from streamlit_app.utils.path_utils import setup_project_paths
-setup_project_paths()
+# ✅ CORRECT - Use framework utilities
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+ensure_project_root_on_sys_path()
 
-# ❌ WRONG
+# ❌ WRONG - Manual path manipulation
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
