@@ -40,7 +40,7 @@ This document provides naming convention recommendations for the containerized f
 |--------------|----------|-----------|
 | `agent/` | `agent/` | ✅ Clear, no change needed |
 | `agent_tools/` | `agent_tools/` | ✅ Clear, no change needed |
-| `quality_management_framework/` | `conventions/` | ✅ Shorter, clearer purpose |
+| `quality_management_framework/` | `project_conventions/` | ✅ Shorter, clearer purpose |
 | `scripts/` | `agent_scripts/` | ✅ Prevents namespace collision |
 | N/A | `config/` | ✅ New, centralized config |
 | N/A | `templates/` | ✅ New, project setup templates |
@@ -48,9 +48,9 @@ This document provides naming convention recommendations for the containerized f
 ### Naming Rules
 
 1. **Use lowercase with underscores**: `agent_tools/`, `agent_scripts/`
-2. **Be descriptive**: `conventions/` not `qms/`
+2. **Be descriptive**: `project_conventions/` not `qms/`
 3. **Avoid abbreviations**: `agent_scripts/` not `scripts/`
-4. **Plural for collections**: `templates/`, `conventions/`
+4. **Plural for collections**: `templates/`, `project_conventions/`
 5. **Singular for single-purpose**: `config/`, `agent/`
 
 ---
@@ -59,7 +59,7 @@ This document provides naming convention recommendations for the containerized f
 
 ### Renamed Components
 
-#### `quality_management_framework/` → `conventions/`
+#### `quality_management_framework/` → `project_conventions/`
 
 **Rationale**:
 - **Shorter**: Easier to type and reference
@@ -70,7 +70,7 @@ This document provides naming convention recommendations for the containerized f
 ```bash
 mv quality_management_framework conventions
 # Update all references
-find . -type f -exec sed -i 's/quality_management_framework/conventions/g' {} \;
+find . -type f -exec sed -i 's/quality_management_framework/project_conventions/g' {} \;
 ```
 
 ---
@@ -308,7 +308,7 @@ AGENTQMS_FRAMEWORK_CONTAINER_NAME=AgentQMS
 ### Directories
 - ✅ `agent/` - Agent interface (unchanged)
 - ✅ `agent_tools/` - Implementation (unchanged)
-- ✅ `conventions/` - Standards and rules (renamed from `quality_management_framework/`)
+- ✅ `project_conventions/` - Standards and rules (renamed from `quality_management_framework/`)
 - ✅ `agent_scripts/` - Framework scripts (renamed from `scripts/`)
 - ✅ `config/` - Framework configuration (new)
 - ✅ `templates/` - Project setup templates (new)
@@ -407,7 +407,7 @@ verify_config()
 ### Files Requiring Updates
 
 1. **Path References**:
-   - `quality_management_framework/` → `conventions/`
+   - `quality_management_framework/` → `project_conventions/`
    - `scripts/` → `agent_scripts/`
 
 2. **Import Statements**:

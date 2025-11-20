@@ -130,7 +130,7 @@ def get_framework_dir() -> Path:
 - [ ] Remove `streamlit_app` references from codebase
 
 **Files to Update**:
-- All files in `agent/tools/` (5 files)
+- All files in `agent_interface/tools/` (5 files)
 - `agent_tools/utilities/tracking/db.py`
 - All files in `ai_handbook/03_references/development/` (multiple)
 - Documentation files
@@ -198,8 +198,8 @@ def get_framework_dir() -> Path:
 **Solution**: Use relative paths and environment variables.
 
 **Actions**:
-- [ ] Update `agent/tools/puppeteer/README.md` to use relative paths
-- [ ] Update `agent/tools/audio/README.md` to use relative paths
+- [ ] Update `agent_interface/tools/puppeteer/README.md` to use relative paths
+- [ ] Update `agent_interface/tools/audio/README.md` to use relative paths
 - [ ] Update `scripts/utilities/play_audio.sh` to use environment variables
 - [ ] Replace hardcoded paths in artifact examples with placeholders
 - [ ] Update all README examples

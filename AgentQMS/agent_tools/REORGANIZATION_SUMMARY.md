@@ -3,7 +3,7 @@
 ## ✅ Completed Tasks
 
 ### Phase 1: Fix Critical Issues ✅
-- ✅ Fixed `agent/tools/discover.py` import path
+- ✅ Fixed `agent_interface/tools/discover.py` import path
 - ✅ Fixed `agent/Makefile` broken reference to `fix_compliance_issues.py`
 - ✅ Fixed `automated_compliance_fix.sh` path references
 
@@ -54,7 +54,7 @@
 
 These were identified as lower priority but could be done if needed:
 
-1. **Simplify agent/tools/** directory (Medium Priority)
+1. **Simplify agent_interface/tools/** directory (Medium Priority)
    - Option: Remove wrapper scripts entirely, have Makefile call scripts directly
    - Status: Current wrappers work correctly, decision deferred
 

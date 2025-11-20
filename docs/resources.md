@@ -1,6 +1,6 @@
 ---
 title: "Useful Resources for Exporting AI Agent Framework"
-date: "2025-11-01"
+date: "2025-11-01 00:00 (KST)"
 status: "active"
 version: "1.0"
 category: "user_guide"
@@ -143,7 +143,7 @@ This document lists all useful resources for exporting and reusing the AI agent 
 
 ### Framework Documentation
 
-1. **`docs/ai_agent/system.md`**
+1. **`docs/ai_handbook/04_agent_system/system.md`**
    - Single source of truth for agents
    - Core rules and guidelines
    - Quick reference

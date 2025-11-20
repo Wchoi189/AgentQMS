@@ -1,0 +1,9 @@
+paths:
+  artifacts: artifacts
+  docs: docs
+  agent_interface: agent_interface
+  implementation: agent_tools
+  project_conventions: project_conventions
+  scripts: agent_scripts
+  templates: templates
+  config_defaults: AgentQMS/config_defaults

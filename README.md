@@ -8,28 +8,26 @@ entire framework can travel as a single directory.
 ## Framework Contents
 
 ### AgentQMS/ (Framework Container)
-- `agent/` – Interface layer (Makefile, wrappers, workflows)
+- `agent_interface/` – Interface layer (Makefile, wrappers, workflows)
 - `agent_tools/` – Implementation layer (automation, validators, docs tooling)
-- `conventions/` – Templates, schemas, and QMS conventions (formerly quality_management_framework)
+- `project_conventions/` – Templates, schemas, and QMS conventions
 - `agent_scripts/` – Framework scripts and utilities
-- `config/` – Default framework configuration (`framework.yaml`)
+- `config_defaults/` – Canonical framework defaults (framework/interface/paths)
 - `templates/` – Bootstrap templates for exporting/adapting
 
 ### Project-Level Directories
-- `artifacts/` – Generated artifacts (configurable via `.agentqms/config.yaml`)
-- `docs/` – Project documentation (handbook + local docs)
-- `ai_handbook/`, `ai_agent/`, `agent_templates/` – Documentation and template packs
+- `docs/` – Project documentation and artifacts
+  - `docs/artifacts/` – Generated artifacts (implementation plans, assessments, templates, etc.)
+  - `docs/ai_handbook/` – AI agent handbook (protocols, onboarding, references) including the `04_agent_system/` section for agent-only operations.
+  - `docs/audit/` – Framework audit and design documents
 - `.agentqms/` – Hidden metadata directory (version, config, state)
 
 ## Installation
 
-1. **Copy the framework container**
+1. **Copy the framework container and documentation**
    ```bash
    cp -r AgentQMS/ your_project/
-   cp -r ai_handbook/ your_project/docs/
-   cp -r ai_agent/ your_project/docs/
-   cp -r agent_templates/ your_project/
-   cp -r artifacts/ your_project/
+   cp -r docs/ your_project/          # Includes artifacts, ai_handbook (agent system), audit
    cp -r .agentqms your_project/
    ```
 
@@ -42,7 +40,7 @@ entire framework can travel as a single directory.
 
 3. **Verify installation**
    ```bash
-   cd AgentQMS/agent
+   cd AgentQMS/agent_interface
    make discover
    make status
    make validate
@@ -53,18 +51,18 @@ entire framework can travel as a single directory.
 ```
 project_root/
 ├── AgentQMS/
-│   ├── agent/
+│   ├── agent_interface/
 │   ├── agent_tools/
-│   ├── conventions/
+│   ├── project_conventions/
 │   ├── agent_scripts/
-│   ├── config/
+│   ├── config_defaults/
 │   └── templates/
 ├── .agentqms/
-├── artifacts/
 ├── docs/
-├── ai_handbook/
-├── ai_agent/
-├── agent_templates/
+│   ├── artifacts/
+│   ├── ai_handbook/
+│   │   └── 04_agent_system/
+│   └── audit/
 └── README.md
 ```
 
@@ -76,9 +74,9 @@ project_root/
 - **State Hooks** – JSON-backed placeholder ready for future SQLite/external stores.
 
 ## Documentation
-- `docs/audit/` – Current audit, containerization design, and migration guides.
-- `ai_handbook/` – AI agent handbook (protocols, onboarding, references).
-- `ai_agent/` – System documentation for agents and automation tooling.
+- `docs/artifacts/` – Generated project artifacts (implementation plans, assessments, design documents, templates)
+- `docs/ai_handbook/` – AI agent handbook (protocols, onboarding, references) with the `04_agent_system/` subsection for agent tooling docs
+- `docs/audit/` – Framework audit, containerization design, and migration guides
 
 ## License
 This project is licensed under the MIT License – see [LICENSE](LICENSE).

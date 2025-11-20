@@ -48,7 +48,7 @@ def show_tools():
             print()
 
     print("💡 Usage:")
-    print("   For agents: cd agent/ && make help")
+    print("   For agents: cd AgentQMS/agent_interface/ && make help")
     print("   For humans: Use Python scripts directly")
     print("   See README.md for detailed usage information")
     print()

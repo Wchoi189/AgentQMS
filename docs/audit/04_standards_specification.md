@@ -124,12 +124,12 @@ project_root/
 
 ### 3.1 Standard Frontmatter Structure
 
-All artifacts must include YAML frontmatter with required fields:
+All artifacts must include YAML frontmatter with required fields. The `date` field must always include the hour/minute timestamp and regional marker: `YYYY-MM-DD HH:MM (KST)`.
 
 ```yaml
 ---
 title: "Artifact Title"
-date: "YYYY-MM-DD"
+date: "YYYY-MM-DD HH:MM (KST)"
 status: "active" | "draft" | "deprecated" | "archived"
 version: "1.0"
 category: "implementation_plan" | "assessment" | "design" | "research" | "template" | "bug_report" | "user_guide"
@@ -143,7 +143,7 @@ tags: ["tag1", "tag2", "tag3"]
 ```yaml
 ---
 title: "Implementation Plan: Feature Name"
-date: "2025-11-09"
+date: "2025-11-09 09:00 (KST)"
 status: "active" | "draft" | "completed"
 version: "1.0"
 category: "implementation_plan"
@@ -157,7 +157,7 @@ priority: "high" | "medium" | "low"  # Optional
 ```yaml
 ---
 title: "Assessment: Topic Name"
-date: "2025-11-09"
+date: "2025-11-09 09:00 (KST)"
 status: "active" | "draft" | "completed"
 version: "1.0"
 category: "assessment"
@@ -170,7 +170,7 @@ scope: "brief description"  # Optional
 ```yaml
 ---
 title: "Design: Component Name"
-date: "2025-11-09"
+date: "2025-11-09 09:00 (KST)"
 status: "active" | "draft" | "approved" | "deprecated"
 version: "1.0"
 category: "design"
@@ -182,7 +182,7 @@ tags: ["architecture", "component"]
 ```yaml
 ---
 title: "BUG: Issue Description"
-date: "2025-11-09"
+date: "2025-11-09 09:00 (KST)"
 status: "open" | "in_progress" | "resolved" | "closed"
 version: "1.0"
 category: "bug_report"
@@ -202,8 +202,8 @@ reproducible: true | false  # Required
 
 **Date**:
 - Required: Yes
-- Type: String (ISO 8601: YYYY-MM-DD)
-- Validation: Must be valid date, not future date
+- Type: String (`YYYY-MM-DD HH:MM (KST)`)
+- Validation: Must be valid 24-hour timestamp in KST, not in the future
 
 **Status**:
 - Required: Yes

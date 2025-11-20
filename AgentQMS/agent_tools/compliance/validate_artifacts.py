@@ -16,6 +16,7 @@ import argparse
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
@@ -50,6 +51,9 @@ def _assert_boundaries() -> None:
 
 
 _assert_boundaries()
+
+
+DATE_FORMAT = "%Y-%m-%d %H:%M (KST)"
 
 
 class ArtifactValidator:
@@ -236,6 +240,15 @@ class ArtifactValidator:
 
         # Validate field values
         validation_errors = []
+
+        date_value = frontmatter.get("date", "").strip()
+        if date_value:
+            try:
+                datetime.strptime(date_value, DATE_FORMAT)
+            except ValueError:
+                validation_errors.append(
+                    "Date must use 'YYYY-MM-DD HH:MM (KST)' format (24-hour clock)."
+                )
 
         if "type" in frontmatter and frontmatter["type"] not in self.valid_types:
             validation_errors.append(

@@ -56,6 +56,31 @@ def get_docs_dir() -> Path:
     return get_config_loader().get_path("docs")
 
 
+def get_agent_interface_dir() -> Path:
+    """Return the path to the agent interface directory inside the framework."""
+    return get_container_path("agent_interface")
+
+
+def get_agent_tools_dir() -> Path:
+    """Return the path to the agent_tools implementation directory."""
+    return get_container_path("implementation")
+
+
+def get_project_conventions_dir() -> Path:
+    """Return the path to the project_conventions directory inside the framework."""
+    return get_container_path("project_conventions")
+
+
+def get_config_defaults_dir() -> Path:
+    """Return the path to the framework's config_defaults directory."""
+    return get_framework_root() / "config_defaults"
+
+
+def get_project_config_dir() -> Path:
+    """Return the root project config directory."""
+    return get_project_root() / "config"
+
+
 def ensure_within_project(path: Path) -> Path:
     """Ensure *path* resides within the project root (for safety checks)."""
     project_root = get_project_root().resolve()

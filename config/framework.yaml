@@ -1,0 +1,13 @@
+framework:
+  name: "AgentQMS Local"
+  container_name: AgentQMS
+  validation:
+    strict_mode: false
+    rules:
+      naming: true
+      frontmatter: true
+      structure: true
+  automation:
+    pre_commit:
+      enabled: false
+      validate_artifacts: true

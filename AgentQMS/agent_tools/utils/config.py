@@ -9,28 +9,18 @@ ensuring every component resolves paths the same way.
 from __future__ import annotations
 
 from copy import deepcopy
+from datetime import datetime
+import json
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Iterable
 import os
 
 import yaml
 
+from .migration import warn_if_legacy_directories, warn_if_legacy_paths
 
-_DEFAULT_CONFIG: Dict[str, Any] = {
-    "framework": {
-        "name": "AgentQMS",
-        "version": "0.2.0",
-        "container_name": "AgentQMS",
-    },
-    "paths": {
-        "artifacts": "artifacts",
-        "docs": "docs",
-    },
-    "validation": {
-        "enabled": True,
-        "strict_mode": False,
-    },
-}
+
+_DEFAULT_CONFIG: Dict[str, Any] = {}
 
 
 class ConfigLoader:
@@ -40,6 +30,7 @@ class ConfigLoader:
         self._config_cache: Optional[Dict[str, Any]] = None
         self.framework_root = self._detect_framework_root()
         self.project_root = self._detect_project_root(self.framework_root)
+        warn_if_legacy_directories(self.framework_root)
 
     # ------------------------------------------------------------------
     # Public API
@@ -50,9 +41,11 @@ class ConfigLoader:
             return deepcopy(self._config_cache)
 
         config = deepcopy(_DEFAULT_CONFIG)
-        config = self._merge_config(config, self._load_framework_config())
-        config = self._merge_config(config, self._load_project_config())
+        config = self._merge_config(config, self._load_framework_defaults())
+        config = self._merge_config(config, self._load_project_overrides())
         config = self._merge_config(config, self._load_environment_overrides())
+        warn_if_legacy_paths(config)
+        self._write_runtime_snapshot(config)
 
         self._config_cache = config
         return deepcopy(config)
@@ -89,17 +82,43 @@ class ConfigLoader:
             return framework_root.parent
         return framework_root
 
-    def _load_framework_config(self) -> Dict[str, Any]:
-        framework_config = self.framework_root / "config" / "framework.yaml"
-        if not framework_config.exists():
-            return {}
-        return self._load_yaml(framework_config)
+    def _load_framework_defaults(self) -> Dict[str, Any]:
+        defaults_dir = self.framework_root / "config_defaults"
+        config: Dict[str, Any] = {}
+        yaml_files: Iterable[Path] = (
+            defaults_dir / "framework.yaml",
+            defaults_dir / "interface.yaml",
+            defaults_dir / "paths.yaml",
+        )
+        for path in yaml_files:
+            config = self._merge_yaml_if_exists(config, path)
 
-    def _load_project_config(self) -> Dict[str, Any]:
-        project_config = self.project_root / ".agentqms" / "config.yaml"
-        if not project_config.exists():
-            return {}
-        return self._load_yaml(project_config)
+        tool_mappings = defaults_dir / "tool_mappings.json"
+        if tool_mappings.exists():
+            with tool_mappings.open("r", encoding="utf-8") as handle:
+                config["tool_mappings"] = json.load(handle)
+        return config
+
+    def _load_project_overrides(self) -> Dict[str, Any]:
+        config_dir = self.project_root / "config"
+        config: Dict[str, Any] = {}
+
+        if config_dir.exists():
+            yaml_files: Iterable[Path] = (
+                config_dir / "framework.yaml",
+                config_dir / "interface.yaml",
+                config_dir / "paths.yaml",
+            )
+            for path in yaml_files:
+                config = self._merge_yaml_if_exists(config, path)
+
+            config = self._merge_directory_overrides(config, config_dir / "environments")
+            config = self._merge_directory_overrides(config, config_dir / "overrides")
+        else:
+            legacy_project_config = self.project_root / ".agentqms" / "config.yaml"
+            config = self._merge_yaml_if_exists(config, legacy_project_config)
+
+        return config
 
     def _load_environment_overrides(self) -> Dict[str, Any]:
         overrides: Dict[str, Any] = {}
@@ -124,6 +143,51 @@ class ConfigLoader:
         if not isinstance(data, dict):
             raise ValueError(f"Invalid configuration format: {path}")
         return data
+
+    def _merge_yaml_if_exists(self, base: Dict[str, Any], path: Path) -> Dict[str, Any]:
+        if not path.exists():
+            return base
+        return self._merge_config(base, self._load_yaml(path))
+
+    def _merge_directory_overrides(self, base: Dict[str, Any], directory: Path) -> Dict[str, Any]:
+        if not directory.exists():
+            return base
+        result = deepcopy(base)
+        for path in sorted(directory.glob("*.yaml")):
+            result = self._merge_yaml_if_exists(result, path)
+        return result
+
+    def _write_runtime_snapshot(self, config: Dict[str, Any]) -> None:
+        runtime_dir = self.project_root / ".agentqms"
+        runtime_dir.mkdir(parents=True, exist_ok=True)
+        runtime_config = runtime_dir / "config.yaml"
+
+        payload = {
+            "layers": {
+                "defaults": {
+                    "framework": "AgentQMS/config_defaults/framework.yaml",
+                    "interface": "AgentQMS/config_defaults/interface.yaml",
+                    "paths": "AgentQMS/config_defaults/paths.yaml",
+                    "tool_mappings": "AgentQMS/config_defaults/tool_mappings.json",
+                },
+                "project": {
+                    "framework": "config/framework.yaml",
+                    "interface": "config/interface.yaml",
+                    "paths": "config/paths.yaml",
+                    "environments": "config/environments/",
+                    "overrides": "config/overrides/",
+                },
+            },
+            "metadata": {
+                "generated_at": datetime.utcnow().isoformat() + "Z",
+                "generator": "AgentQMS ConfigLoader",
+                "schema_version": "0.2",
+            },
+            "resolved": config,
+        }
+
+        with runtime_config.open("w", encoding="utf-8") as handle:
+            yaml.safe_dump(payload, handle, sort_keys=False)
 
     def _merge_config(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
         result = deepcopy(base)

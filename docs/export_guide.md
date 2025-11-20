@@ -1,6 +1,6 @@
 ---
 title: "AI Handbook & Agent Tools Export Guide"
-date: "2025-11-01"
+date: "2025-11-01 00:00 (KST)"
 status: "active"
 version: "1.0"
 category: "user_guide"
@@ -32,7 +32,7 @@ tags: ["export", "framework", "ai_agent", "documentation"]
 This guide enables you to export and reuse the AI agent framework components:
 
 1. **`docs/ai_handbook/`** - AI agent documentation and protocols
-2. **`docs/ai_agent/`** - AI agent domain documentation (system.md, tracking, automation, etc.)
+2. **`docs/ai_handbook/04_agent_system/`** - AI agent domain documentation (system.md, tracking, automation, etc.)
 3. **`agent/`** - Agent-only interface layer (Makefile, wrappers, config)
 4. **`AgentQMS/agent_tools/`** - Implementation layer (Python automation scripts)
 5. **Templates** - Artifact and blueprint templates
@@ -54,7 +54,7 @@ This guide enables you to export and reuse the AI agent framework components:
 
 ```bash
 # From agent/ directory (recommended)
-cd agent/
+cd AgentQMS/agent_interface/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
@@ -252,7 +252,7 @@ The automated export utility makes exporting the framework simple:
 
 ```bash
 # From agent/ directory (recommended)
-cd agent/
+cd AgentQMS/agent_interface/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
@@ -298,7 +298,7 @@ The export utility automatically includes:
 - All utilities (context, feedback, tracking)
 - All maintenance scripts
 
-✅ **Agent Interface** (`agent/`):
+✅ **Agent Interface** (`agent_interface/`):
 - Makefile and configuration
 - Tool wrappers and workflows
 - Blueprint templates
@@ -309,7 +309,7 @@ The export utility automatically includes:
 - Reference materials
 - Templates
 
-✅ **AI Agent Documentation** (`ai_agent/`):
+✅ **AI Agent System Docs** (`docs/ai_handbook/04_agent_system/`):
 - System documentation (system.md)
 - Tracking domain documentation
 - Automation domain documentation
@@ -378,7 +378,7 @@ export_package/
 │   ├── documentation/
 │   ├── utilities/
 │   └── maintenance/
-├── agent/                        # Interface layer
+├── agent_interface/             # Interface layer
 │   ├── Makefile
 │   ├── config/
 │   └── tools/
@@ -386,11 +386,8 @@ export_package/
 │   ├── 01_onboarding/
 │   ├── 02_protocols/
 │   ├── 03_references/
-│   └── templates/
-├── ai_agent/                     # AI agent documentation
-│   ├── system.md
-│   ├── tracking/
-│   └── automation/
+│   ├── templates/
+│   └── 04_agent_system/          # Agent system docs (system, tracking, automation)
 ├── scripts/                      # Adaptation scripts
 │   └── adapt_project.py
 └── docs/                         # Export documentation
@@ -407,7 +404,7 @@ export_package/
 
 - [ ] **Run Automated Export**
   ```bash
-  cd agent/
+  cd AgentQMS/agent_interface/
   make export OUTPUT=../export_package/
   ```
 
@@ -594,7 +591,7 @@ Manually update:
 
 #### Step 5: Verify Installation
 ```bash
-cd agent/
+cd AgentQMS/agent_interface/
 make discover
 make status
 make create-plan NAME=test TITLE="Test Plan"
@@ -640,7 +637,7 @@ If automated script isn't available:
 ### 📚 **Files to Reference**
 
 #### Core Documentation
-- `docs/ai_agent/system.md` - Single source of truth for agents
+- `docs/ai_handbook/04_agent_system/system.md` - Single source of truth for agents
 - `docs/ai_handbook/index.md` - Handbook index
 - `docs/ai_handbook/02_protocols/governance/01_artifact_management_protocol.md` - Artifact system
 
@@ -666,7 +663,7 @@ If automated script isn't available:
 python AgentQMS/agent_tools/core/discover.py
 
 # Check system status
-cd agent/ && make status
+cd AgentQMS/agent_interface/ && make status
 ```
 
 #### Validation Tools
@@ -699,7 +696,7 @@ python AgentQMS/agent_tools/documentation/validate_links.py
 ⚠️ **Mostly Generic (Minor Path Updates)**:
 - `agent/Makefile` - Uses relative paths
 - `agent/config/agent_config.yaml` - Mostly generic
-- `agent/tools/` - Thin wrappers, generic
+- `agent_interface/tools/` - Thin wrappers, generic
 
 ❌ **Needs Abstraction**:
 - `docs/ai_handbook/index.md` - Project name/structure

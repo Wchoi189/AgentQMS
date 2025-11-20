@@ -180,9 +180,9 @@ class FrameworkExporter:
         self.copy_directory(src, dst, dry_run=dry_run)
 
     def export_agent_interface(self, dry_run: bool = False) -> None:
-        """Export agent/ directory (interface layer)."""
-        src = self.project_root / "agent"
-        dst = self.output_dir / "agent"
+        """Export agent_interface/ directory (interface layer)."""
+        src = self.project_root / "agent_interface"
+        dst = self.output_dir / "agent_interface"
 
         print("\n📦 Exporting agent interface...")
         print(f"   From: {src.relative_to(self.project_root)}")
@@ -226,15 +226,14 @@ class FrameworkExporter:
         self.copy_directory(src, dst, dry_run=dry_run)
 
     def export_ai_agent_docs(self, dry_run: bool = False) -> None:
-        """Export docs/ai_agent/ directory."""
-        src = self.project_root / "docs" / "ai_agent"
-        dst = self.output_dir / "ai_agent"
+        """Export docs/ai_handbook/04_agent_system/ directory."""
+        src = self.project_root / "docs" / "ai_handbook" / "04_agent_system"
+        dst = self.output_dir / "ai_handbook" / "04_agent_system"
 
-        print("\n📦 Exporting AI agent documentation...")
-        print(f"   From: {src.relative_to(self.project_root)}")
-        print(f"   To: {dst}")
-
+        print("\n📦 Exporting AI agent system documentation...")
         if src.exists():
+            print(f"   From: {src.relative_to(self.project_root)}")
+            print(f"   To: {dst}")
             self.copy_directory(src, dst, dry_run=dry_run)
         else:
             print(f"⚠️  Source does not exist: {src}")
@@ -243,8 +242,8 @@ class FrameworkExporter:
         """Export template directories."""
         template_locations = [
             ("docs/ai_handbook/templates", "ai_handbook/templates"),
-            ("docs/artifacts/templates", "artifacts/templates"),
-            ("agent/docs/artifacts/templates", "agent_templates"),
+            ("docs/artifacts/templates", "docs/artifacts/templates"),
+            ("docs/artifacts/templates/agent_workflows", "docs/artifacts/templates/agent_workflows"),
         ]
 
         print("\n📦 Exporting templates...")
@@ -309,9 +308,8 @@ This package contains the AI collaboration and documentation management framewor
 ## Contents
 
 - `agent_tools/` - Implementation layer (Python automation scripts)
-- `agent/` - Interface layer (Makefile, wrappers, config)
-- `ai_handbook/` - AI agent documentation and protocols
-- `ai_agent/` - AI agent domain documentation
+- `agent_interface/` - Interface layer (Makefile, wrappers, config)
+- `ai_handbook/` - AI agent documentation and protocols (includes \`04_agent_system/\`)
 - `scripts/` - Adaptation scripts
 - `docs/` - Export documentation
 
@@ -324,9 +322,8 @@ See `docs/export_guide.md` for detailed installation instructions.
 1. Copy framework directories to your project:
    ```bash
    cp -r agent_tools/ your_project/scripts/
-   cp -r agent/ your_project/
+   cp -r agent_interface/ your_project/
    cp -r ai_handbook/ your_project/docs/
-   cp -r ai_agent/ your_project/docs/
    ```
 
 2. Run adaptation script:
@@ -336,7 +333,7 @@ See `docs/export_guide.md` for detailed installation instructions.
 
 3. Verify installation:
    ```bash
-   cd agent/
+   cd AgentQMS/agent_interface/
    make discover
    make status
    ```
@@ -372,9 +369,9 @@ The following project-specific components are excluded from this export:
         # Check required directories
         required_dirs = [
             "agent_tools",
-            "agent",
+            "agent_interface",
             "ai_handbook",
-            "ai_agent",
+            "ai_handbook/04_agent_system",
         ]
 
         for dir_name in required_dirs:
@@ -389,9 +386,9 @@ The following project-specific components are excluded from this export:
         required_files = [
             "agent_tools/core/artifact_workflow.py",
             "agent_tools/core/discover.py",
-            "agent/Makefile",
+            "agent_interface/Makefile",
             "ai_handbook/index.md",
-            "ai_agent/system.md",
+            "ai_handbook/04_agent_system/system.md",
             "scripts/adapt_project.py",
         ]
 

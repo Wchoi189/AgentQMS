@@ -1,6 +1,6 @@
 ---
 title: "Quick Start: Exporting AI Agent Framework"
-date: "2025-11-01"
+date: "2025-11-01 00:00 (KST)"
 status: "active"
 version: "1.0"
 category: "user_guide"
@@ -71,7 +71,7 @@ cp docs/ai_handbook/config/project_config.yaml.template docs/ai_handbook/config/
 python AgentQMS/agent_scripts/adapt_project.py --config docs/ai_handbook/config/project_config.yaml
 
 # 4. Verify installation
-cd agent/
+cd AgentQMS/agent_interface/
 make discover
 make status
 ```
@@ -89,7 +89,7 @@ cd new_project/
 python AgentQMS/agent_tools/utilities/adapt_project.py --interactive
 
 # 3. Verify installation
-cd agent/
+cd AgentQMS/agent_interface/
 make discover
 ```
 
@@ -97,7 +97,7 @@ make discover
 
 After installation, verify:
 
-- [ ] `cd agent/ && make discover` works
+- [ ] `cd AgentQMS/agent_interface/ && make discover` works
 - [ ] `make status` shows correct paths
 - [ ] `make create-plan NAME=test TITLE="Test"` creates artifact
 - [ ] Documentation links work
@@ -134,7 +134,7 @@ After installation, verify:
 1. Read `export_guide.md` for detailed information
 2. Customize `docs/ai_handbook/01_onboarding/01_project_overview.md` for your project
 3. Update `docs/ai_handbook/03_references/development/ai_agent_context.md` with project-specific patterns
-4. Test all tools: `cd agent/ && make help`
+4. Test all tools: `cd AgentQMS/agent_interface/ && make help`
 
 ## 🆘 Need Help?
 

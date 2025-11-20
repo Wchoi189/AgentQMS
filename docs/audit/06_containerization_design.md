@@ -60,7 +60,7 @@ project_root/
 │   │   ├── utilities/                # Helper functions
 │   │   └── utils/                    # Framework utilities
 │   │
-│   ├── conventions/                  # Rules & standards (renamed from quality_management_framework)
+│   ├── project_conventions/                  # Rules & standards (renamed from quality_management_framework)
 │   │   ├── templates/                # Artifact templates
 │   │   ├── schemas/                  # JSON schemas
 │   │   ├── config/                   # Framework configuration
@@ -119,7 +119,7 @@ project_root/
 
 ---
 
-#### 2. `AgentQMS/agent/` - Interface Layer
+#### 2. `AgentQMS/agent_interface_interface/` - Interface Layer
 **Purpose**: Agent-facing commands and tools
 
 **Rationale**: 
@@ -139,7 +139,7 @@ project_root/
 
 ---
 
-#### 4. `AgentQMS/conventions/` - Standards & Rules
+#### 4. `AgentQMS/project_conventions/` - Standards & Rules
 **Purpose**: Framework conventions, templates, schemas
 
 **Rationale**:
@@ -151,7 +151,7 @@ project_root/
 - `quality_management_framework/` - Too long, unclear
 - `qms/` - Too abbreviated
 - `standards/` - Too generic
-- `conventions/` - ✅ Clear, descriptive
+- `project_conventions/` - ✅ Clear, descriptive
 
 ---
 
@@ -223,7 +223,7 @@ project_root/
 |-----------|---------|----------|---------------|
 | Agent Interface | Commands and wrappers | `agent/` | No |
 | Implementation | Core automation | `agent_tools/` | No |
-| Conventions | Templates, schemas, rules | `conventions/` | No |
+| Conventions | Templates, schemas, rules | `project_conventions/` | No |
 | Scripts | Framework utilities | `agent_scripts/` | No |
 | Config | Framework settings | `config/` | Yes (content) |
 | Templates | Project setup templates | `templates/` | No |

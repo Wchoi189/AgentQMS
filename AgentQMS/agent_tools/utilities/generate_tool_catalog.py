@@ -268,7 +268,7 @@ def main() -> int:
     write_scripts_index(tools)
     write_docs_catalog(tools)
     print(
-        f"Wrote: {ROOT / 'index.md'} and {PROJECT_ROOT / 'docs/ai_agent/automation/tool_catalog.md'}"
+        f"Wrote: {ROOT / 'index.md'} and {PROJECT_ROOT / 'docs/ai_handbook/04_agent_system/automation/tool_catalog.md'}"
     )
 
     # Check for README sprawl

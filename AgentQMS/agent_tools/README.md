@@ -1,6 +1,6 @@
 ---
  title: "Agent Tools Quick Pointer"
- date: "2025-11-06"
+ date: "2025-11-06 00:00 (KST)"
  type: "documentation"
  category: "usage"
  status: "active"
@@ -12,7 +12,7 @@
 
 This directory holds implementation code. For documentation, see the central guide:
 
-- Central Guide: `docs/ai_agent/automation/tooling_overview.md`
+- Central Guide: `docs/ai_handbook/04_agent_system/automation/tooling_overview.md`
 
 Minimal quick commands:
 

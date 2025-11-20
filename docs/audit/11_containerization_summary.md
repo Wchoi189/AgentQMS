@@ -37,7 +37,7 @@ project_root/
 ├── AgentQMS/                    # Framework container
 │   ├── agent/                  # Agent interface layer
 │   ├── agent_tools/            # Implementation layer
-│   ├── conventions/            # Rules & standards (renamed)
+│   ├── project_conventions/            # Rules & standards (renamed)
 │   ├── agent_scripts/          # Framework scripts (renamed)
 │   ├── config/                 # Framework configuration
 │   └── templates/              # Project setup templates
@@ -56,7 +56,7 @@ project_root/
 **Key Decisions**:
 - ✅ Container name: `AgentQMS/`
 - ✅ Component organization within container
-- ✅ Renamed components: `conventions/`, `agent_scripts/`
+- ✅ Renamed components: `project_conventions/`, `agent_scripts/`
 - ✅ Path resolution strategy
 - ✅ Boundary definition
 
@@ -157,7 +157,7 @@ project_root/
 
 ### 2. Component Renaming
 
-**`quality_management_framework/` → `conventions/`**
+**`quality_management_framework/` → `project_conventions/`**
 - Shorter and clearer
 - Better describes content (rules, standards, templates)
 

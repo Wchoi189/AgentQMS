@@ -15,7 +15,7 @@ This document designs automated mechanisms to enforce clear boundaries between f
 ### Framework Boundary
 
 **Inside `AgentQMS/`** (Framework Territory):
-- ✅ Framework code (`agent/`, `agent_tools/`, `conventions/`)
+- ✅ Framework code (`agent/`, `agent_tools/`, `project_conventions/`)
 - ✅ Framework configuration (`config/`)
 - ✅ Framework templates (`templates/`)
 - ✅ Framework scripts (`agent_scripts/`)

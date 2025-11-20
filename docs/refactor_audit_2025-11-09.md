@@ -7,7 +7,7 @@
 ## High-Priority Findings
 
 - **Interface/implementation path drift breaks every agent command**
-  - Evidence: `agent_qms_v001_b/agent/Makefile` and `agent_qms_v001_b/agent/tools/*.py` still call `../scripts/agent_tools/...`, while the implementation now lives in `agent_qms_v001_b/agent_tools/` (`agent_tools/core/discover.py` even prints the outdated path).
+  - Evidence: `agent_qms_v001_b/agent/Makefile` and `agent_qms_v001_b/agent_interface/tools/*.py` still call `../scripts/agent_tools/...`, while the implementation now lives in `agent_qms_v001_b/agent_tools/` (`agent_tools/core/discover.py` even prints the outdated path).
   - Impact: `make` targets (e.g. `make discover`, `make validate`) and direct CLI invocations raise `python: can't open file '.../scripts/agent_tools/...': [Errno 2] No such file or directory`. The agent interface is effectively unusable.
   - Refactor: decide on one canonical package path—either restore a `scripts/agent_tools` package shim or update every entrypoint (Makefile, wrappers, docs, generated help text) to the new `agent_tools` location. Add integration tests that run high-traffic targets to prevent regressions.
 
@@ -17,7 +17,7 @@
   - Refactor: either reintroduce a maintained bootstrap module (containing `setup_project_paths`, `get_path_resolver`, etc.) or strip the bootstrap loader and replace with explicit relative imports + a small `sys.path` helper.
 
 - **Agent wrappers depend on missing `streamlit_app` module**
-  - Evidence: `agent/tools/discover.py`, `agent/tools/quality.py`, `agent/tools/feedback.py`, and MCP adapters import `streamlit_app.utils.path_utils`, which never ships in this export. The Makefile even instructs `pip install -r ../streamlit_app/requirements.txt` though `streamlit_app/` is absent.
+  - Evidence: `agent_interface/tools/discover.py`, `agent_interface/tools/quality.py`, `agent_interface/tools/feedback.py`, and MCP adapters import `streamlit_app.utils.path_utils`, which never ships in this export. The Makefile even instructs `pip install -r ../streamlit_app/requirements.txt` though `streamlit_app/` is absent.
   - Impact: Every wrapper raises `ModuleNotFoundError: No module named 'streamlit_app'`; AST/feedback/compliance flows cannot start.
   - Refactor: decouple wrappers from the Streamlit project. Lift the tiny path utilities into this repo (or into the restored bootstrap) and drop the hard dependency on a UI package the release no longer includes.
 

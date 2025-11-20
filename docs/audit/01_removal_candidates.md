@@ -37,7 +37,7 @@ This document identifies project-specific artifacts, broken dependencies, and un
 ---
 
 ### 2. Missing `streamlit_app` Module Dependency
-**Location**: `agent/tools/*.py`, multiple documentation files
+**Location**: `agent_interface/tools/*.py`, multiple documentation files
 
 **Issue**: 54+ files import `streamlit_app.utils.path_utils` but `streamlit_app/` directory doesn't exist in framework export.
 
@@ -52,12 +52,12 @@ This document identifies project-specific artifacts, broken dependencies, and un
 - Remove `streamlit_app` references from documentation
 
 **Files Requiring Updates**:
-- `agent/tools/discover.py` (line 20)
-- `agent/tools/quality.py` (line 20)
-- `agent/tools/feedback.py` (line 20)
-- `agent/tools/ast_analysis.py` (line 22)
-- `agent/tools/puppeteer/agent_puppeteer_mcp.py` (line 14)
-- `agent/tools/audio/agent_audio_mcp.py` (line 15)
+- `agent_interface/tools/discover.py` (line 20)
+- `agent_interface/tools/quality.py` (line 20)
+- `agent_interface/tools/feedback.py` (line 20)
+- `agent_interface/tools/ast_analysis.py` (line 22)
+- `agent_interface/tools/puppeteer/agent_puppeteer_mcp.py` (line 14)
+- `agent_interface/tools/audio/agent_audio_mcp.py` (line 15)
 - `agent_tools/utilities/tracking/db.py` (line 11)
 - All files in `ai_handbook/03_references/development/` (multiple)
 
@@ -109,7 +109,7 @@ This document identifies project-specific artifacts, broken dependencies, and un
 - `scripts/utilities/path_utils.py` (line 2 - project description)
 - `scripts/adapt_project.py` (lines 36-42 - hardcoded project names)
 - `agent_tools/utilities/adapt_project.py` (lines 36-42 - hardcoded project names)
-- `agent/tools/semantic_search/setup_agent_search.py` (line 95)
+- `agent_interface/tools/semantic_search/setup_agent_search.py` (line 95)
 - All artifact examples in `agent/docs/artifacts/`
 
 **Strategy**: 
@@ -120,7 +120,7 @@ This document identifies project-specific artifacts, broken dependencies, and un
 ---
 
 ### 5. Hardcoded Project Paths
-**Location**: `agent/tools/puppeteer/`, `agent/tools/audio/`, artifact examples
+**Location**: `agent_interface/tools/puppeteer/`, `agent_interface/tools/audio/`, artifact examples
 
 **Issue**: Absolute paths like `/workspaces/upstage-prompt-hack-a-thon-dev` hardcoded in configs and examples.
 
@@ -135,9 +135,9 @@ This document identifies project-specific artifacts, broken dependencies, and un
 - Update all README examples
 
 **Files**:
-- `agent/tools/puppeteer/README.md` (lines 29, 32, 40, 150, 153)
-- `agent/tools/puppeteer/QUICK_SETUP.md` (lines 30, 33, 40)
-- `agent/tools/audio/README.md` (lines 29, 32, 40)
+- `agent_interface/tools/puppeteer/README.md` (lines 29, 32, 40, 150, 153)
+- `agent_interface/tools/puppeteer/QUICK_SETUP.md` (lines 30, 33, 40)
+- `agent_interface/tools/audio/README.md` (lines 29, 32, 40)
 - `scripts/utilities/play_audio.sh` (line 4)
 - Artifact examples with hardcoded paths
 

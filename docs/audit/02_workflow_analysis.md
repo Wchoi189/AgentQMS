@@ -76,7 +76,7 @@ This document maps the current Quality Management Framework workflow from end-to
                         │
                         ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│ 3. Alternative: python agent/tools/discover.py                  │
+│ 3. Alternative: python agent_interface/tools/discover.py                  │
 │    - Imports streamlit_app.utils.path_utils                     │
 │    ❌ FAILS: streamlit_app module not found                     │
 └─────────────────────────────────────────────────────────────────┘

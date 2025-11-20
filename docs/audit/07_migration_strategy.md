@@ -29,7 +29,7 @@ project_root/
 ├── AgentQMS/                # Framework container
 │   ├── agent/
 │   ├── agent_tools/
-│   ├── conventions/         # Renamed from quality_management_framework
+│   ├── project_conventions/         # Renamed from quality_management_framework
 │   ├── agent_scripts/       # Renamed from scripts
 │   └── config/
 ├── artifacts/               # Project (unchanged)
@@ -325,7 +325,7 @@ if __name__ == "__main__":
    ```bash
    mv agent AgentQMS/
    mv agent_tools AgentQMS/
-   mv quality_management_framework AgentQMS/conventions
+   mv quality_management_framework AgentQMS/project_conventions
    mv scripts AgentQMS/agent_scripts
    ```
 
@@ -343,7 +343,7 @@ if __name__ == "__main__":
 5. **Update Path References**
    ```bash
    # Update Makefile paths
-   sed -i 's|../scripts/agent_tools|../AgentQMS/agent_tools|g' AgentQMS/agent/Makefile
+   sed -i 's|../scripts/agent_tools|../AgentQMS/agent_tools|g' AgentQMS/agent_interface_interface/Makefile
    
    # Update Python imports (if needed)
    # Update documentation references
@@ -356,7 +356,7 @@ if __name__ == "__main__":
 
 7. **Test Framework**
    ```bash
-   cd AgentQMS/agent
+   cd AgentQMS/agent_interface
    make discover
    make validate
    ```
@@ -510,7 +510,7 @@ python migrate_structure.py --rollback
 **Solution**:
 ```bash
 # Update Makefile
-sed -i 's|../scripts/agent_tools|../AgentQMS/agent_tools|g' AgentQMS/agent/Makefile
+sed -i 's|../scripts/agent_tools|../AgentQMS/agent_tools|g' AgentQMS/agent_interface_interface/Makefile
 
 # Update Python imports
 find AgentQMS/ -name "*.py" -exec sed -i 's|scripts.agent_tools|AgentQMS.agent_tools|g' {} \;
@@ -540,7 +540,7 @@ rm -rf agent_tools/ quality_management_framework/
 **Solution**:
 ```bash
 # Use git mv to preserve history
-git mv agent AgentQMS/agent
+git mv agent AgentQMS/agent_interface
 git mv agent_tools AgentQMS/agent_tools
 # etc.
 ```
@@ -583,7 +583,7 @@ git mv agent_tools AgentQMS/agent_tools
 ls -la AgentQMS/
 
 # Test functionality
-cd AgentQMS/agent && make discover
+cd AgentQMS/agent_interface && make discover
 
 # Validate boundaries
 python AgentQMS/agent_tools/compliance/validate_boundaries.py

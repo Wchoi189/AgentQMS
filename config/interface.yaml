@@ -1,0 +1,15 @@
+interface:
+  agent:
+    name: "AI Agent"
+    version: "1.0"
+    environment: "project"
+  workflows:
+    auto_validate: true
+    auto_update_indexes: true
+    auto_compliance_check: true
+  logging:
+    level: "INFO"
+    directory: "logs"
+  restrictions:
+    human_access: false
+    validate_context: true
