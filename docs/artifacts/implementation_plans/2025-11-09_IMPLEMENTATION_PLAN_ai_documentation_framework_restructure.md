@@ -471,10 +471,10 @@ You are an autonomous AI agent executing a systematic restructure of the AI docu
 ```
 project_root/
 ├── AgentQMS/                          # Framework container
-│   ├── agent/
-│   ├── agent_tools/
+│   ├── interface/
+│   ├── toolkit/
 │   ├── project_conventions/
-│   ├── agent_scripts/
+│   ├── scripts/
 │   ├── config/
 │   └── templates/
 ├── artifacts/                         # Project artifacts (consolidated)

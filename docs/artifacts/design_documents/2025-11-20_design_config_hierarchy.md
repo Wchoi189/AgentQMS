@@ -25,58 +25,55 @@ author: "Framework Maintainers"
 
 ---
 
-## 2. Proposed Hierarchy
+## 2. Actual Hierarchy (Current)
 
 ```
 workspace_root/
 ├── AgentQMS/
-│   ├── config_defaults/            # Replaces current AgentQMS/config/
-│   │   ├── framework.yaml          # Framework-level defaults
-│   │   ├── interface.yaml          # Defaults for agent interface
-│   │   └── paths.yaml              # Shipped canonical paths
-│   ├── agent_interface/            # (future rename of agent/) - no configs inside
-│   ├── agent_tools/
-│   └── project_conventions/        # (future rename of project_conventions/)
-├── config/                         # Project-level overrides (new, optional)
+│   ├── interface/                  # Agent-only interface (Makefile, CLI wrappers, workflows)
+│   ├── toolkit/                    # Implementation layer (Python packages, tools)
+│   ├── conventions/                # QMS templates, schemas, manifests
+│   ├── scripts/                    # Framework scripts and maintenance utilities
+│   └── templates/                  # Bootstrap/export templates (if any)
+├── config/                         # (Optional) Project-level overrides in consuming projects
 │   ├── framework.yaml              # Project tweaks to defaults
 │   └── interface.yaml              # Project-specific interface settings
-└── .agentqms/                      # Runtime state + generated config
-    ├── config.yaml                 # Effective merged config (generated)
+└── .agentqms/                      # Runtime + primary configuration
+    ├── settings.yaml               # Authoritative project/framework config
+    ├── effective.yaml              # Generated merged config (read-mostly)
     └── state/...
 ```
 
 ### Layers & Precedence
 
-1. **Defaults (`AgentQMS/config_defaults/`)**  
-   - Version-controlled with the framework.  
-   - Provide baseline values used when no overrides exist.
+1. **Project Configuration (`.agentqms/settings.yaml`)**  
+   - Version-controlled with the framework in this repo.  
+   - Acts as the single source of truth for paths, framework metadata, interface settings, and tool mappings.
 
-2. **Project Overrides (`config/` at repo root)**  
-   - Optional directory maintained by the consuming project.  
-   - Overrides defaults to reflect project-specific paths, naming, or policies.  
-   - Safe to commit to the project repo.
+2. **Optional Project Overrides (`config/` at repo root)**  
+   - Only present in consuming projects that import AgentQMS as a framework.  
+   - Overrides defaults from `settings.yaml` to reflect project-specific paths, naming, or policies.  
+   - Safe to commit to the consuming project repo.
 
-3. **Runtime (`.agentqms/`)**  
-   - Generated/managed files (install metadata, last-run state).  
-   - Writing final merged config + state used by tooling.  
+3. **Runtime Snapshot (`.agentqms/effective.yaml`)**  
+   - Generated/managed file (install metadata, last-run state).  
+   - Captures the resolved configuration used by tooling (after environment overrides).  
    - Should not be manually edited; typically gitignored.
 
 The effective configuration used by tooling is:  
-`merged_config = defaults ⊕ project_overrides ⊕ runtime_state`
+`merged_config = settings.yaml ⊕ (optional project config/) ⊕ environment_overrides`
 
 ---
 
 ## 3. File Breakdown
 
-| Layer | File | Purpose | Managed By |
-|-------|------|---------|------------|
-| Defaults | `AgentQMS/config_defaults/framework.yaml` | Canonical framework metadata, path names | Framework maintainers |
-| Defaults | `AgentQMS/config_defaults/interface.yaml` | Interface-specific defaults (e.g., workflows auto-run) | Framework maintainers |
-| Defaults | `AgentQMS/config_defaults/paths.yaml` | Canonical directory names used by tooling | Framework maintainers |
-| Project | `config/framework.yaml` | Adjust framework-level defaults for a project | Project team |
-| Project | `config/interface.yaml` | Turn interface features on/off per project | Project team |
-| Runtime | `.agentqms/config.yaml` | Generated merged config (read-mostly) | Tooling |
-| Runtime | `.agentqms/state/*` | Execution metadata, migration logs | Tooling |
+| Layer   | File                          | Purpose                                       | Managed By          |
+|---------|-------------------------------|-----------------------------------------------|---------------------|
+| Project | `.agentqms/settings.yaml`     | Canonical framework + interface + paths config| Framework maintainers |
+| Project | `config/framework.yaml`       | Adjust framework-level defaults for a project | Project team        |
+| Project | `config/interface.yaml`       | Turn interface features on/off per project    | Project team        |
+| Runtime | `.agentqms/effective.yaml`    | Generated merged config (read-mostly)         | Tooling             |
+| Runtime | `.agentqms/state/*`           | Execution metadata, migration logs            | Tooling             |
 
 ---
 
@@ -100,20 +97,20 @@ effective = load_effective_config()
 
 ---
 
-## 5. Agent Scripts vs Agent Tools Overlap
+## 5. Scripts vs Toolkit Overlap
 
-- **Observation:** `AgentQMS/agent_scripts/` currently mixes orchestration glue and partial business logic, often mirroring code in `agent_tools/`.
+- **Observation:** `AgentQMS/scripts/` currently mixes orchestration glue and partial business logic, often mirroring code in the toolkit.
 - **Problems:**
   - Duplicate scripts (e.g., validation or documentation helpers) live in both directories with different relative paths.
-  - Config references in `agent_scripts/` drift from the canonical implementation, creating path mismatches.
-  - Contributors struggle to know whether to patch `agent_scripts/` or `agent_tools/`.
+  - Config references in `scripts/` drift from the canonical implementation, creating path mismatches.
+  - Contributors struggle to know whether to patch `scripts/` or the toolkit.
 - **Design Principles:**
-  1. **Interface Layer Only:** `agent_interface/` (future rename of `agent/`) plus `agent_scripts/` should contain wrappers, CLI entry points, and install automation—not core logic.
-  2. **Implementation Layer:** All functional logic (validation, generation, automation) must live in `agent_tools/` and be consumed via APIs/helpers.
+  1. **Interface Layer Only:** `interface/` plus `scripts/` should contain wrappers, CLI entry points, and install automation—not core logic.
+  2. **Implementation Layer:** All functional logic (validation, generation, automation) must live in `toolkit/` and be consumed via APIs/helpers.
 - **Action Plan:**
-  - During migration, inventory scripts inside `agent_scripts/` and categorize them as:
-    - **Wrappers:** Keep in interface layer but refactor to call `agent_tools` functions.
-    - **Logic:** Relocate into `agent_tools/` modules and leave a thin wrapper (or remove the script if redundant).
+  - During migration, inventory scripts inside `scripts/` and categorize them as:
+    - **Wrappers:** Keep in interface layer but refactor to call `toolkit` functions.
+    - **Logic:** Relocate into `toolkit/` modules and leave a thin wrapper (or remove the script if redundant).
   - Update config hierarchy RFC to document the responsibility split and ensure future tooling additions follow this pattern.
 
 ---

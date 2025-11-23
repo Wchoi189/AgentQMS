@@ -18,13 +18,13 @@ import subprocess
 from pathlib import Path
 from typing import cast
 
-from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
 
 ensure_project_root_on_sys_path()
 
-from AgentQMS.agent_tools.compliance.validate_artifacts import ArtifactValidator
-from AgentQMS.agent_tools.compliance.validate_boundaries import BoundaryValidator
-from AgentQMS.agent_tools.core.artifact_templates import (
+from AgentQMS.toolkit.compliance.validate_artifacts import ArtifactValidator
+from AgentQMS.toolkit.compliance.validate_boundaries import BoundaryValidator
+from AgentQMS.toolkit.core.artifact_templates import (
     ArtifactTemplates,
     create_artifact,
 )
@@ -45,7 +45,7 @@ _assert_clean_boundaries()
 
 # Try to import context bundle functions for hooks
 try:
-    from AgentQMS.agent_tools.core.context_bundle import (
+    from AgentQMS.toolkit.core.context_bundle import (
         list_available_bundles,
         load_bundle_definition,
         validate_bundle_files,
@@ -63,7 +63,7 @@ class ArtifactWorkflow:
         # Default to the configured artifacts directory if none is provided
         if artifacts_root is None:
             # Import lazily to avoid circular imports at module load time
-            from AgentQMS.agent_tools.utils.paths import get_artifacts_dir
+            from AgentQMS.toolkit.utils.paths import get_artifacts_dir
 
             root = get_artifacts_dir()
         else:

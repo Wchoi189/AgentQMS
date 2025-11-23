@@ -34,7 +34,7 @@ cp -r ../export/AgentQMS/ .
 cp -r ../export/ai_handbook/ docs/
 
 # Copy utilities
-cp ../AgentQMS/agent_tools/utilities/adapt_project.py AgentQMS/agent_scripts/
+cp ../AgentQMS/toolkit/utilities/adapt_project.py AgentQMS/scripts/
 
 # Copy documentation
 cp ../docs/export_guide.md .

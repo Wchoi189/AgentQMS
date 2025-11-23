@@ -11,7 +11,7 @@ tags: ["export", "framework", "ai_agent", "documentation"]
 
 **Version**: 1.0
 **Date**: 2025-11-01
-**Purpose**: Complete guide for exporting and reusing `docs/ai_handbook/`, `agent/`, and `AgentQMS/agent_tools/` in other projects
+**Purpose**: Complete guide for exporting and reusing `docs/ai_handbook/`, `interface/`, and `AgentQMS/toolkit/` in other projects
 
 ---
 
@@ -33,8 +33,8 @@ This guide enables you to export and reuse the AI agent framework components:
 
 1. **`docs/ai_handbook/`** - AI agent documentation and protocols
 2. **`docs/ai_handbook/04_agent_system/`** - AI agent domain documentation (system.md, tracking, automation, etc.)
-3. **`agent/`** - Agent-only interface layer (Makefile, wrappers, config)
-4. **`AgentQMS/agent_tools/`** - Implementation layer (Python automation scripts)
+3. **`interface/`** - Agent-only interface layer (Makefile, wrappers, workflows)
+4. **`AgentQMS/toolkit/`** - Implementation layer (Python automation scripts)
 5. **Templates** - Artifact and blueprint templates
 
 > **New in v002_b**: The framework ships as the containerized `AgentQMS/` directory.
@@ -53,12 +53,12 @@ This guide enables you to export and reuse the AI agent framework components:
 **NEW**: An automated export utility is now available! Use the export tool to create project-agnostic packages:
 
 ```bash
-# From agent/ directory (recommended)
-cd AgentQMS/agent_interface/
+# From interface/ directory (recommended)
+cd AgentQMS/interface/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
-python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/toolkit/utilities/export_framework.py --output export_package/
 ```
 
 **Features**:
@@ -85,9 +85,9 @@ Most of the code is already generic! The automated export utility handles:
 
 ### ✅ **Fully Exportable (Minimal Changes)**
 
-#### `AgentQMS/agent_tools/` - 95% Ready
+#### `AgentQMS/toolkit/` - 95% Ready
 ```
-AgentQMS/agent_tools/
+AgentQMS/toolkit/
 ├── core/                    # ✅ Generic - artifact creation, discovery
 ├── compliance/              # ✅ Generic - validation, monitoring
 ├── documentation/           # ✅ Generic - index generation, link validation
@@ -169,8 +169,8 @@ grep -ri "Solar Pro\|solar.*pro" docs/ai_handbook/
 - Lines 44-56: Project-specific debugging methods
 
 #### In Configuration Files:
-- `agent/config/tool_mappings.json`: Path references (`../AgentQMS/agent_tools/`)
-- `agent/config/agent_config.yaml`: Generic but may have project-specific settings
+- `interface/config/tool_mappings.json`: Path references (`../AgentQMS/toolkit/`)
+- `interface/config/agent_config.yaml`: Generic but may have project-specific settings
 
 ---
 
@@ -251,12 +251,12 @@ project:
 The automated export utility makes exporting the framework simple:
 
 ```bash
-# From agent/ directory (recommended)
-cd AgentQMS/agent_interface/
+# From interface/ directory (recommended)
+cd AgentQMS/interface/
 make export OUTPUT=../export_package/
 
 # Or directly with Python
-python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/toolkit/utilities/export_framework.py --output export_package/
 ```
 
 ### 📋 **Export Commands**
@@ -278,13 +278,13 @@ make export-validate OUTPUT=../export_package/
 
 ```bash
 # Export framework
-python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/
+python AgentQMS/toolkit/utilities/export_framework.py --output export_package/
 
 # Dry run (see what would be exported)
-python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/ --dry-run
+python AgentQMS/toolkit/utilities/export_framework.py --output export_package/ --dry-run
 
 # Export with validation
-python AgentQMS/agent_tools/utilities/export_framework.py --output export_package/ --validate
+python AgentQMS/toolkit/utilities/export_framework.py --output export_package/ --validate
 ```
 
 ### 📦 **What Gets Exported**
@@ -298,7 +298,7 @@ The export utility automatically includes:
 - All utilities (context, feedback, tracking)
 - All maintenance scripts
 
-✅ **Agent Interface** (`agent_interface/`):
+✅ **Agent Interface** (`interface/`):
 - Makefile and configuration
 - Tool wrappers and workflows
 - Blueprint templates
@@ -321,7 +321,7 @@ The export utility automatically includes:
 - Handbook templates
 
 ✅ **Adaptation Tools**:
-- `AgentQMS/agent_scripts/adapt_project.py` - Project adaptation script
+- `AgentQMS/scripts/legacy/adapt_project.py` - Project adaptation script (legacy wrapper; canonical implementation in `AgentQMS/toolkit/utilities/adapt_project.py`)
 - Export documentation
 
 ### 🚫 **What Gets Excluded**
@@ -378,7 +378,7 @@ export_package/
 │   ├── documentation/
 │   ├── utilities/
 │   └── maintenance/
-├── agent_interface/             # Interface layer
+├── interface/                   # Interface layer
 │   ├── Makefile
 │   ├── config/
 │   └── tools/
@@ -404,7 +404,7 @@ export_package/
 
 - [ ] **Run Automated Export**
   ```bash
-  cd AgentQMS/agent_interface/
+  cd AgentQMS/interface/
   make export OUTPUT=../export_package/
   ```
 
@@ -425,14 +425,14 @@ If you need manual control:
 - [ ] **Backup Current Project**
   ```bash
   cp -r docs/ai_handbook/ docs/ai_handbook.backup/
-  cp -r agent/ agent.backup/
-  cp -r AgentQMS/agent_tools/ AgentQMS/agent_tools.backup/
+  cp -r interface/ interface.backup/
+  cp -r AgentQMS/toolkit/ AgentQMS/toolkit.backup/
   ```
 
 - [ ] **Identify Project-Specific Content**
   ```bash
   # Run search patterns
-  grep -ri "PROJECT_SPECIFIC_TERM" docs/ai_handbook/ agent/ AgentQMS/agent_tools/
+  grep -ri "PROJECT_SPECIFIC_TERM" docs/ai_handbook/ interface/ AgentQMS/toolkit/
   ```
 
 - [ ] **Document Dependencies**
@@ -554,8 +554,8 @@ If you need manual control:
 ```bash
 # Copy three directories
 cp -r docs/ai_handbook/ new_project/docs/
-cp -r agent/ new_project/
-cp -r AgentQMS/agent_tools/ new_project/scripts/
+cp -r interface/ new_project/interface/
+cp -r AgentQMS/toolkit/ new_project/toolkit/
 ```
 
 #### Step 2: Create Project Configuration
@@ -578,7 +578,7 @@ EOF
 #### Step 3: Run Adaptation Script
 ```bash
 # If you created an adaptation script
-python AgentQMS/agent_tools/utilities/adapt_project.py \
+python AgentQMS/toolkit/utilities/adapt_project.py \
   --config docs/ai_handbook/config/project_config.yaml \
   --project-root .
 ```
@@ -591,7 +591,7 @@ Manually update:
 
 #### Step 5: Verify Installation
 ```bash
-cd AgentQMS/agent_interface/
+cd AgentQMS/interface/
 make discover
 make status
 make create-plan NAME=test TITLE="Test Plan"
@@ -642,9 +642,9 @@ If automated script isn't available:
 - `docs/ai_handbook/02_protocols/governance/01_artifact_management_protocol.md` - Artifact system
 
 #### Tool Documentation
-- `AgentQMS/agent_tools/README.md` - Tool implementation guide
-- `AgentQMS/agent_tools/core/discover.py` - Tool discovery script
-- `AgentQMS/agent_tools/core/artifact_workflow.py` - Artifact creation tool
+- `AgentQMS/toolkit/README.md` - Tool implementation guide
+- `AgentQMS/toolkit/core/discover.py` - Tool discovery script
+- `AgentQMS/toolkit/core/artifact_workflow.py` - Artifact creation tool
 
 #### Configuration
 - `agent/config/agent_config.yaml` - Agent configuration template
@@ -652,7 +652,7 @@ If automated script isn't available:
 - `agent/Makefile` - Command interface
 
 #### Templates
-- `AgentQMS/agent_tools/core/artifact_templates.py` - Artifact templates (generic)
+- `AgentQMS/toolkit/core/artifact_templates.py` - Artifact templates (generic)
 - `docs/ai_handbook/templates/` - Documentation templates
 
 ### 🔧 **Utility Scripts**
@@ -660,28 +660,28 @@ If automated script isn't available:
 #### Discovery Tools
 ```bash
 # List all available tools
-python AgentQMS/agent_tools/core/discover.py
+python AgentQMS/toolkit/core/discover.py
 
 # Check system status
-cd AgentQMS/agent_interface/ && make status
+cd AgentQMS/interface/ && make status
 ```
 
 #### Validation Tools
 ```bash
 # Validate all artifacts
-python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
+python AgentQMS/toolkit/compliance/validate_artifacts.py --all
 
 # Check compliance
-python AgentQMS/agent_tools/compliance/monitor_artifacts.py --check
+python AgentQMS/toolkit/compliance/monitor_artifacts.py --check
 ```
 
 #### Documentation Tools
 ```bash
 # Generate documentation index
-python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
+python AgentQMS/toolkit/documentation/auto_generate_index.py --validate
 
 # Validate links
-python AgentQMS/agent_tools/documentation/validate_links.py
+python AgentQMS/toolkit/documentation/validate_links.py
 ```
 
 ### 📋 **What's Already Generic**

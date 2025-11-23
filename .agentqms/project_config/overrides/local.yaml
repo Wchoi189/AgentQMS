@@ -1,6 +1,0 @@
-# Developer-specific overrides; not committed in real projects
-interface:
-  logging:
-    level: "DEBUG"
-paths:
-  artifacts: artifacts/local

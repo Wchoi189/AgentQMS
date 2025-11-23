@@ -1,7 +1,0 @@
-# Default environment overrides applied during CI builds
-framework:
-  validation:
-    strict_mode: true
-interface:
-  logging:
-    level: "WARNING"

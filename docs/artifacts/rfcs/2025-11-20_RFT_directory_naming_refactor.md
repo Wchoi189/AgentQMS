@@ -18,7 +18,7 @@ We propose to realign several top-level directories to better reflect their resp
 - `AgentQMS/agent_interface_interface/` → `AgentQMS/agent_interface_interface/`
 - `AgentQMS/project_conventions/` → `AgentQMS/project_conventions/`
 - Merge `docs/ai_handbook/04_agent_system/` into `docs/ai_handbook/` under a new “Agent System” section
-- Clarify the relationship between `agent_scripts/` and `agent_tools/`, ensuring only interface wrappers remain in the former
+- Clarify the relationship between `scripts/` and the `toolkit/`, ensuring only interface wrappers remain in the former
 
 This RFT describes the motivation, scope, and migration considerations prior to implementation.
 
@@ -31,7 +31,7 @@ Recent audit work surfaced overlapping directory names (`agent`, `agent_tools`, 
 - `AgentQMS/agent_interface_interface/` currently contains configs, Makefiles, wrapper scripts, and docs—its name implies the entire agent implementation, which actually resides in `agent_tools/`.
 - `AgentQMS/project_conventions/` houses project-level standards/templates but sounds optional.
 - `docs/ai_handbook/04_agent_system/` duplicates content from `docs/ai_handbook/` and conflicts with other “agent” directories.
-- `agent_scripts/` vs `agent_tools/` have overlapping logic; contributors are unsure where to modify behavior.
+- `scripts/` vs `toolkit/` have overlapping logic; contributors are unsure where to modify behavior.
 
 ## 4. Proposed Changes
 
@@ -47,9 +47,9 @@ Recent audit work surfaced overlapping directory names (`agent`, `agent_tools`, 
    - Create a dedicated “Agent System” section.
    - Leave a stub README in the old directory pointing to the new location until references are updated.
 
-4. **Clarify `agent_scripts/` Role**
-   - Audit scripts currently under `agent_scripts/`.
-   - Move any implementation logic into `agent_tools/`.
+4. **Clarify `scripts/` Role**
+   - Audit scripts currently under `scripts/`.
+   - Move any implementation logic into the `toolkit/`.
    - Document the distinction (interface wrappers vs implementation).
 
 ## 5. Alternatives Considered

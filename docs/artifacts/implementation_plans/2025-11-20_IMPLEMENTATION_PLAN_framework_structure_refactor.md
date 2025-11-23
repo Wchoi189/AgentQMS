@@ -92,12 +92,12 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 
 | Phase | Task ID | Description | Owner | Status | Notes |
 |-------|---------|-------------|-------|--------|-------|
-| 1 | P1-T1 | Ratify naming plan (`agent_interface/`, `project_conventions/`, docs merge) | Framework Leads | ✅ Completed | Decision log updated in `2025-11-20_PHASE1_kickoff` |
+| 1 | P1-T1 | Ratify naming plan (`interface/`, `project_conventions/`, docs merge) | Framework Leads | ✅ Completed | Decision log updated in `2025-11-20_PHASE1_kickoff` |
 | 1 | P1-T2 | Approve configuration hierarchy RFC | Platform WG | ✅ Completed | RFC signed; helper scope confirmed |
-| 1 | P1-T3 | Inventory `agent_scripts/` overlap | Tooling WG | ✅ Completed | Documented in `2025-11-20_PHASE1_kickoff` (no external consumers) |
+| 1 | P1-T3 | Inventory `scripts/` overlap | Tooling WG | ✅ Completed | Documented in `2025-11-20_PHASE1_kickoff` (no external consumers) |
 | 2 | P2-T1 | Create `config_defaults/` and move framework defaults | Infra | ✅ Completed | Defaults moved to `AgentQMS/config_defaults/` |
 | 2 | P2-T2 | Introduce root `config/` & refresh `.agentqms/effective.yaml` | Infra | ✅ Completed | New `config/` tree + runtime snapshot writer |
-| 2 | P2-T3 | Rename directories + install shims/logging | Infra + Docs | ✅ Completed | `agent/`→`agent_interface/`, `conventions/`→`project_conventions/`, migration warnings added |
+| 2 | P2-T3 | Rename directories + install shims/logging | Infra + Docs | ✅ Completed | `agent/`→`interface/`, `conventions/`→`project_conventions/`, migration warnings added |
 | 2 | P2-T4 | Migrate config files + generator | Infra | ✅ Completed | ConfigLoader rewired to new hierarchy |
 | 3 | P3-T1 | Implement config/path helper APIs | Tooling WG | ✅ Completed | New getters in `agent_tools.utils.paths` |
 | 3 | P3-T2 | Enhance validation + deprecation checks | QA | ✅ Completed | Config loader + boundary validator log legacy usage |
@@ -131,15 +131,15 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 
 ### **Phase 1: Decision & RFC (Week 1)**
 1. [ ] **Task 1.1: Ratify Naming Plan**
-   - [ ] Approve `agent_interface/` rename scope *(see RFT: directory naming refactor)*
+   - [ ] Approve `interface/` rename scope *(see RFT: directory naming refactor)*
    - [ ] Approve `project_conventions/` rename *(see RFT: directory naming refactor)*
    - [ ] Approve merging `docs/ai_handbook/04_agent_system/` into handbook *(see RFT: directory naming refactor)*
 2. [ ] **Task 1.2: Configuration RFC**
    - [ ] Review `config_defaults/` + root `config/` proposal *(see RFT: configuration hierarchy)*
    - [ ] Finalize precedence rules and helper APIs
    - [ ] Document open questions and answers
-3. [ ] **Task 1.3: Agent Scripts Inventory**
-   - [ ] Catalog `agent_scripts/` vs `agent_tools/` overlap
+3. [ ] **Task 1.3: Scripts Inventory**
+   - [ ] Catalog `scripts/` vs `toolkit/` overlap
    - [ ] Tag scripts for wrapper vs implementation migration (feeds Phase 2)
 
 ### **Phase 2: Directory & Config Restructure (Weeks 2–3)**
@@ -186,7 +186,7 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 - **Execution Steps:**
   - Run async + live review sessions; record approvals/dissent in kickoff note.
   - Lock final naming matrix (directories + doc merge) and share with partners.
-  - Complete `agent_scripts/` inventory (done) and capture consumers.
+  - Complete `scripts/` inventory (done) and capture consumers.
 - **Exit Criteria:** Decision checklist rows in kickoff note marked ✅; outstanding questions closed or assigned.
 
 ### Phase 2 – Directory & Config Restructure
@@ -212,8 +212,8 @@ Use this plan alongside the kickoff notes for day-to-day execution tracking; RFT
 ## Phase 1 Kickoff (Week 1)
 
 - **Start Date:** 2025-11-20  
-- **Focus:** Finalize naming approvals, lock configuration hierarchy, inventory agent scripts.
-- **Planned Outputs:** Signed RFCs (naming + config), documented overlap analysis for `agent_scripts/`.
+- **Focus:** Finalize naming approvals, lock configuration hierarchy, inventory scripts.
+- **Planned Outputs:** Signed RFCs (naming + config), documented overlap analysis for `scripts/`.
 - **Coordination:** Framework Leads hosting daily 15-min standup this week; Platform WG and Tooling WG representation required.
 - **Blockers:** None; dependencies cleared by RFT approvals.
 - **Cross-Reference:** See `docs/artifacts/notes/2025-11-20_PHASE1_kickoff.md` for the detailed decision checklist, action items AI-001..004, and resolved questions backing this phase.

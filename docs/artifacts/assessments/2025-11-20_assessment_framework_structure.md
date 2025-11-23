@@ -65,15 +65,15 @@ Multiple framework directories use overlapping names (`agent`, `config`, `conven
 
 ### 3.4 `agent_interface/tools/` vs `agent_tools/`
 
-- **Observations:**
-  - `agent_interface/tools/` = thin Python wrappers (entry points for agents/humans).  
-  - `agent_tools/` = core automation packages.
+**Observations:**
+  - `interface/cli_tools/` = thin Python wrappers (entry points for agents/humans).  
+  - `toolkit/` = core automation packages.
 - **Risks:** Similar names; mistake leads to executing wrong script (or import errors).
 - **Options:**
-  1. Rename `agent_interface/tools/` → `agent_wrappers/` (or `agent_cli/`).
-  2. Restructure so wrappers live inside `agent/Makefile` or `agent_scripts/`.
-  3. Consolidate wrappers into `agent_scripts/` and deprecate `agent_interface/tools/`.
-- **Dependencies to Audit:** Makefile targets, `tool_mappings.json`, docs referencing `agent_interface/tools`.
+  1. Rename `interface/cli_tools/` → `agent_wrappers/` (or `agent_cli/`).
+  2. Restructure so wrappers live inside the interface Makefile or `scripts/`.
+  3. Consolidate wrappers into `scripts/` and deprecate outdated interface wrappers.
+- **Dependencies to Audit:** Makefile targets, `tool_mappings.json`, docs referencing the old `agent_interface/tools` layout.
 
 ### 3.5 `docs/ai_handbook/04_agent_system/`
 

@@ -8,11 +8,10 @@ entire framework can travel as a single directory.
 ## Framework Contents
 
 ### AgentQMS/ (Framework Container)
-- `agent_interface/` – Interface layer (Makefile, wrappers, workflows)
-- `agent_tools/` – Implementation layer (automation, validators, docs tooling)
-- `project_conventions/` – Templates, schemas, and QMS conventions
-- `agent_scripts/` – Framework scripts and utilities
-- `config_defaults/` – Canonical framework defaults (framework/interface/paths)
+- `interface/` – Interface layer (Makefile, wrappers, workflows)
+- `toolkit/` – Implementation layer (automation, validators, docs tooling)
+- `conventions/` – Templates, schemas, and QMS conventions
+- `scripts/` – Framework scripts and maintenance utilities
 - `templates/` – Bootstrap templates for exporting/adapting
 
 ### Project-Level Directories
@@ -34,7 +33,7 @@ entire framework can travel as a single directory.
 2. **Configure the project**
    ```bash
    cd your_project
-   python AgentQMS/agent_scripts/adapt_project.py --interactive
+   python AgentQMS/scripts/legacy/adapt_project.py --interactive
    ```
    or edit `.agentqms/config.yaml` to specify custom artifact/doc paths.
 
@@ -51,11 +50,10 @@ entire framework can travel as a single directory.
 ```
 project_root/
 ├── AgentQMS/
-│   ├── agent_interface/
-│   ├── agent_tools/
-│   ├── project_conventions/
-│   ├── agent_scripts/
-│   ├── config_defaults/
+│   ├── interface/
+│   ├── toolkit/
+│   ├── conventions/
+│   ├── scripts/
 │   └── templates/
 ├── .agentqms/
 ├── docs/
