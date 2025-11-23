@@ -1,12 +1,14 @@
 ---
 type: "assessment"
 category: "java-migration"
-status: "active"
+status: "archived"
 version: "0.1"
 tags: ["java", "python", "migration", "strategy"]
 title: "Assessment: Python-Java Coexistence Strategy"
 date: "2025-11-21 02:25 (KST)"
+last_updated: "2025-11-21 04:15 (KST)"
 author: "Agent Maintainers"
+note: "Java toolchain has been moved to separate 'java-toolchain' branch. Main branch is Python-only. This assessment documents the original coexistence strategy."
 ---
 
 # Assessment: Python-Java Coexistence Strategy

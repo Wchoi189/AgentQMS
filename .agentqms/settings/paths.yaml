@@ -1,0 +1,6 @@
+paths:
+  artifacts: artifacts
+  docs: docs
+  implementation: agent_tools
+  project_conventions: project_conventions
+  templates: templates

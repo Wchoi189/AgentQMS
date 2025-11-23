@@ -1,0 +1,22 @@
+framework:
+  name: AgentQMS
+  version: "0.2.0"
+  container_name: AgentQMS
+paths:
+  artifacts: artifacts
+  docs: docs
+  agent_interface: agent_interface
+  implementation: agent_tools
+  conventions: project_conventions
+  templates: templates
+validation:
+  enabled: true
+  strict_mode: false
+  rules:
+    naming: true
+    frontmatter: true
+    structure: true
+automation:
+  pre_commit:
+    enabled: false
+    validate_artifacts: true

@@ -1,13 +1,14 @@
 ---
 type: "implementation_plan"
 category: "java-migration"
-status: "active"
+status: "archived"
 version: "0.2"
 tags: ["java", "cli", "validators", "automation"]
 title: "Implementation Plan: Java Toolchain Migration"
 date: "2025-11-20 00:00 (KST)"
-last_updated: "2025-11-21 02:20 (KST)"
+last_updated: "2025-11-21 04:15 (KST)"
 author: "Agent Maintainers"
+note: "Java toolchain implementation has been moved to separate 'java-toolchain' branch. This plan documents the original implementation strategy."
 ---
 
 # Implementation Plan: Java Toolchain Migration

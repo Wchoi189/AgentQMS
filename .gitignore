@@ -45,7 +45,11 @@ logs/
 *.sqlite
 data/
 outputs/
+
+# Runtime state (generated files, not user-editable)
 .agentqms/state/agent_state.json
 .agentqms/state/*.sqlite
-AgentQMS/java-tools/
-AgentQMS/README_JAVA_MIGRATION.md
+.agentqms/effective.yaml
+.agentqms/migration.log
+
+# Note: .agentqms/settings/ is user-editable and should be committed
