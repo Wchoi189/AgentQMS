@@ -47,3 +47,5 @@ data/
 outputs/
 .agentqms/state/agent_state.json
 .agentqms/state/*.sqlite
+AgentQMS/java-tools/
+AgentQMS/README_JAVA_MIGRATION.md

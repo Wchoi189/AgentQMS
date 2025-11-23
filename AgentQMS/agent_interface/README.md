@@ -34,12 +34,37 @@ This directory is the **Agent-Only Interface Layer** that provides convenience c
 
 ### **🤖 Agent Usage**
 
-AI agents should:
+**Migration Notice (Java Toolchain):** the legacy Python Makefile and wrapper scripts
+have been archived while we stand up the new Maven-based CLI. Use the steps below
+to exercise the placeholder Java tooling until the interface is fully restored.
 
-1. **Navigate to this directory**: `cd AgentQMS/agent_interface/`
-2. **Use the agent Makefile**: `make help`
-3. **Follow agent-specific workflows**: `make workflow-create`
-4. **Report issues**: `make feedback-issue`
+1. **Install prerequisites (one time)**  
+   ```bash
+   sudo apt-get update
+   sudo apt-get install -y maven openjdk-21-jdk-headless
+   ```
+2. **Build the Maven workspace**  
+   ```bash
+   mvn -f AgentQMS/java-tools/pom.xml install -DskipTests
+   ```
+3. **Run the Java CLI**  
+   From repo root:
+   ```bash
+   mvn -f AgentQMS/java-tools/pom.xml -pl cli -am exec:java \
+     -Dexec.mainClass=com.agentqms.cli.AgentQmsCli -Dexec.args="status"
+   ```
+   or from the module directory:
+   ```bash
+   cd AgentQMS/java-tools/cli
+   mvn exec:java -Dexec.mainClass=com.agentqms.cli.AgentQmsCli -Dexec.args="status"
+   ```
+4. **Command routing (temporary)**  
+   The placeholder CLI understands `status`, `artifact`, `validate`, `docs`, and
+   `audit` subcommands (currently stubs that confirm wiring). Future updates will
+   reintroduce full workflows and new agent-facing wrappers.
+
+Until the new CLI exposes feature parity, defer to documentation updates in
+`docs/artifacts/implementation_plans/2025-11-20_implementation_plan_java_toolchain.md`.
 
 ### **📁 Directory Structure**
 
@@ -69,44 +94,9 @@ agent/
 
 ### **🎯 Quick Start for Agents**
 
-```bash
-# Navigate to agent directory
-cd AgentQMS/agent_interface/
-
-# Show available commands
-make help
-
-# Discover tools
-make discover
-
-# Check system status
-make status
-
-# Create artifacts
-make create-plan NAME=my-plan TITLE="My Plan"
-
-# Validate work
-make validate
-make compliance
-
-# Get context bundles for tasks
-make context TASK="implement new feature"
-make context-development
-make context-docs
-make context-debug
-make context-plan
-make context-list
-
-# Report issues
-make feedback-issue ISSUE="Description" FILE="path/to/file"
-
-# AST Code Analysis (NEW)
-make ast-analyze                    # Analyze codebase structure
-make ast-analyze PATH=streamlit_app/  # Analyze specific path
-make ast-check-quality              # Check code quality
-make ast-generate-tests PATH=file.py # Generate test scaffolds
-make ast-extract-docs PATH=file.py   # Extract documentation
-```
+Legacy Make targets are unavailable during the migration. Use the Maven commands
+outlined above to exercise the Java CLI until replacement wrappers land. Updated
+quick-start instructions will return once the new interface is stabilized.
 
 ### **🔒 Security Notes**
 
