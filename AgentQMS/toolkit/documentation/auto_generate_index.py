@@ -262,7 +262,8 @@ def main() -> None:
         import sys
 
         # Use PYTHONPATH-aware invocation for containerized framework
-        validate_script = Path(__file__).resolve().parents[1] / "agent_tools/documentation/validate_manifest.py"
+        # __file__ is in AgentQMS/toolkit/documentation/, so parents[2] is AgentQMS/
+        validate_script = Path(__file__).resolve().parents[2] / "agent_tools/documentation/validate_manifest.py"
         result = subprocess.run(
             [sys.executable, str(validate_script), str(args.output)],
             capture_output=True,
