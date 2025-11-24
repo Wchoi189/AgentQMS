@@ -1,80 +1,100 @@
-# AgentQMS Framework (Version: v002_b)
+# AgentQMS Framework
 
 AgentQMS is a reusable Quality Management Framework that standardizes
 artifact creation, documentation workflows, and automation for collaborative
-AI coding. The v002_b release introduces the containerized layout so the
-entire framework can travel as a single directory.
+AI coding. The framework is **containerized** so it can travel between projects
+as a pair of directories: `.agentqms/` + `AgentQMS/`.
 
 ## Framework Contents
 
 ### AgentQMS/ (Framework Container)
-- `interface/` – Interface layer (Makefile, wrappers, workflows)
-- `toolkit/` – Implementation layer (automation, validators, docs tooling)
-- `conventions/` – Templates, schemas, and QMS conventions
-- `scripts/` – Framework scripts and maintenance utilities
-- `templates/` – Bootstrap templates for exporting/adapting
+
+- `interface/` – Agent-only interface layer (Makefile, CLI wrappers, workflows).
+- `agent_tools/` – Canonical implementation layer (automation, validators, docs tooling).
+- `conventions/` – Artifact types, schemas, templates, and audit framework.
+- `knowledge/` – Self-contained knowledge surface for agents and maintainers:
+  - `agent/` – system SST, quick references, tool catalog.
+  - `protocols/` – governance/development/testing protocols.
+  - `references/` – technical and architecture references.
+  - `meta/` – maintainer-facing docs (e.g., `MAINTAINERS.md`, framework design).
+
+> Note: `AgentQMS/toolkit/` still exists as a **legacy compatibility layer**
+> but all new code and docs should target `AgentQMS/agent_tools/`.
 
 ### Project-Level Directories
-- `docs/` – Project documentation and artifacts
-  - `docs/artifacts/` – Generated artifacts (implementation plans, assessments, templates, etc.)
-  - `docs/ai_handbook/` – AI agent handbook (protocols, onboarding, references) including the `04_agent_system/` section for agent-only operations.
-  - `docs/audit/` – Framework audit and design documents
-- `.agentqms/` – Hidden metadata directory (version, config, state)
 
-## Installation
+- `.agentqms/` – Hidden framework state and configuration:
+  - `settings.yaml` – project configuration (if present).
+  - `effective.yaml` – resolved configuration snapshot.
+  - `state/architecture.yaml` – component and capability map.
+- `docs/` – **project history** and host-project artifacts:
+  - `docs/artifacts/` – implementation plans, assessments, bug reports, etc.
+  - `docs/audit/` – audit outputs (including `2025-11-24_audit/` for this refactor).
+  - `docs/ai_handbook/` – legacy handbook; kept for history, not exported.
 
-1. **Copy the framework container and documentation**
+## Using AgentQMS in a Project
+
+1. **Copy the container into your project**
+
    ```bash
    cp -r AgentQMS/ your_project/
-   cp -r docs/ your_project/          # Includes artifacts, ai_handbook (agent system), audit
    cp -r .agentqms your_project/
    ```
 
-2. **Configure the project**
-   ```bash
-   cd your_project
-   python AgentQMS/scripts/legacy/adapt_project.py --interactive
-   ```
-   or edit `.agentqms/config.yaml` to specify custom artifact/doc paths.
+   (You usually do **not** copy `docs/` when exporting the framework; those are
+   project-specific history for this repo.)
 
-3. **Verify installation**
+2. **Configure paths and behavior (optional)**
+
+   - Preferred: create or edit `your_project/.agentqms/settings.yaml`.
+   - Alternative for consuming projects: use `your_project/config/` with
+     `framework.yaml`, `interface.yaml`, and `paths.yaml`.
+
+3. **Run basic checks via the interface**
+
    ```bash
-   cd AgentQMS/agent_interface
+   cd your_project/AgentQMS/interface
    make discover
    make status
    make validate
+   make compliance
    ```
 
-## Framework Structure
+4. **(Optional) Run project adaptation helpers**
 
-```
+   ```bash
+   python AgentQMS/agent_tools/utilities/adapt_project.py --help
+   ```
+
+## High-Level Layout
+
+```text
 project_root/
 ├── AgentQMS/
 │   ├── interface/
-│   ├── toolkit/
+│   ├── agent_tools/
 │   ├── conventions/
-│   ├── scripts/
-│   └── templates/
+│   └── knowledge/
 ├── .agentqms/
 ├── docs/
 │   ├── artifacts/
-│   ├── ai_handbook/
-│   │   └── 04_agent_system/
-│   └── audit/
+│   ├── audit/
+│   └── ai_handbook/        # legacy handbook for this project only
 └── README.md
 ```
 
-## Key Features
-- **Containerized Distribution** – All framework code lives inside `AgentQMS/`.
-- **Metadata Directory** – `.agentqms/` tracks version, configuration, and future state.
-- **Path & Config Loader** – Centralized resolver ensures consistent CLI behavior.
-- **Boundary Validation** – Automated guardrails prevent framework/project drift.
-- **State Hooks** – JSON-backed placeholder ready for future SQLite/external stores.
+## Key Capabilities
 
-## Documentation
-- `docs/artifacts/` – Generated project artifacts (implementation plans, assessments, design documents, templates)
-- `docs/ai_handbook/` – AI agent handbook (protocols, onboarding, references) with the `04_agent_system/` subsection for agent tooling docs
-- `docs/audit/` – Framework audit, containerization design, and migration guides
+- **Artifact workflows** – `AgentQMS/agent_tools/core/artifact_workflow.py` creates,
+  validates, and maintains QMS artifacts.
+- **Validation & compliance** – `AgentQMS/agent_tools/compliance/*` enforces naming,
+  structure, and boundary rules; integrates with CI and optional pre-commit hooks.
+- **Audit framework** – tools and templates under
+  `AgentQMS/conventions/audit_framework/` and `AgentQMS/agent_tools/audit/`.
+- **Knowledge surface** – `AgentQMS/knowledge/*` provides agent-first protocols and
+  references, with `.agentqms/state/architecture.yaml` acting as a compact index.
 
 ## License
+
 This project is licensed under the MIT License – see [LICENSE](LICENSE).
+
