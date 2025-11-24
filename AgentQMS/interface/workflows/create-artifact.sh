@@ -22,5 +22,7 @@ if [ ! -f "Makefile" ]; then
 fi
 
 # Run the artifact creation command (containerized implementation layer)
-# Note: ../toolkit points to the compatibility layer that wraps ../agent_tools
-PYTHONPATH="$(cd ../.. && pwd)" python ../agent_tools/core/artifact_workflow.py "$@"
+# Note: Set PYTHONPATH to project root for proper imports
+SCRIPT_DIR="$(dirname "$0")"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
+PYTHONPATH="$PROJECT_ROOT" python "$PROJECT_ROOT/AgentQMS/agent_tools/core/artifact_workflow.py" "$@"

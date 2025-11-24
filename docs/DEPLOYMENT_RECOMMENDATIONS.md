@@ -15,8 +15,11 @@ This document provides recommendations for deploying and maintaining the AgentQM
 **Recommendations**:
 
 #### Option A: Add setup.py or pyproject.toml (Recommended for Production)
+
+**Note**: This option requires creating a setup.py file (not yet implemented in the repository).
+
 ```python
-# setup.py
+# setup.py (create this file in the project root)
 from setuptools import setup, find_packages
 
 setup(

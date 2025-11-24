@@ -262,8 +262,17 @@ def main() -> None:
         import sys
 
         # Use PYTHONPATH-aware invocation for containerized framework
-        # __file__ is in AgentQMS/toolkit/documentation/, so parents[2] is AgentQMS/
-        validate_script = Path(__file__).resolve().parents[2] / "agent_tools/documentation/validate_manifest.py"
+        # Find AgentQMS root by looking for the parent directory containing agent_tools
+        current_file = Path(__file__).resolve()
+        agentqms_root = current_file.parent
+        while agentqms_root.name != "AgentQMS" and agentqms_root.parent != agentqms_root:
+            agentqms_root = agentqms_root.parent
+        
+        validate_script = agentqms_root / "agent_tools/documentation/validate_manifest.py"
+        if not validate_script.exists():
+            print(f"⚠️  Warning: validate_manifest.py not found at {validate_script}")
+            return
+            
         result = subprocess.run(
             [sys.executable, str(validate_script), str(args.output)],
             capture_output=True,
