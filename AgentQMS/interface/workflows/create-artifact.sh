@@ -8,6 +8,10 @@ echo ""
 echo "⚠️  WARNING: This tool is for AI agents only!"
 echo "   Humans should use the main project tools."
 echo ""
+echo "📏 Reminder for agents: Keep generated documentation ultra concise."
+echo "   - Use bullet points, not paragraphs."
+echo "   - 1–3 lines per concept; no tutorials."
+echo ""
 
 # Check if we're in the agent directory
 if [ ! -f "Makefile" ]; then

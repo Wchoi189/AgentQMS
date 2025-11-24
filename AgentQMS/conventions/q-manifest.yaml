@@ -12,6 +12,11 @@ artifact_types:
     template: "templates/assessment.md"
     schema: "schemas/assessment.json"
     location: "artifacts/assessments/"
+  - name: "bug_report"
+    description: "A structured report describing a defect, its impact, and the applied fix."
+    template: "templates/bug_report.md"
+    schema: "schemas/bug_report.json"
+    location: "artifacts/bug_reports/"
 
 tool_registry:
   - name: "create_artifact"
