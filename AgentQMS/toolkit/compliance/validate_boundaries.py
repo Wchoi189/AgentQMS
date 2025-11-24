@@ -15,13 +15,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import List
 
-from AgentQMS.toolkit.utils.paths import (
+from AgentQMS.agent_tools.utils.paths import (
     get_artifacts_dir,
     get_docs_dir,
     get_framework_root,
     get_project_root,
 )
-from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
 
 ensure_project_root_on_sys_path()
 

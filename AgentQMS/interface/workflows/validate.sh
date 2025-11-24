@@ -17,5 +17,5 @@ if [ ! -f "Makefile" ]; then
     exit 1
 fi
 
-# Run the validation command
-python ../scripts/agent_tools/compliance/validate_artifacts.py "$@"
+# Run the validation command (containerized implementation layer)
+python ../toolkit/compliance/validate_artifacts.py "$@"

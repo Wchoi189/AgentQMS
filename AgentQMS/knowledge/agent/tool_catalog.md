@@ -58,7 +58,7 @@ Agent Tool Catalog (generated)
 - **agent_feedback**: Agent Feedback Collection System (`utilities/agent_feedback.py`) — CLI: yes — usage: argparse CLI — tags: -
 - **browser_extension_wrapper**: Browser Extension Wrapper with Retry Logic and Puppeteer Fallback (`utilities/browser_extension_wrapper.py`) — CLI: yes — tags: ui, network
 - **clean_logs**: Clean up log files by removing ANSI escape codes and making them human readable. (`utilities/clean_logs.py`) — CLI: yes — tags: -
-- **cli**: CLI for development/debug tracking and experiment management (`utilities/tracking/cli.py`) — CLI: yes — usage: python scripts/agent_tools/utilities/tracking/cli.py plan status --concise — tags: cli, tracking, sqlite
+- **cli**: CLI for development/debug tracking and experiment management (`utilities/tracking/cli.py`) — CLI: yes — usage: python AgentQMS/agent_tools/utilities/tracking/cli.py plan status --concise — tags: cli, tracking, sqlite
 - **db**: db script (`utilities/tracking/db.py`) — CLI: no — tags: ui, sqlite
 - **get_context**: get_context script (`utilities/get_context.py`) — CLI: yes — usage: argparse CLI — tags: ui
 - **puppeteer_wrapper**: Puppeteer Wrapper for AI Agents (`utilities/puppeteer_wrapper.py`) — CLI: yes — tags: -

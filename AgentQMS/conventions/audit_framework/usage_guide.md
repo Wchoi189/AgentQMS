@@ -17,7 +17,7 @@ This guide explains how to run the audit framework end-to-end, including prerequ
 - AgentQMS framework installed (`AgentQMS/` directory available)
 - Python 3.8+ environment
 - Writable `docs/audit/` directory for outputs
-- Familiarity with protocol documents in `project_conventions/audit_framework/protocol/`
+- Familiarity with protocol documents in `AgentQMS/conventions/audit_framework/protocol/`
 
 ---
 
@@ -51,7 +51,7 @@ This guide explains how to run the audit framework end-to-end, including prerequ
    This copies all templates into `docs/audit/` and fills basic metadata.
 
 2. **Manual copy (optional)**  
-   - Copy files from `project_conventions/audit_framework/templates/`
+- Copy files from `AgentQMS/conventions/audit_framework/templates/`
    - Replace placeholders (`{{FRAMEWORK_NAME}}`, `{{AUDIT_DATE}}`, etc.)
 
 3. **Validation**  
@@ -93,7 +93,7 @@ Refer to `AgentQMS/agent_tools/audit/README.md` for additional CLI examples.
 
 | Symptom | Likely Cause | Resolution |
 |---------|--------------|------------|
-| `Template not found` | Wrong template name or outdated repo | Check `project_conventions/audit_framework/templates/` |
+| `Template not found` | Wrong template name or outdated repo | Check `AgentQMS/conventions/audit_framework/templates/` |
 | `Missing placeholder` | Required value not provided | Re-run command with `--framework-name`, `--audit-date`, etc. |
 | `Missing section` | Template not fully filled | Compare document with protocol requirements |
 | `Checklist item missing` | Text mismatch | Copy text exactly as it appears in checklist |
@@ -102,10 +102,10 @@ Refer to `AgentQMS/agent_tools/audit/README.md` for additional CLI examples.
 
 ## 9. References
 
-- Protocols: `project_conventions/audit_framework/protocol/`
-- Templates: `project_conventions/audit_framework/templates/`
+- Protocols: `AgentQMS/conventions/audit_framework/protocol/`
+- Templates: `AgentQMS/conventions/audit_framework/templates/`
 - Tools: `AgentQMS/agent_tools/audit/`
-- Tool architecture: `project_conventions/audit_framework/tools/tool_architecture.md`
+- Tool architecture: `AgentQMS/conventions/audit_framework/tools/tool_architecture.md`
 
 ---
 

@@ -4,13 +4,13 @@ from __future__ import annotations
 
 Usage examples:
     # Old style (handbook index bundles)
-    uv run python scripts/agent_tools/get_context.py --bundle streamlit-maintenance
-    uv run python scripts/agent_tools/get_context.py --list-bundles
+    uv run python AgentQMS/toolkit/utilities/get_context.py --bundle streamlit-maintenance
+    uv run python AgentQMS/toolkit/utilities/get_context.py --list-bundles
 
     # New style (YAML context bundles)
-    uv run python scripts/agent_tools/get_context.py --task "implement new feature"
-    uv run python scripts/agent_tools/get_context.py --type development
-    uv run python scripts/agent_tools/get_context.py --list-context-bundles
+    uv run python AgentQMS/toolkit/utilities/get_context.py --task "implement new feature"
+    uv run python AgentQMS/toolkit/utilities/get_context.py --type development
+    uv run python AgentQMS/toolkit/utilities/get_context.py --list-context-bundles
 """
 
 import argparse

@@ -17,5 +17,5 @@ if [ ! -f "Makefile" ]; then
     exit 1
 fi
 
-# Run the compliance command
-python ../scripts/agent_tools/compliance/monitor_artifacts.py "$@"
+# Run the compliance command (containerized implementation layer)
+python ../toolkit/compliance/monitor_artifacts.py "$@"

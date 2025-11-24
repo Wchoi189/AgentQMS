@@ -19,15 +19,15 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
 
 ensure_project_root_on_sys_path()
 
-from AgentQMS.toolkit.compliance.validate_boundaries import BoundaryValidator
+from AgentQMS.agent_tools.compliance.validate_boundaries import BoundaryValidator
 
 # Try to import context bundle functions for validation
 try:
-    from AgentQMS.toolkit.core.context_bundle import (
+    from AgentQMS.agent_tools.core.context_bundle import (
         is_fresh,
         list_available_bundles,
         load_bundle_definition,
@@ -62,7 +62,7 @@ class ArtifactValidator:
     def __init__(self, artifacts_root: str | Path | None = None):
         # Default to the configured artifacts directory if none is provided
         if artifacts_root is None:
-            from AgentQMS.toolkit.utils.paths import get_artifacts_dir
+            from AgentQMS.agent_tools.utils.paths import get_artifacts_dir
 
             root = get_artifacts_dir()
         else:

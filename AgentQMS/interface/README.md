@@ -16,11 +16,11 @@ This directory contains tools and workflows **exclusively for AI agents**. Human
 
 ## 🏗️ **Architecture**
 
-This directory is the **Agent-Only Interface Layer** that provides convenience commands for AI agents. All actual tool implementations live in `AgentQMS/toolkit/`.
+This directory is the **Agent-Only Interface Layer** that provides convenience commands for AI agents. All actual tool implementations live in `AgentQMS/agent_tools/` (with `AgentQMS/toolkit/` kept as a legacy compatibility layer).
 
 **Relationship**:
 - `interface/` = Thin wrapper layer (Makefile, CLI wrappers, workflows)
-- `AgentQMS/toolkit/` = Implementation layer (actual Python packages and scripts)
+- `AgentQMS/agent_tools/` = Implementation layer (canonical Python packages and scripts)
 
 **See**: `index.md` for detailed architecture documentation.
 
@@ -30,7 +30,7 @@ This directory is the **Agent-Only Interface Layer** that provides convenience c
 - **DO NOT** modify files in this directory
 - **DO NOT** use the agent Makefile
 - **USE** the main project Makefile instead
-- **USE** `AgentQMS/toolkit/` directly for tool implementations
+- **USE** `AgentQMS/agent_tools/` directly for tool implementations
 
 ### **🤖 Agent Usage**
 
@@ -50,9 +50,9 @@ interface/
 ├── Makefile             # Agent-only Makefile (main entry point)
 ├── cli_tools/           # Thin wrapper scripts
 │   ├── ast_analysis.py  # Wraps scripts/ast_analysis_cli.py
-│   ├── discover.py      # Wraps AgentQMS/toolkit/core/discover.py
-│   ├── feedback.py      # Wraps AgentQMS/toolkit/utilities/agent_feedback.py
-│   └── quality.py       # Wraps AgentQMS/toolkit/compliance/documentation_quality_monitor.py
+│   ├── discover.py      # Wraps AgentQMS/agent_tools/core/discover.py
+│   ├── feedback.py      # Wraps AgentQMS/agent_tools/utilities/agent_feedback.py
+│   └── quality.py       # Wraps AgentQMS/agent_tools/compliance/documentation_quality_monitor.py
 ├── workflows/           # Agent workflow scripts
 │   ├── create-artifact.sh
 │   ├── validate.sh
@@ -62,7 +62,7 @@ interface/
     └── quality/
 ```
 
-**Note**: All actual implementations are in `AgentQMS/toolkit/`. This directory provides convenience wrappers.
+**Note**: All actual implementations are in `AgentQMS/agent_tools/` (with `AgentQMS/toolkit/` maintained as a legacy shim). This directory provides convenience wrappers.
 
 ### **🎯 Quick Start for Agents**
 

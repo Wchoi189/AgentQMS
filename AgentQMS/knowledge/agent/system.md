@@ -25,46 +25,41 @@ Core Rules
 Artifact Creation (use one of these)
 ------------------------------------
 ```bash
-# From project root (direct Python)
-python scripts/agent_tools/core/artifact_workflow.py create --type [TYPE] --name [NAME] --title "[TITLE]"
-
-# From agent directory (recommended)
-cd AgentQMS/agent_interface/
+# From agent interface (recommended)
+cd AgentQMS/interface/
 make create-plan NAME=my-plan TITLE="My Plan"
 make create-assessment NAME=my-assessment TITLE="My Assessment"
 make create-design NAME=my-design TITLE="My Design"
+make create-bug-report NAME=my-bug TITLE="My Bug Report"
 ```
 
 Types: implementation_plan, assessment, design, research, template, bug_report
 
-**Implementation Plans**: Always use Blueprint Protocol Template (PROTO-GOV-003). The generator uses this template automatically. See `docs/ai_handbook/02_protocols/governance/03_blueprint_protocol_template.md` for structure.
+**Implementation Plans**: Always use Blueprint Protocol Template (PROTO-GOV-003). The generator uses this template automatically. See `AgentQMS/knowledge/templates/blueprint_protocol_template.md` for structure.
 
 Tool Discovery and Validation
 -----------------------------
 ```bash
-# Agent tools (run inside agent/)
+# Agent tools (run inside AgentQMS/interface/)
+cd AgentQMS/interface/
 make help
 make discover
 make status
 make validate
 make compliance
-
-# Direct discovery
-python scripts/agent_tools/core/discover.py
 ```
 
 Documentation Organization
 --------------------------
-- Artifacts live under `docs/artifacts/` by type.
+- Artifacts live under `artifacts/` by type.
 - Required frontmatter and naming: `YYYY-MM-DD_HHMM_[type]_descriptive-name.md`.
 - Frontmatter `date` must use the full timestamp format `YYYY-MM-DD HH:MM (KST)` for every commit.
-- Long-form guidance belongs in `docs/ai_handbook/` (not for agents).
-- Agent doc map: `docs/ai_handbook/04_agent_system/index.md` lists every AI-agent doc and its purpose.
-- Tracking domain: `docs/ai_handbook/04_agent_system/tracking/` (CLI quick reference, DB API, dashboards).
-- Automation domain: `docs/ai_handbook/04_agent_system/automation/` (tooling overview, catalog, changelog pipeline).
-- Coding protocols: `docs/ai_handbook/04_agent_system/coding_protocols/`.
-- Reserve `docs/ai_handbook/04_agent_system/docs_governance/` and `docs/ai_handbook/04_agent_system/artifact_workflow/` for future domain docs (create when the first doc exists).
-- Escalation: if any domain folder exceeds 8 active docs *or* routine updates touch 3+ domain files, adopt the capability-based knowledge base (Option 3). Quick check: `find docs/ai_handbook/04_agent_system -mindepth 2 -maxdepth 2 -name '*.md' | awk -F/ '{print $(NF-1)}' | sort | uniq -c`. Option 3 adds metadata (`capabilities`, `audience`, `visibility`) and an auto-generated index so agents can filter by capability.
+- Long-form guidance lives in `AgentQMS/knowledge/` (not for agents).
+- Agent doc map: see `AgentQMS/knowledge/agent/` index (SST + quick references).
+- Tracking domain: `AgentQMS/knowledge/agent/tracking_cli.md` and related references.
+- Automation domain: `AgentQMS/knowledge/agent/tool_catalog.md` and automation references.
+- Coding and development protocols: `AgentQMS/knowledge/protocols/development/`.
+- Escalation: if any knowledge domain exceeds a manageable size, adopt capability-based indexing using `.agentqms/state/architecture.yaml` and metadata (`capabilities`, `audience`, `visibility`).
 - This file is the sole authoritative agent instruction.
 
 Documentation Style for AI Agents
@@ -93,7 +88,7 @@ NEVER manually manipulate sys.path:
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 ```
 
-Loader registry path issues: Use `LOADER_BASE_PATH` env var if needed. See `docs/ai_handbook/03_references/development/loader_path_resolution.md`
+Loader registry path issues: Use `LOADER_BASE_PATH` env var if needed. See `AgentQMS/knowledge/references/development/loader_path_resolution.md`.
 
 Do / Don't
 ----------

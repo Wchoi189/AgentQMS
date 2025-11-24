@@ -21,5 +21,5 @@ if [ ! -f "Makefile" ]; then
     exit 1
 fi
 
-# Run the artifact creation command
-python ../scripts/agent_tools/core/artifact_workflow.py "$@"
+# Run the artifact creation command (containerized implementation layer)
+python ../toolkit/core/artifact_workflow.py "$@"

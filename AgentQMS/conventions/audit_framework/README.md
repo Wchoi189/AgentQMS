@@ -213,8 +213,8 @@ The `docs/audit/` directory should contain the working set of audit documents ge
 
 - **Implementation Plan**: `docs/artifacts/implementation_plans/2025-11-09_IMPLEMENTATION_PLAN_audit_framework_extraction.md`
 - **Example Audit**: `docs/audit/`
-- **Usage Guide**: `project_conventions/audit_framework/usage_guide.md`
-- **Tool Reference**: `project_conventions/audit_framework/tools/README.md`
+- **Usage Guide**: `AgentQMS/conventions/audit_framework/usage_guide.md`
+- **Tool Reference**: `AgentQMS/conventions/audit_framework/tools/README.md`
 
 ---
 

@@ -1,9 +1,17 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+## 📋 Guidelines
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+This changelog should stay **scannable and brief**; use it as an index, not a narrative.
+
+- **One line per change** – Use bullet points, avoid paragraphs.
+- **Reference extended summaries** – Link to audits, PRs, issues, or docs for full context.
+- **Group by type** – Prefer standard categories: Added, Changed, Fixed, Removed, Security.
+- **Datestamps** – When needed, use `YYYY-MM-DD HH:MM (KST)` (Asia/Seoul time).
+- **Version format** – Follow [Semantic Versioning](https://semver.org/): `MAJOR.MINOR.PATCH`.
+- **Historical entries** – Older entries may be more verbose; new entries should follow these rules.
+
+---
 
 ## [Unreleased]
 
@@ -44,6 +52,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Removed `detect_structure()` function - only containerized layout supported
   - Framework now fails fast if structure is incorrect instead of trying legacy paths
 - Duplicate `docs/audit_snapshots/v001_b/` directory (redundant copy of audit documents)
+
+### 2025-11-24 – Containerized framework audit and knowledge refactor
+- Performed full five-phase audit (`docs/audit/2025-11-24_audit.md`) over the containerized AgentQMS framework.
+- Fixed broken agent interface workflows by aligning them with the containerized implementation layer and removing legacy `scripts/agent_tools` paths.
+- Normalized audit framework docs to `AgentQMS/conventions/audit_framework/...` and updated agent-facing docs to use `AgentQMS/knowledge/...` as the primary docs root.
+- Introduced `AgentQMS/knowledge/agent/*`, canonical artifact rules, bug-report schema/template, and a concise maintainer guide in `AgentQMS/knowledge/meta/MAINTAINERS.md`.
+- Made `AgentQMS/agent_tools/` the canonical implementation layer (with `AgentQMS/toolkit/` as a legacy shim), migrated key governance protocols and references into `AgentQMS/knowledge/*`, and added pre-commit + CI validation flows wired to the new `agent_tools` entrypoints.
 
 ## [0.1.0] - 2025-11-09
 

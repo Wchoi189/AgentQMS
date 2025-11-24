@@ -278,12 +278,12 @@ class ArtifactMonitor:
         suggestions.append("\n🔧 AUTOMATED FIXES:")
         suggestions.append("  # Update all indexes")
         suggestions.append(
-            "  python scripts/agent_tools/update_artifact_indexes.py --all"
+            "  python AgentQMS/toolkit/documentation/update_artifact_indexes.py --all"
         )
         suggestions.append("")
         suggestions.append("  # Validate specific file")
         suggestions.append(
-            "  python scripts/agent_tools/validate_artifacts.py --file path/to/file.md"
+            "  python AgentQMS/toolkit/compliance/validate_artifacts.py --file path/to/file.md"
         )
 
         return "\n".join(suggestions)

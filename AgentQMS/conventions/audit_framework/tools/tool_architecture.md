@@ -14,7 +14,7 @@ This document defines the architecture for audit framework tools that support th
 ### Functional Requirements
 
 1. **Audit Generator Tool**
-   - Load templates from `project_conventions/audit_framework/templates/`
+   - Load templates from `AgentQMS/conventions/audit_framework/templates/`
    - Replace placeholders with user-provided values
    - Generate audit documents in `docs/audit/`
    - Validate generated documents

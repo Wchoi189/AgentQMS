@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # @tool: description=CLI for development/debug tracking and experiment management
-# @tool: usage=python scripts/agent_tools/utilities/tracking/cli.py plan status --concise
+# @tool: usage=python AgentQMS/agent_tools/utilities/tracking/cli.py plan status --concise
 # @tool: tags=cli,tracking,sqlite
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def _print(obj) -> None:
 
 
 def _create_artifact(artifact_type: str, name: str, title: str) -> str:
-    root = Path(__file__).resolve().parents[2]  # scripts/agent_tools
+    root = Path(__file__).resolve().parents[2]  # AgentQMS/agent_tools
     cmd = [
         sys.executable,
         str(root / "core" / "artifact_workflow.py"),

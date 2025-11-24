@@ -517,6 +517,11 @@ def main():
         default="docs/artifacts",
         help="Root directory for artifacts",
     )
+    parser.add_argument(
+        "--staged",
+        action="store_true",
+        help="Validate only staged artifact files (for pre-commit/CI hooks)",
+    )
     parser.add_argument("--output", help="Output file for report")
     parser.add_argument(
         "--json", action="store_true", help="Output results in JSON format"
@@ -532,7 +537,7 @@ def main():
     validator = ArtifactValidator(args.artifacts_root)
 
     if args.files:
-        # Handle positional arguments (from pre-commit hooks)
+        # Handle positional arguments (from pre-commit hooks passing explicit files)
         results = []
         for file_path_str in args.files:
             file_path = Path(file_path_str)
@@ -540,6 +545,34 @@ def main():
                 results.append(validator.validate_single_file(file_path))
             elif file_path.is_dir():
                 results.extend(validator.validate_directory(file_path))
+    elif args.staged:
+        # Validate only staged files under the artifacts root (git required)
+        import subprocess
+
+        rel_artifacts_root = Path(args.artifacts_root)
+        results = []
+
+        try:
+            completed = subprocess.run(
+                ["git", "diff", "--cached", "--name-only"],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            for line in (completed.stdout or "").splitlines():
+                path = Path(line.strip())
+                if not path.suffix.lower() == ".md":
+                    continue
+                # Only validate files within the artifacts tree
+                try:
+                    path.relative_to(rel_artifacts_root)
+                except ValueError:
+                    continue
+                if path.exists():
+                    results.append(validator.validate_single_file(path))
+        except Exception as exc:  # pragma: no cover - defensive fallback
+            print(f"⚠️  Failed to determine staged files; falling back to --all: {exc}")
+            results = validator.validate_all()
     elif args.file:
         file_path = Path(args.file)
         results = [validator.validate_single_file(file_path)]

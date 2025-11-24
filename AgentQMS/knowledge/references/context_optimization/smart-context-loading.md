@@ -67,49 +67,49 @@ Smart Context Loading for AI Agents
 
 ### Strategy 1: Task-Based Context Bundles
 
-#### Development Tasks
+#### Development Tasks (conceptual example; adapt paths to your project)
 ```python
 CONTEXT_BUNDLE_DEVELOPMENT = {
     "essential": [
-        "docs/ai_handbook/QUICK_CONTEXT.md",
+        "AgentQMS/knowledge/agent/system.md",
         "streamlit_app/README.md",
         "pyproject.toml"
     ],
     "architecture": [
-        "docs/ai_handbook/ARCHITECTURE_SUMMARY.md",
+        "AgentQMS/knowledge/references/architecture/architecture-summary.md",
         "streamlit_app/services/inference_service/service.py",
         "streamlit_app/models/"
     ],
     "standards": [
-        "docs/ai_handbook/CONTEXT_TEMPLATES.md",
-        "docs/ai_handbook/04_agent_system/system.md"
+        "AgentQMS/knowledge/protocols/development/coding_standards.md",
+        "AgentQMS/knowledge/protocols/development/context-templates.md"
     ]
 }
 ```
 
-#### Documentation Tasks
+#### Documentation Tasks (conceptual example; adapt paths to your project)
 ```python
 CONTEXT_BUNDLE_DOCUMENTATION = {
     "essential": [
-        "docs/ai_handbook/QUICK_CONTEXT.md",
-        "docs/ai_handbook/CONTEXT_OPTIMIZATION_PLAN.md"
+        "AgentQMS/knowledge/agent/system.md",
+        "AgentQMS/knowledge/references/context_optimization/smart-context-loading.md"
     ],
     "structure": [
-        "docs/ai_handbook/04_agent_system/system.md",
-        "docs/artifacts/MASTER_INDEX.md"
+        "AgentQMS/knowledge/meta/framework_maintenance_design.md",
+        "artifacts/INDEX.md"
     ],
     "templates": [
-        "docs/ai_handbook/CONTEXT_TEMPLATES.md",
+        "AgentQMS/knowledge/templates/context_templates.md",
         "docs/artifacts/templates/"
     ]
 }
 ```
 
-#### Debugging Tasks
+#### Debugging Tasks (conceptual example; adapt paths to your project)
 ```python
 CONTEXT_BUNDLE_DEBUGGING = {
     "essential": [
-        "docs/ai_handbook/QUICK_CONTEXT.md",
+        "AgentQMS/knowledge/agent/system.md",
         "streamlit_app/README.md"
     ],
     "troubleshooting": [
@@ -144,13 +144,13 @@ CONTEXT_BUNDLE_DEBUGGING = {
 
 ### Strategy 3: Context Caching
 
-#### Static Context Cache
+#### Static Context Cache (conceptual example)
 ```python
 STATIC_CONTEXT_CACHE = {
-    "project_overview": "docs/ai_handbook/QUICK_CONTEXT.md",
-    "architecture": "docs/ai_handbook/ARCHITECTURE_SUMMARY.md",
-    "commands": "docs/ai_handbook/COMMANDS.md",
-    "templates": "docs/ai_handbook/CONTEXT_TEMPLATES.md"
+    "project_overview": "AgentQMS/knowledge/meta/framework_maintenance_design.md",
+    "architecture": "AgentQMS/knowledge/references/architecture/architecture-summary.md",
+    "commands": "AgentQMS/knowledge/agent/system.md",
+    "templates": "AgentQMS/knowledge/templates/context_templates.md"
 }
 ```
 
