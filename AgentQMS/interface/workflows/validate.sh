@@ -18,4 +18,5 @@ if [ ! -f "Makefile" ]; then
 fi
 
 # Run the validation command (containerized implementation layer)
-python ../toolkit/compliance/validate_artifacts.py "$@"
+# Note: ../toolkit points to the compatibility layer that wraps ../agent_tools
+PYTHONPATH="$(cd ../.. && pwd)" python ../agent_tools/compliance/validate_artifacts.py "$@"

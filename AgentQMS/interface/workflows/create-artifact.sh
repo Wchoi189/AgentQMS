@@ -22,4 +22,5 @@ if [ ! -f "Makefile" ]; then
 fi
 
 # Run the artifact creation command (containerized implementation layer)
-python ../toolkit/core/artifact_workflow.py "$@"
+# Note: ../toolkit points to the compatibility layer that wraps ../agent_tools
+PYTHONPATH="$(cd ../.. && pwd)" python ../agent_tools/core/artifact_workflow.py "$@"

@@ -1,17 +1,7 @@
 layers:
-  defaults:
-    framework: AgentQMS/config_defaults/framework.yaml
-    interface: AgentQMS/config_defaults/interface.yaml
-    paths: AgentQMS/config_defaults/paths.yaml
-    tool_mappings: AgentQMS/config_defaults/tool_mappings.json
-  project:
-    framework: config/framework.yaml
-    interface: config/interface.yaml
-    paths: config/paths.yaml
-    environments: config/environments/
-    overrides: config/overrides/
+  settings: .agentqms/settings.yaml
 metadata:
-  generated_at: '2025-11-20T14:15:47.238663Z'
+  generated_at: '2025-11-24T18:18:52.575627Z'
   generator: AgentQMS ConfigLoader
   schema_version: '0.2'
 resolved:
@@ -30,16 +20,23 @@ resolved:
         enabled: false
         validate_artifacts: true
   paths:
-    artifacts: artifacts/local
+    artifacts: artifacts
     docs: docs
-    agent_interface: agent_interface
-    implementation: agent_tools
-    conventions: conventions
-    scripts: agent_scripts
+    agent_interface: interface
+    implementation: toolkit
+    project_conventions: project_conventions
+    scripts: scripts
     config: config
     templates: templates
-    project_conventions: project_conventions
     config_defaults: AgentQMS/config_defaults
+    artifact_categories:
+      implementation_plan: implementation_plans
+      assessment: assessments
+      design: design_documents
+      research: research
+      template: templates
+      bug_report: bug_reports
+      session_note: completed_plans/completion_summaries/session_notes
   validation:
     enabled: true
     strict_mode: false
@@ -79,30 +76,30 @@ resolved:
   tool_mappings:
     tool_mappings:
       artifact_workflow:
-        path: ../agent_tools/core/artifact_workflow.py
+        path: ../toolkit/core/artifact_workflow.py
         description: Unified interface for artifact creation
         agent_only: true
       validate_artifacts:
-        path: ../agent_tools/compliance/validate_artifacts.py
+        path: ../toolkit/compliance/validate_artifacts.py
         description: Validates naming conventions and structure
         agent_only: true
       monitor_artifacts:
-        path: ../agent_tools/compliance/monitor_artifacts.py
+        path: ../toolkit/compliance/monitor_artifacts.py
         description: Compliance monitoring and alerts
         agent_only: true
       agent_feedback:
-        path: ../agent_tools/utilities/agent_feedback.py
+        path: ../toolkit/utilities/agent_feedback.py
         description: Agent feedback and issue reporting
         agent_only: true
       documentation_quality_monitor:
-        path: ../agent_tools/compliance/documentation_quality_monitor.py
+        path: ../toolkit/compliance/documentation_quality_monitor.py
         description: Documentation quality monitoring
         agent_only: true
     workflow_scripts:
-      create_artifact: ../agent_interface/workflows/create-artifact.sh
-      validate: ../agent_interface/workflows/validate.sh
-      compliance: ../agent_interface/workflows/compliance.sh
+      create_artifact: ../interface/workflows/create-artifact.sh
+      validate: ../interface/workflows/validate.sh
+      compliance: ../interface/workflows/compliance.sh
     agent_tools:
-      discover: ../agent_interface/tools/discover.py
-      feedback: ../agent_interface/tools/feedback.py
-      quality: ../agent_interface/tools/quality.py
+      discover: ../interface/cli_tools/discover.py
+      feedback: ../interface/cli_tools/feedback.py
+      quality: ../interface/cli_tools/quality.py

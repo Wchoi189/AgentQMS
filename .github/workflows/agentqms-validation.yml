@@ -33,19 +33,19 @@ jobs:
 
       - name: Validate artifacts
         run: |
-          python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
+          PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
 
       - name: Validate boundaries
         run: |
-          python AgentQMS/agent_tools/compliance/validate_boundaries.py --json
+          PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_boundaries.py --json
 
       - name: Validate documentation index and manifest
         run: |
-          python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
-          python AgentQMS/agent_tools/documentation/validate_manifest.py
+          PYTHONPATH=. python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
+          PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_manifest.py
 
       - name: Validate documentation links
         run: |
-          python AgentQMS/agent_tools/documentation/validate_links.py docs
+          PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py docs
 
 

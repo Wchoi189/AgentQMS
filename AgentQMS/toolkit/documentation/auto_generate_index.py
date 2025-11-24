@@ -259,9 +259,12 @@ def main() -> None:
     # Run validation if requested
     if args.validate:
         import subprocess
+        import sys
 
+        # Use PYTHONPATH-aware invocation for containerized framework
+        validate_script = Path(__file__).resolve().parents[1] / "agent_tools/documentation/validate_manifest.py"
         result = subprocess.run(
-            ["python", "scripts/agent_tools/validate_manifest.py", str(args.output)],
+            [sys.executable, str(validate_script), str(args.output)],
             capture_output=True,
             text=True,
         )

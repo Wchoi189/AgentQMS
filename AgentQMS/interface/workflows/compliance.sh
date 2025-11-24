@@ -18,4 +18,5 @@ if [ ! -f "Makefile" ]; then
 fi
 
 # Run the compliance command (containerized implementation layer)
-python ../toolkit/compliance/monitor_artifacts.py "$@"
+# Note: ../toolkit points to the compatibility layer that wraps ../agent_tools
+PYTHONPATH="$(cd ../.. && pwd)" python ../agent_tools/compliance/monitor_artifacts.py "$@"
