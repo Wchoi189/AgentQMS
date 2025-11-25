@@ -84,6 +84,17 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - Deferred smart context loading (Task 4.2) and extensibility/multi-project support (Task 4.3) as future work requiring in-depth research.
 - See `docs_deprecated/artifacts/implementation_plans/2025-11-24-IMPLEMENTATION_PLAN_post_audit_fixes.md` for full details.
 
+### 2025-11-25 – Plugin architecture for extensibility (Task 4.3)
+- Added plugin system enabling project-level extensions without modifying framework code.
+- **New schemas**: `plugin_artifact_type.json`, `plugin_validators.json`, `plugin_context_bundle.json` for validating plugin definitions.
+- **New module**: `AgentQMS/agent_tools/core/plugins/` with modular architecture (discovery, validation, registry, loader, snapshot, cli).
+- **Plugin discovery**: Scans `AgentQMS/conventions/plugins/` (framework) and `.agentqms/plugins/` (project).
+- **Component integration**: `ArtifactTemplates`, `ArtifactValidator`, and `context_bundle.py` now load extensions from plugin registry.
+- **Sample plugins**: `change_request` artifact type, validator extensions (CR_, DR_, SPEC_ prefixes), `security-review` context bundle.
+- **CLI**: `python -m AgentQMS.agent_tools.core.plugins --list` to inspect registered plugins.
+- **65 unit tests** covering all plugin modules.
+- See `docs_deprecated/artifacts/assessments/2025-11-25_assessment_plugin_architecture_design.md` for design details.
+
 ## [0.1.0] - 2025-11-09
 
 ### Added
