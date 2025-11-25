@@ -5,6 +5,8 @@ Artifact Validation Script for AI Agents
 This script validates that artifacts follow the established naming conventions
 and organizational structure defined in the project.
 
+Supports extension via plugin system - see .agentqms/plugins/validators.yaml
+
 Usage:
     python validate_artifacts.py --check-naming
     python validate_artifacts.py --file path/to/artifact.md
@@ -18,6 +20,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List
 
 from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
 
@@ -38,6 +41,14 @@ try:
 except ImportError:
     CONTEXT_BUNDLES_AVAILABLE = False
 
+# Try to import plugin registry for extensibility
+try:
+    from AgentQMS.agent_tools.core.plugins import get_plugin_registry
+
+    PLUGINS_AVAILABLE = True
+except ImportError:
+    PLUGINS_AVAILABLE = False
+
 
 def _assert_boundaries() -> None:
     violations = BoundaryValidator().validate()
@@ -57,7 +68,52 @@ DATE_FORMAT = "%Y-%m-%d %H:%M (KST)"
 
 
 class ArtifactValidator:
-    """Validates artifacts against project naming conventions and structure."""
+    """Validates artifacts against project naming conventions and structure.
+    
+    Supports extension via plugin system. Additional prefixes, types, categories,
+    and statuses can be registered in .agentqms/plugins/validators.yaml
+    """
+
+    # Built-in defaults (always available)
+    _BUILTIN_PREFIXES: Dict[str, str] = {
+        "implementation_plan_": "implementation_plans/",
+        "assessment-": "assessments/",
+        "design-": "design_documents/",
+        "research-": "research/",
+        "template-": "templates/",
+        "BUG_": "bug_reports/",
+        "SESSION_": "completed_plans/completion_summaries/session_notes/",
+    }
+
+    _BUILTIN_TYPES: List[str] = [
+        "implementation_plan",
+        "assessment",
+        "design",
+        "research",
+        "template",
+        "bug_report",
+        "session_note",
+        "completion_summary",
+    ]
+
+    _BUILTIN_CATEGORIES: List[str] = [
+        "development",
+        "architecture",
+        "evaluation",
+        "compliance",
+        "reference",
+        "planning",
+        "research",
+        "troubleshooting",
+    ]
+
+    _BUILTIN_STATUSES: List[str] = [
+        "active",
+        "draft",
+        "completed",
+        "archived",
+        "deprecated",
+    ]
 
     def __init__(self, artifacts_root: str | Path | None = None):
         # Default to the configured artifacts directory if none is provided
@@ -71,16 +127,14 @@ class ArtifactValidator:
         self.artifacts_root = Path(root)
         self.violations = []
 
-        # Define valid prefixes and their expected directories
-        self.valid_prefixes = {
-            "implementation_plan_": "implementation_plans/",
-            "assessment-": "assessments/",
-            "design-": "design_documents/",
-            "research-": "research/",
-            "template-": "templates/",
-            "BUG_": "bug_reports/",
-            "SESSION_": "completed_plans/completion_summaries/session_notes/",
-        }
+        # Start with builtin values
+        self.valid_prefixes = dict(self._BUILTIN_PREFIXES)
+        self.valid_types = list(self._BUILTIN_TYPES)
+        self.valid_categories = list(self._BUILTIN_CATEGORIES)
+        self.valid_statuses = list(self._BUILTIN_STATUSES)
+
+        # Extend with plugin-registered values
+        self._load_plugin_extensions()
 
         # Required frontmatter fields
         self.required_frontmatter = [
@@ -92,32 +146,57 @@ class ArtifactValidator:
             "version",
         ]
 
-        # Valid artifact types
-        self.valid_types = [
-            "implementation_plan",
-            "assessment",
-            "design",
-            "research",
-            "template",
-            "bug_report",
-            "session_note",
-            "completion_summary",
-        ]
+    def _load_plugin_extensions(self) -> None:
+        """Load additional validation rules from plugin registry."""
+        if not PLUGINS_AVAILABLE:
+            return
 
-        # Valid categories
-        self.valid_categories = [
-            "development",
-            "architecture",
-            "evaluation",
-            "compliance",
-            "reference",
-            "planning",
-            "research",
-            "troubleshooting",
-        ]
+        try:
+            registry = get_plugin_registry()
+            validators = registry.get_validators()
 
-        # Valid statuses
-        self.valid_statuses = ["active", "draft", "completed", "archived", "deprecated"]
+            if not validators:
+                return
+
+            # Merge prefixes (plugin values override/extend builtin)
+            if "prefixes" in validators:
+                self.valid_prefixes.update(validators["prefixes"])
+
+            # Merge types (unique values)
+            if "types" in validators:
+                for t in validators["types"]:
+                    if t not in self.valid_types:
+                        self.valid_types.append(t)
+
+            # Merge categories (unique values)
+            if "categories" in validators:
+                for c in validators["categories"]:
+                    if c not in self.valid_categories:
+                        self.valid_categories.append(c)
+
+            # Merge statuses (unique values)
+            if "statuses" in validators:
+                for s in validators["statuses"]:
+                    if s not in self.valid_statuses:
+                        self.valid_statuses.append(s)
+
+            # Also load prefixes from artifact type plugins
+            artifact_types = registry.get_artifact_types()
+            for name, type_def in artifact_types.items():
+                validation = type_def.get("validation", {})
+                prefix = validation.get("filename_prefix")
+                directory = type_def.get("metadata", {}).get("directory")
+
+                if prefix and directory:
+                    self.valid_prefixes[prefix] = directory
+
+                # Add artifact type name to valid types
+                if name not in self.valid_types:
+                    self.valid_types.append(name)
+
+        except Exception:
+            # Plugin loading is non-critical - continue with builtins
+            pass
 
     def validate_timestamp_format(
         self, filename: str

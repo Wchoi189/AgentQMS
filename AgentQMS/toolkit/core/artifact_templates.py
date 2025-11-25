@@ -5,22 +5,38 @@ Artifact Template System for AI Agents
 This module provides templates and utilities for creating properly formatted
 artifacts that follow the project's naming conventions and structure.
 
+Supports extension via plugin system - see .agentqms/plugins/artifact_types/
+
 Usage:
     from artifact_templates import create_artifact, get_template
 
     # Create a new implementation plan
     create_artifact('implementation_plan', 'my-feature', 'docs/artifacts/')
 
-    # Get template content
+    # Get template content (including plugin-registered types)
     template = get_template('assessment')
+    template = get_template('change_request')  # Plugin-registered type
 """
 
 from datetime import datetime, timedelta
 from pathlib import Path
+from typing import Any, Dict, Optional
+
+# Try to import plugin registry for extensibility
+try:
+    from AgentQMS.agent_tools.core.plugins import get_plugin_registry
+
+    PLUGINS_AVAILABLE = True
+except ImportError:
+    PLUGINS_AVAILABLE = False
 
 
 class ArtifactTemplates:
-    """Templates for creating properly formatted artifacts."""
+    """Templates for creating properly formatted artifacts.
+    
+    Supports extension via plugin system. Additional artifact types can be
+    registered in .agentqms/plugins/artifact_types/*.yaml
+    """
 
     def __init__(self):
         self.templates = {
@@ -654,6 +670,85 @@ High/Medium/Low
             },
         }
 
+        # Load additional templates from plugin registry
+        self._load_plugin_templates()
+
+    def _load_plugin_templates(self) -> None:
+        """Load additional artifact templates from plugin registry."""
+        if not PLUGINS_AVAILABLE:
+            return
+
+        try:
+            registry = get_plugin_registry()
+            artifact_types = registry.get_artifact_types()
+
+            for name, plugin_def in artifact_types.items():
+                # Skip if already defined (builtin takes precedence)
+                if name in self.templates:
+                    continue
+
+                # Convert plugin schema to template format
+                template = self._convert_plugin_to_template(name, plugin_def)
+                if template:
+                    self.templates[name] = template
+
+        except Exception:
+            # Plugin loading is non-critical - continue with builtins
+            pass
+
+    def _convert_plugin_to_template(
+        self, name: str, plugin_def: Dict[str, Any]
+    ) -> Optional[Dict[str, Any]]:
+        """Convert a plugin artifact type definition to template format.
+        
+        Plugin schema format:
+            metadata:
+              filename_pattern: "CR_{date}_{name}.md"
+              directory: change_requests/
+              frontmatter: {...}
+            template: "# Content..."
+            template_variables: {...}
+        
+        Template format:
+            filename_pattern: "YYYY-MM-DD_HHMM_type_{name}.md"
+            directory: "directory/"
+            frontmatter: {...}
+            content_template: "# Content..."
+        """
+        try:
+            metadata = plugin_def.get("metadata", {})
+            
+            # Required fields
+            filename_pattern = metadata.get("filename_pattern")
+            directory = metadata.get("directory")
+            template_content = plugin_def.get("template")
+            
+            if not all([filename_pattern, directory, template_content]):
+                return None
+            
+            # Build template dict
+            template: Dict[str, Any] = {
+                "filename_pattern": filename_pattern,
+                "directory": directory,
+                "frontmatter": metadata.get("frontmatter", {
+                    "type": name,
+                    "category": "development",
+                    "status": "active",
+                    "version": "1.0",
+                    "tags": [name],
+                }),
+                "content_template": template_content,
+            }
+            
+            # Store template variables for use in create_content
+            if "template_variables" in plugin_def:
+                template["_plugin_variables"] = plugin_def["template_variables"]
+            
+            return template
+            
+        except Exception:
+            return None
+
     def get_template(self, template_type: str) -> dict | None:
         """Get template configuration for a specific type."""
         return self.templates.get(template_type)
@@ -754,7 +849,11 @@ High/Medium/Low
             "bug_id": "001",
         }
 
-        # Merge with provided kwargs
+        # Add plugin-defined template variables if present
+        if "_plugin_variables" in template:
+            defaults.update(template["_plugin_variables"])
+
+        # Merge with provided kwargs (user values override defaults)
         context = {**defaults, **kwargs}
 
         return str(content_template.format(**context))

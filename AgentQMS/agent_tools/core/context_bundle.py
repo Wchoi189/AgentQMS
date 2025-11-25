@@ -5,6 +5,8 @@ Context Bundle Generator Core
 Generates task-specific context bundles from YAML definitions.
 Supports automatic task type detection, glob patterns, and freshness checking.
 
+Supports extension via plugin system - see .agentqms/plugins/context_bundles/
+
 This is the canonical implementation in agent_tools.
 
 Usage:
@@ -15,13 +17,16 @@ Usage:
 
     # Explicit task type
     files = get_context_bundle("fix bug", task_type="debugging")
+    
+    # Plugin-registered bundle
+    files = get_context_bundle("security review", task_type="security-review")
 """
 
 import glob
 import sys
 import time
 from pathlib import Path
-from typing import Any
+from typing import Any, Dict, List, Optional
 
 try:
     import yaml
@@ -39,6 +44,14 @@ PROJECT_ROOT = get_project_root()
 
 # Default bundle directory - canonical location
 BUNDLES_DIR = PROJECT_ROOT / "AgentQMS" / "knowledge" / "context_bundles"
+
+# Try to import plugin registry for extensibility
+try:
+    from AgentQMS.agent_tools.core.plugins import get_plugin_registry
+
+    PLUGINS_AVAILABLE = True
+except ImportError:
+    PLUGINS_AVAILABLE = False
 
 # Task type keywords for automatic classification
 TASK_KEYWORDS = {
@@ -126,7 +139,11 @@ def analyze_task_type(description: str) -> str:
 
 def load_bundle_definition(bundle_name: str) -> dict[str, Any]:
     """
-    Load bundle definition from YAML file.
+    Load bundle definition from YAML file or plugin registry.
+
+    Searches in order:
+    1. Framework bundles: AgentQMS/knowledge/context_bundles/
+    2. Plugin bundles: .agentqms/plugins/context_bundles/ (via registry)
 
     Args:
         bundle_name: Name of bundle (without .yaml extension)
@@ -138,18 +155,30 @@ def load_bundle_definition(bundle_name: str) -> dict[str, Any]:
         FileNotFoundError: If bundle file doesn't exist
         yaml.YAMLError: If YAML is invalid
     """
+    # First, check framework bundles directory
     bundle_path = BUNDLES_DIR / f"{bundle_name}.yaml"
 
-    if not bundle_path.exists():
-        available = list_available_bundles()
-        available_str = ", ".join(available) if available else "none"
-        raise FileNotFoundError(
-            f"Bundle '{bundle_name}' not found at {bundle_path}. "
-            f"Available bundles: {available_str}"
-        )
+    if bundle_path.exists():
+        with bundle_path.open("r", encoding="utf-8") as f:
+            return yaml.safe_load(f)
 
-    with bundle_path.open("r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+    # Second, check plugin registry
+    if PLUGINS_AVAILABLE:
+        try:
+            registry = get_plugin_registry()
+            plugin_bundle = registry.get_context_bundle(bundle_name)
+            if plugin_bundle:
+                return plugin_bundle
+        except Exception:
+            pass  # Fall through to error
+
+    # Not found in either location
+    available = list_available_bundles()
+    available_str = ", ".join(available) if available else "none"
+    raise FileNotFoundError(
+        f"Bundle '{bundle_name}' not found. "
+        f"Available bundles: {available_str}"
+    )
 
 
 def is_fresh(path: Path | str, days: int = 30) -> bool:
@@ -303,15 +332,33 @@ def print_context_bundle(task_description: str, task_type: str | None = None) ->
 
 def list_available_bundles() -> list[str]:
     """
-    List all available bundle names.
+    List all available bundle names from framework and plugins.
+
+    Searches:
+    1. Framework bundles: AgentQMS/knowledge/context_bundles/
+    2. Plugin bundles: .agentqms/plugins/context_bundles/ (via registry)
 
     Returns:
-        List of bundle names (without .yaml extension)
+        List of bundle names (without .yaml extension), sorted and deduplicated
     """
-    if not BUNDLES_DIR.exists():
-        return []
+    bundles: set[str] = set()
 
-    return [f.stem for f in BUNDLES_DIR.glob("*.yaml") if f.stem != "README"]
+    # Framework bundles
+    if BUNDLES_DIR.exists():
+        for f in BUNDLES_DIR.glob("*.yaml"):
+            if f.stem != "README":
+                bundles.add(f.stem)
+
+    # Plugin-registered bundles
+    if PLUGINS_AVAILABLE:
+        try:
+            registry = get_plugin_registry()
+            plugin_bundles = registry.get_context_bundles()
+            bundles.update(plugin_bundles.keys())
+        except Exception:
+            pass  # Continue with framework bundles only
+
+    return sorted(bundles)
 
 
 def main():
