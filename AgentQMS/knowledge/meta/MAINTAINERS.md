@@ -1,8 +1,8 @@
 ---
 title: "AgentQMS Maintainers Guide"
 audience: maintainer
-status: draft
-version: "0.1"
+status: active
+version: "0.2"
 ---
 
 ## Purpose
@@ -12,10 +12,27 @@ version: "0.1"
 
 ## Key Locations
 
-- `.agentqms/` – runtime state and effective configuration (including `state/architecture.yaml`).
-- `AgentQMS/agent_tools/` – implementation layer (Python tools).
+- `.agentqms/` – runtime state and effective configuration.
+- `.agentqms/state/architecture.yaml` – component and capability map (see below).
+- `AgentQMS/agent_tools/` – canonical implementation layer (Python tools).
+- `AgentQMS/toolkit/` – legacy compatibility shim (delegates to `agent_tools`).
 - `AgentQMS/conventions/` – artifact types, schemas, templates, audit framework.
 - `AgentQMS/knowledge/` – agent instructions, protocols, references, templates, meta docs.
+
+## Architecture State (`architecture.yaml`)
+
+The file `.agentqms/state/architecture.yaml` is the **authoritative index** for:
+
+- **Paths**: where docs, protocols, references, templates, artifacts, and config live.
+- **Knowledge domains**: structured map of `AgentQMS/knowledge/*` contents.
+- **Components**: implementation-layer modules and their responsibilities.
+- **Capabilities**: high-level features (e.g., plan_generation, quality_assessment) and the tools/artifacts they use.
+
+When adding new protocols, references, or tools:
+
+1. Place the file in the appropriate `AgentQMS/knowledge/*` or `AgentQMS/agent_tools/*` directory.
+2. Update `architecture.yaml` to register the new entry under the correct domain or component.
+3. Run `make validate` to ensure link and manifest validation passes.
 
 ## Export & Adaptation (High Level)
 
@@ -28,11 +45,9 @@ version: "0.1"
 
 ## Legacy Project Docs
 
-- Long-form export guides and historical assessments under `docs/` are **project history**, not part of the reusable container.
+- Long-form export guides and historical assessments under `docs_deprecated/` are **project history**, not part of the reusable container.
 - When packaging AgentQMS for reuse, exclude:
-  - `docs/export_guide.md`
-  - `docs/quick_start_export.md`
-  - `docs/resources.md`
-  - Project-specific artifacts and RFCS.
+  - `docs_deprecated/` (entire folder)
+  - Project-specific artifacts and RFCs.
 
 

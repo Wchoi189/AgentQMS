@@ -23,7 +23,7 @@ python -m AgentQMS.agent_tools.core.artifact_workflow create \
 The workflow tool:
 
 - Names the file correctly.
-- Places it under `docs/artifacts/implementation_plans/`.
+- Places it under `artifacts/implementation_plans/`.
 - Fills the template (progress tracker, sections, frontmatter).
 
 ## Plan Structure (Checklist)

@@ -72,17 +72,17 @@ Smart Context Loading for AI Agents
 CONTEXT_BUNDLE_DEVELOPMENT = {
     "essential": [
         "AgentQMS/knowledge/agent/system.md",
-        "streamlit_app/README.md",
+        "README.md",
         "pyproject.toml"
     ],
     "architecture": [
-        "AgentQMS/knowledge/references/architecture/architecture-summary.md",
-        "streamlit_app/services/inference_service/service.py",
-        "streamlit_app/models/"
+        ".agentqms/state/architecture.yaml",
+        "src/services/",
+        "src/models/"
     ],
     "standards": [
         "AgentQMS/knowledge/protocols/development/coding_standards.md",
-        "AgentQMS/knowledge/protocols/development/context-templates.md"
+        "AgentQMS/knowledge/protocols/governance/artifact_rules.md"
     ]
 }
 ```
@@ -99,8 +99,8 @@ CONTEXT_BUNDLE_DOCUMENTATION = {
         "artifacts/INDEX.md"
     ],
     "templates": [
-        "AgentQMS/knowledge/templates/context_templates.md",
-        "docs/artifacts/templates/"
+        "AgentQMS/conventions/templates/",
+        "AgentQMS/knowledge/protocols/"
     ]
 }
 ```
@@ -110,17 +110,16 @@ CONTEXT_BUNDLE_DOCUMENTATION = {
 CONTEXT_BUNDLE_DEBUGGING = {
     "essential": [
         "AgentQMS/knowledge/agent/system.md",
-        "streamlit_app/README.md"
+        "README.md"
     ],
     "troubleshooting": [
-        "docs/troubleshooting/",
         "logs/",
-        "streamlit_app/services/"
+        "src/services/"
     ],
     "configuration": [
         "pyproject.toml",
-        "streamlit_app/config/",
-        ".streamlit/"
+        ".agentqms/settings.yaml",
+        "config/"
     ]
 }
 ```

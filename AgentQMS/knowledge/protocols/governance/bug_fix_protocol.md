@@ -13,7 +13,7 @@ id: PROTO-GOV-004
 
 ## Required Artifacts
 
-- Bug report in `docs/artifacts/bug_reports/`.
+- Bug report in `artifacts/bug_reports/`.
 - Changelog entry in `docs/CHANGELOG.md` for non-trivial fixes.
 
 ## Agent Steps
@@ -32,7 +32,7 @@ id: PROTO-GOV-004
 
 - Bug reports must follow the **Artifact Rules** protocol (`artifact_rules.md`).
 - Recommended filename template: `YYYY-MM-DD_BUG_<short-description>_V1.md`.
-- Location: `docs/artifacts/bug_reports/`.
+- Location: `artifacts/bug_reports/`.
 
 ## Checklist
 

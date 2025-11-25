@@ -39,7 +39,7 @@ def agent_ast_analysis():
             print()
             print("Examples:")
             print("  python ast_analysis.py analyze")
-            print("  python ast_analysis.py analyze streamlit_app/")
+            print("  python ast_analysis.py analyze src/")
             print("  python ast_analysis.py generate-tests myfile.py")
             return 0
 

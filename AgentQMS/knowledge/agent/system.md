@@ -76,11 +76,7 @@ Agents don't need tutorials - minimal hints are sufficient. Verbose docs consume
 
 Path Management
 ---------------
-ALWAYS use path_utils for sys.path setup:
-```python
-from streamlit_app.utils.path_utils import setup_project_paths
-setup_project_paths()
-```
+For AgentQMS tools, use `PYTHONPATH=.` from the project root or install the package.
 
 NEVER manually manipulate sys.path:
 ```python
@@ -96,47 +92,19 @@ Do:
 - Use `artifact_workflow.py` for all artifacts
 - Follow naming + frontmatter
 - Update indexes when prompted
-- Use `scripts/utilities/process_manager.py` to view logs
-- Use `setup_project_paths()` for all path setup
-- Use `width="stretch"` or `width="content"` for Streamlit charts/tables/buttons (not `use_container_width`)
+- Use `PYTHONPATH=.` from project root when running AgentQMS tools
 
 Don't:
 - Create or edit artifacts manually
 - Place docs in project root
 - Add try/except that hide errors
-- Modify core schema engine files without full-browser testing
-- Manually manipulate sys.path (use path_utils instead)
+- Manually manipulate sys.path
 - Write verbose tutorials in AI instruction files (use concise hints)
-- Use `use_container_width` in Streamlit (deprecated - use `width="stretch"` or `width="content"`)
-
-Operational Commands
---------------------
-```bash
-make run
-make stop
-make status
-python scripts/utilities/process_manager.py logs --port 8501 --lines 100
-```
-
-File Impact (test scope)
-------------------------
-- schema YAML/page wrappers: test that page in browser
-- renderer factory/engine core: test ALL pages
-- services/utils: test affected pages
 
 When Stuck
 ----------
 - Re-run discovery/validate
 - Check logs and browser
 - Read `.ai-context.md` for architecture context
-
-Streamlit API Rules
--------------------
-- NEVER use `use_container_width` parameter (deprecated after 2025-12-31)
-- ALWAYS use `width="stretch"` instead of `use_container_width=True`
-- ALWAYS use `width="content"` instead of `use_container_width=False`
-- Applies to: `st.plotly_chart()`, `st.dataframe()`, `st.button()`, all chart/table components
-- Look for inline comments "CRITICAL: NEVER pass use_container_width" at call sites
-- Assertions will fail if deprecated parameter is used - this is intentional
 
 

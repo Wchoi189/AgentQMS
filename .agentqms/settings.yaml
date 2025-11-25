@@ -15,14 +15,14 @@ framework:
 
 paths:
   artifacts: artifacts
-  docs: docs
+  docs: docs_deprecated
+  docs_deprecated: docs_deprecated
   agent_interface: interface
-  implementation: toolkit
+  implementation: agent_tools
   project_conventions: conventions
   scripts: scripts
   config: config
   templates: templates
-  project_conventions: project_conventions
   config_defaults: AgentQMS/config_defaults
   artifact_categories:
     implementation_plan: implementation_plans
@@ -53,7 +53,7 @@ interface:
     environment: project
     access_level: restricted
   tools:
-    base_path: ../scripts/agent_tools
+    base_path: ../agent_tools
     discovery_enabled: true
     feedback_enabled: true
     quality_monitoring: true
@@ -75,23 +75,23 @@ interface:
 tool_mappings:
   tool_mappings:
     artifact_workflow:
-      path: ../toolkit/core/artifact_workflow.py
+      path: ../agent_tools/core/artifact_workflow.py
       description: Unified interface for artifact creation
       agent_only: true
     validate_artifacts:
-      path: ../toolkit/compliance/validate_artifacts.py
+      path: ../agent_tools/compliance/validate_artifacts.py
       description: Validates naming conventions and structure
       agent_only: true
     monitor_artifacts:
-      path: ../toolkit/compliance/monitor_artifacts.py
+      path: ../agent_tools/compliance/monitor_artifacts.py
       description: Compliance monitoring and alerts
       agent_only: true
     agent_feedback:
-      path: ../toolkit/utilities/agent_feedback.py
+      path: ../agent_tools/utilities/agent_feedback.py
       description: Agent feedback and issue reporting
       agent_only: true
     documentation_quality_monitor:
-      path: ../toolkit/compliance/documentation_quality_monitor.py
+      path: ../agent_tools/compliance/documentation_quality_monitor.py
       description: Documentation quality monitoring
       agent_only: true
   workflow_scripts:

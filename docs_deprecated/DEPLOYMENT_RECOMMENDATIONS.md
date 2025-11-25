@@ -14,36 +14,39 @@ This document provides recommendations for deploying and maintaining the AgentQM
 
 **Recommendations**:
 
-#### Option A: Add setup.py or pyproject.toml (Recommended for Production)
+#### Option A: Install as Package (Recommended)
 
-**Note**: This option requires creating a setup.py file (not yet implemented in the repository).
+The framework now includes a `pyproject.toml` for standard Python packaging:
 
-```python
-# setup.py (create this file in the project root)
-from setuptools import setup, find_packages
+```bash
+# Install in development/editable mode
+pip install -e .
 
-setup(
-    name="agentqms",
-    version="1.0.0",
-    packages=find_packages(),
-    install_requires=[
-        "pyyaml>=6.0.3",
-    ],
-    python_requires=">=3.11",
-)
+# Or install from the repo
+pip install git+https://github.com/your-org/agent_qms.git
 ```
 
 **Benefits**:
-- Standard Python package installation: `pip install -e .`
-- Cleaner imports without manual sys.path manipulation
+- Standard Python package installation
+- Cleaner imports without manual `PYTHONPATH` manipulation
 - Better compatibility with virtual environments and deployment tools
+- Version tracking via `AgentQMS.__version__`
 
-#### Option B: Keep Current Approach (Current Implementation)
-- Always set `PYTHONPATH=.` when running scripts
-- Document this requirement clearly in all usage guides
+After installation, imports work directly:
+
+```python
+from AgentQMS.agent_tools.core.artifact_workflow import ArtifactWorkflow
+from AgentQMS.agent_tools.compliance.validate_artifacts import ArtifactValidator
+from AgentQMS.agent_tools.utils.config import load_config
+```
+
+#### Option B: PYTHONPATH Approach (Legacy/Quick Start)
+
+For quick testing without installation:
+- Set `PYTHONPATH=.` when running scripts
 - Ensure CI/CD workflows include `PYTHONPATH=.` in environment
 
-**Current CI/CD Implementation**: All workflow steps now include `PYTHONPATH=.` prefix:
+**CI/CD Implementation with PYTHONPATH**:
 ```yaml
 run: |
   PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
@@ -56,7 +59,7 @@ run: |
 - `AgentQMS/` - Framework container with all components
 
 **Do NOT export**:
-- `docs/` - Project-specific history and artifacts
+- `docs_deprecated/` - Project-specific history and artifacts (scheduled for removal)
 - Root-level project files (README.md specific to this repo)
 
 ### 3. Implementation Layer Naming
@@ -82,14 +85,11 @@ Create a GitHub Actions workflow that runs:
 - name: Validate boundaries
   run: PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_boundaries.py --json
 
-- name: Validate documentation
-  run: |
-    PYTHONPATH=. python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
-    PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_manifest.py docs/ai_handbook/index.json
-
-- name: Validate links
-  run: PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py docs
+- name: Validate documentation links (canonical knowledge only)
+  run: PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py AgentQMS/knowledge
 ```
+
+**Note**: Documentation validation now targets `AgentQMS/knowledge` (the canonical docs root), not the legacy `docs/` folder.
 
 #### Pre-commit Hooks
 
@@ -114,13 +114,13 @@ repos:
 ### 5. Documentation Migration
 
 **Current State**: Documentation is split between:
-- `docs/ai_handbook/` - Legacy handbook (project history)
-- `AgentQMS/knowledge/` - New containerized knowledge base
+- `docs_deprecated/ai_handbook/` - Legacy handbook (project history, scheduled for removal)
+- `AgentQMS/knowledge/` - New containerized knowledge base (canonical)
 
 **Recommendations**:
 - Complete migration of active protocols to `AgentQMS/knowledge/protocols/`
 - Complete migration of references to `AgentQMS/knowledge/references/`
-- Keep `docs/ai_handbook/` as project history (not exported)
+- The `docs_deprecated/` folder is project history and will be removed in a future version
 - Update all internal references to use `AgentQMS/knowledge/*` paths
 
 ### 6. Path References and Legacy Code
@@ -178,7 +178,7 @@ repos:
 - New implementation code goes in `AgentQMS/agent_tools/`
 - Conventions and templates go in `AgentQMS/conventions/`
 - Agent-facing docs go in `AgentQMS/knowledge/`
-- Project-specific artifacts stay in `PROJECT_ROOT/docs/artifacts/`
+- Project-specific artifacts stay in `PROJECT_ROOT/artifacts/` (or a project-defined location)
 
 ### 4. Configuration Management
 - Primary config: `.agentqms/settings.yaml`
@@ -211,7 +211,7 @@ repos:
 ### Key Documentation Files
 - Framework Overview: `README.md`
 - Interface Guide: `AgentQMS/interface/README.md`
-- Audit Reports: `docs/audit/2025-11-24_audit/`
+- Audit Reports: `docs_deprecated/audit/2025-11-24_audit/`
 - Maintainer Guide: `AgentQMS/knowledge/meta/MAINTAINERS.md`
 
 ### Getting Help
@@ -228,7 +228,7 @@ repos:
 **Solution**: Run from `AgentQMS/interface/` directory, not from workflow subdirectory
 
 **Issue**: Validation fails for legacy artifacts
-**Solution**: Legacy artifacts in `docs/` are not required to follow new conventions. Focus on artifacts created after framework adoption.
+**Solution**: Legacy artifacts in `docs_deprecated/` are not required to follow new conventions. Focus on artifacts created after framework adoption.
 
 ## Version History
 

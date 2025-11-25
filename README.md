@@ -27,30 +27,42 @@ as a pair of directories: `.agentqms/` + `AgentQMS/`.
   - `settings.yaml` – project configuration (if present).
   - `effective.yaml` – resolved configuration snapshot.
   - `state/architecture.yaml` – component and capability map.
-- `docs/` – **project history** and host-project artifacts:
-  - `docs/artifacts/` – implementation plans, assessments, bug reports, etc.
-  - `docs/audit/` – audit outputs (including `2025-11-24_audit/` for this refactor).
-  - `docs/ai_handbook/` – legacy handbook; kept for history, not exported.
+- `docs_deprecated/` – **project history** (not exported, scheduled for removal):
+  - `docs_deprecated/artifacts/` – implementation plans, assessments, bug reports, etc.
+  - `docs_deprecated/audit/` – audit outputs (including `2025-11-24_audit/` for this refactor).
+  - `docs_deprecated/ai_handbook/` – legacy handbook; kept for history, not exported.
+
+## Installation
+
+### Option A: Install as a Python Package (Recommended)
+
+```bash
+# Clone and install in editable mode
+git clone https://github.com/your-org/agent_qms.git
+cd agent_qms
+pip install -e .
+
+# Verify installation
+python -c "import AgentQMS; print(AgentQMS.__version__)"
+```
+
+### Option B: Copy into Your Project
+
+```bash
+cp -r AgentQMS/ your_project/
+cp -r .agentqms your_project/
+```
+
+(Do **not** copy `docs_deprecated/` – those are project-specific history.)
 
 ## Using AgentQMS in a Project
 
-1. **Copy the container into your project**
-
-   ```bash
-   cp -r AgentQMS/ your_project/
-   cp -r .agentqms your_project/
-   ```
-
-   (You usually do **not** copy `docs/` when exporting the framework; those are
-   project-specific history for this repo.)
-
-2. **Configure paths and behavior (optional)**
+1. **Configure paths and behavior (optional)**
 
    - Preferred: create or edit `your_project/.agentqms/settings.yaml`.
-   - Alternative for consuming projects: use `your_project/config/` with
-     `framework.yaml`, `interface.yaml`, and `paths.yaml`.
+   - Alternative: use `your_project/config/` with `framework.yaml`, `interface.yaml`, `paths.yaml`.
 
-3. **Run basic checks via the interface**
+2. **Run basic checks via the interface**
 
    ```bash
    cd your_project/AgentQMS/interface
@@ -60,7 +72,7 @@ as a pair of directories: `.agentqms/` + `AgentQMS/`.
    make compliance
    ```
 
-4. **(Optional) Run project adaptation helpers**
+3. **(Optional) Run project adaptation helpers**
 
    ```bash
    python AgentQMS/agent_tools/utilities/adapt_project.py --help
@@ -76,10 +88,10 @@ project_root/
 │   ├── conventions/
 │   └── knowledge/
 ├── .agentqms/
-├── docs/
+├── docs_deprecated/        # project history, not exported
 │   ├── artifacts/
 │   ├── audit/
-│   └── ai_handbook/        # legacy handbook for this project only
+│   └── ai_handbook/
 └── README.md
 ```
 

@@ -13,6 +13,6 @@ Where the original document referenced other handbook files, use:
 
 - **Import Handling Protocol**: `AgentQMS/knowledge/protocols/development/import_handling_protocol.md` (planned)
 - **Path Utils Reference**: `AgentQMS/knowledge/references/development/utility_functions.md` (planned)
-- **Artifact blueprints**: relevant implementation plans under `docs/artifacts/implementation_plans/`.
+- **Artifact blueprints**: relevant implementation plans under `artifacts/implementation_plans/`.
 
 

@@ -4,13 +4,11 @@ on:
   push:
     paths:
       - "AgentQMS/**"
-      - "docs/**"
       - ".agentqms/**"
       - ".github/workflows/agentqms-validation.yml"
   pull_request:
     paths:
       - "AgentQMS/**"
-      - "docs/**"
       - ".agentqms/**"
 
 jobs:
@@ -39,13 +37,11 @@ jobs:
         run: |
           PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_boundaries.py --json
 
-      - name: Validate documentation index and manifest
-        run: |
-          PYTHONPATH=. python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
-          PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_manifest.py
+      # Note: Documentation index/manifest validation removed as docs/ is deprecated
+      # Validation now focuses only on the canonical AgentQMS/knowledge surface
 
-      - name: Validate documentation links
+      - name: Validate documentation links (canonical knowledge only)
         run: |
-          PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py docs
+          PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py AgentQMS/knowledge
 
 

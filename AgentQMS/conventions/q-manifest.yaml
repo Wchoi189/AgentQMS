@@ -20,10 +20,10 @@ artifact_types:
 
 tool_registry:
   - name: "create_artifact"
-    entrypoint: "AgentQMS.toolkit.core.qmf_toolbelt.QualityManagementToolbelt.create_artifact"
+    entrypoint: "AgentQMS.agent_tools.core.artifact_workflow.ArtifactWorkflow.create_artifact"
     description: "Create a new quality artifact."
   - name: "validate_artifact"
-    entrypoint: "AgentQMS.toolkit.core.qmf_toolbelt.QualityManagementToolbelt.validate_artifact"
+    entrypoint: "AgentQMS.agent_tools.compliance.validate_artifacts.ArtifactValidator.validate_single_file"
     description: "Validate an artifact against its schema."
 
 validation_rules:

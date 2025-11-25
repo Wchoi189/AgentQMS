@@ -149,20 +149,22 @@ python AgentQMS/agent_tools/audit/checklist_tool.py report \
 ```
 AgentQMS/
 ├── agent_tools/
-│   └── audit/                          # NEW: Audit tools
+│   └── audit/                          # Audit tools (canonical)
 │       ├── __init__.py
 │       ├── audit_generator.py          # Template-based document generation
 │       ├── audit_validator.py          # Document validation
 │       ├── checklist_tool.py           # Checklist management
 │       └── utils.py                    # Shared utilities
 │
-└── project_conventions/
+└── conventions/
     └── audit_framework/
         ├── protocol/                   # Protocol documents
         ├── templates/                  # Document templates
         └── tools/                      # Tool documentation
             └── tool_architecture.md    # This file
 ```
+
+> **Legacy Note**: Earlier versions of this framework used `project_conventions/audit_framework/` as the conventions path. The current containerized layout uses `AgentQMS/conventions/audit_framework/`.
 
 ---
 

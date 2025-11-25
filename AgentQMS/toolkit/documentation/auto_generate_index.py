@@ -231,13 +231,13 @@ def main() -> None:
     parser.add_argument(
         "--handbook-dir",
         type=Path,
-        default=Path("docs/ai_handbook"),
-        help="Path to the ai_handbook directory",
+        default=Path("AgentQMS/knowledge"),
+        help="Path to the knowledge directory (default: AgentQMS/knowledge)",
     )
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("docs/ai_handbook/index.json"),
+        default=Path("AgentQMS/knowledge/index.json"),
         help="Output path for the generated index.json",
     )
     parser.add_argument(

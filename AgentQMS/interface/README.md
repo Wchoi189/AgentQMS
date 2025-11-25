@@ -99,7 +99,7 @@ make feedback-issue ISSUE="Description" FILE="path/to/file"
 
 # AST Code Analysis (NEW)
 make ast-analyze                       # Analyze codebase structure
-make ast-analyze TARGET=streamlit_app/ # Analyze specific path
+make ast-analyze TARGET=src/           # Analyze specific path
 make ast-check-quality                 # Check code quality
 make ast-generate-tests TARGET=file.py # Generate test scaffolds
 make ast-extract-docs TARGET=file.py   # Extract documentation

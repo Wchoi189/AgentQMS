@@ -1,58 +1,17 @@
 #!/usr/bin/env python3
 """
-Agent Tools Discovery Helper
-Shows available tools and their locations
+Agent Tools Discovery Helper - Legacy Shim
+
+This is a compatibility shim. The canonical implementation is in:
+    AgentQMS.agent_tools.core.discover
+
+See AgentQMS/toolkit/README.md for migration guidance.
 """
 
-from pathlib import Path
+# Re-export from canonical location
+from AgentQMS.agent_tools.core.discover import main, show_tools
 
-
-def show_tools():
-    base_dir = Path(__file__).parent.parent  # Go up one level to agent_tools
-    print("🔍 Available Agent Tools:")
-    print()
-    print("📁 Architecture:")
-    print("   This directory contains the Implementation Layer.")
-    print("   Agent interface layer: ../agent/")
-    print("   See index.md for details.")
-    print()
-
-    categories = ["core", "compliance", "documentation", "utilities", "maintenance"]
-    category_descriptions = {
-        "core": "Essential automation tools",
-        "compliance": "Compliance and validation tools",
-        "documentation": "Documentation management tools",
-        "utilities": "Helper functions",
-        "maintenance": "One-time fixes and maintenance",
-    }
-
-    for category in categories:
-        cat_dir = base_dir / category
-        if cat_dir.exists():
-            print(f"📁 {category.upper()}: {category_descriptions.get(category, '')}")
-            tools = sorted([t for t in cat_dir.glob("*.py") if t.name != "__init__.py"])
-            if tools:
-                for tool in tools:
-                    print(f"   python AgentQMS/agent_tools/{category}/{tool.name}")
-            else:
-                print("   (no tools found)")
-            print()
-
-    # Show deprecated directory info
-    deprecated_dir = base_dir / "_deprecated"
-    if deprecated_dir.exists():
-        deprecated_tools = list(deprecated_dir.glob("*.py"))
-        if deprecated_tools:
-            print("⚠️  _deprecated/: Legacy tools (not recommended for use)")
-            print(f"   ({len(deprecated_tools)} deprecated scripts)")
-            print()
-
-    print("💡 Usage:")
-    print("   For agents: cd AgentQMS/agent_interface/ && make help")
-    print("   For humans: Use Python scripts directly")
-    print("   See README.md for detailed usage information")
-    print()
-
+__all__ = ["show_tools", "main"]
 
 if __name__ == "__main__":
-    show_tools()
+    main()

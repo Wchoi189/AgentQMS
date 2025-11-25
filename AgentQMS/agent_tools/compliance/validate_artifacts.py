@@ -8,7 +8,7 @@ and organizational structure defined in the project.
 Usage:
     python validate_artifacts.py --check-naming
     python validate_artifacts.py --file path/to/artifact.md
-    python validate_artifacts.py --directory docs/artifacts/
+    python validate_artifacts.py --directory artifacts/
     python validate_artifacts.py --all
 """
 
@@ -514,7 +514,7 @@ def main():
     )
     parser.add_argument(
         "--artifacts-root",
-        default="docs/artifacts",
+        default="artifacts",
         help="Root directory for artifacts",
     )
     parser.add_argument(

@@ -3,16 +3,11 @@ repos:
     hooks:
       - id: agentqms-validate-artifacts
         name: AgentQMS artifact validation
-        entry: python AgentQMS/agent_tools/compliance/validate_artifacts.py --staged
+        entry: bash -c 'PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_artifacts.py --staged'
         language: system
         pass_filenames: false
         stages: [commit]
-      - id: agentqms-validate-docs
-        name: AgentQMS documentation validation
-        entry: >
-          python AgentQMS/agent_tools/documentation/auto_generate_index.py --validate
-        language: system
-        pass_filenames: false
-        stages: [push]
+      # Note: docs validation hook removed as docs/ is deprecated
+      # Canonical knowledge validation runs in CI only
 
 

@@ -211,13 +211,19 @@ The `docs/audit/` directory should contain the working set of audit documents ge
 
 ## Related Documents
 
-- **Implementation Plan**: `docs/artifacts/implementation_plans/2025-11-09_IMPLEMENTATION_PLAN_audit_framework_extraction.md`
-- **Example Audit**: `docs/audit/`
 - **Usage Guide**: `AgentQMS/conventions/audit_framework/usage_guide.md`
 - **Tool Reference**: `AgentQMS/conventions/audit_framework/tools/README.md`
+- **Tool Architecture**: `AgentQMS/conventions/audit_framework/tools/tool_architecture.md`
+- **Audit Tools (Implementation)**: `AgentQMS/agent_tools/audit/`
 
 ---
 
-**Last Updated**: 2025-11-09  
-**Next Review**: After first audit using this framework
+## Legacy Layout Note
+
+Earlier versions of this framework used `project_conventions/audit_framework/` as the conventions path. The current containerized layout uses `AgentQMS/conventions/audit_framework/`. If you encounter references to the legacy path in older documentation, treat them as historical.
+
+---
+
+**Last Updated**: 2025-11-25  
+**Next Review**: After next audit using this framework
 

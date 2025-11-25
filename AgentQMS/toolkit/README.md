@@ -1,32 +1,54 @@
 ---
- title: "Agent Tools Quick Pointer"
- date: "2025-11-06 00:00 (KST)"
- type: "documentation"
- category: "usage"
- status: "active"
- version: "1.1"
- tags: ["agent-tools", "pointer"]
+title: "AgentQMS Toolkit – Legacy Compatibility Layer"
+date: "2025-11-25 00:00 (KST)"
+type: "documentation"
+category: "usage"
+status: "deprecated"
+version: "2.0"
+tags: ["agent-tools", "legacy", "shim"]
 ---
 
-# Agent Tools (Ultra-Concise)
+# AgentQMS Toolkit (Legacy Shim)
 
-This directory holds implementation code. For documentation, see the central guide:
+> ⚠️ **DEPRECATED**: This directory is a **legacy compatibility layer**.
+> All new code and documentation should target `AgentQMS/agent_tools/`.
 
-- Central Guide: `docs/ai_handbook/04_agent_system/automation/tooling_overview.md`
+## Purpose
 
-Minimal quick commands:
+`AgentQMS/toolkit/` exists only to provide backward compatibility for scripts
+and workflows that were written before the canonical implementation layer was
+renamed to `AgentQMS/agent_tools/`.
+
+Most modules in this directory are thin shims that delegate to the corresponding
+module in `AgentQMS/agent_tools/`.
+
+## Canonical Implementation Layer
+
+For all new work, use:
 
 ```bash
 # Discover tools
-python scripts/agent_tools/core/discover.py
+PYTHONPATH=. python AgentQMS/agent_tools/core/discover.py
 
-# Create artifact (always use workflow)
-python scripts/agent_tools/core/artifact_workflow.py create --type implementation_plan --name my-plan --title "My Plan"
+# Create artifact
+PYTHONPATH=. python AgentQMS/agent_tools/core/artifact_workflow.py create \
+    --type implementation_plan --name my-plan --title "My Plan"
 
-# Tracking (DB init, CLI, export)
-make -C agent track-init
-python scripts/agent_tools/utilities/tracking/cli.py plan status --concise
-make -C agent exp-export OUT=data/ops/experiment_runs.csv
+# Validation
+PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_artifacts.py --all
+PYTHONPATH=. python AgentQMS/agent_tools/compliance/validate_boundaries.py --json
+
+# Documentation link validation
+PYTHONPATH=. python AgentQMS/agent_tools/documentation/validate_links.py AgentQMS/knowledge
 ```
 
-No long-form docs here to keep this directory clean for AI agents.
+## Migration
+
+If you have scripts that import from `AgentQMS.toolkit.*`, update them to import
+from `AgentQMS.agent_tools.*` instead. The API is identical.
+
+## Related
+
+- **Canonical layer**: `AgentQMS/agent_tools/`
+- **Agent SST**: `AgentQMS/knowledge/agent/system.md`
+- **Maintainers guide**: `AgentQMS/knowledge/meta/MAINTAINERS.md`

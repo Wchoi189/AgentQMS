@@ -79,7 +79,7 @@ class ArtifactWorkflow:
         """Create a new artifact following project standards.
 
         Note: Implementation plans use Blueprint Protocol Template (PROTO-GOV-003).
-        See docs/ai_handbook/02_protocols/governance/03_blueprint_protocol_template.md
+        See AgentQMS/knowledge/protocols/governance/implementation_plan_protocol.md
         """
         print(f"🚀 Creating {artifact_type} artifact: {name}")
 
