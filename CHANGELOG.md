@@ -95,6 +95,23 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - **65 unit tests** covering all plugin modules.
 - See `docs_deprecated/artifacts/assessments/2025-11-25_assessment_plugin_architecture_design.md` for design details.
 
+### 2025-11-26 – CI fixes and documentation improvements
+
+#### Fixed
+- **Bundle validation paths**: Fixed `validate_bundles()` in `validate_artifacts.py` to use correct paths (`AgentQMS/knowledge/context_bundles/` and `.agentqms/plugins/context_bundles/`) instead of hardcoded `docs/context_bundles/`.
+- **Project root calculation**: Fixed incorrect `project_root` calculation in bundle validation (was 3 levels up from file, now uses `get_project_root()` utility).
+- **Optional file handling**: Bundle files marked `optional: true` now produce warnings instead of validation errors.
+- **Missing dependencies**: Added `requests>=2.28.0` and `jsonschema>=4.17.0` to `requirements.txt` for CI.
+
+#### Added
+- **AI Agent onboarding guide**: Enhanced README.md with comprehensive agent orientation:
+  - Entry points table (priority-ordered files for agents to read)
+  - Copy-paste ready onboarding prompt
+  - Instructions for encouraging proactive QMS use in system prompts
+  - Complete agent interface command reference
+  - Plugin system documentation section
+- **Maintainer references**: Added links to maintainer guide and framework design docs in README.
+
 ## [0.1.0] - 2025-11-09
 
 ### Added
