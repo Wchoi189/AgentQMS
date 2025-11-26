@@ -53,48 +53,6 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
   - Framework now fails fast if structure is incorrect instead of trying legacy paths
 - Duplicate `docs/audit_snapshots/v001_b/` directory (redundant copy of audit documents)
 
-### 2025-11-24 – Containerized framework audit and knowledge refactor
-- Performed full five-phase audit (`docs_deprecated/audit/2025-11-24_audit.md`) over the containerized AgentQMS framework.
-- Fixed broken agent interface workflows by aligning them with the containerized implementation layer and removing legacy `scripts/agent_tools` paths.
-- Normalized audit framework docs to `AgentQMS/conventions/audit_framework/...` and updated agent-facing docs to use `AgentQMS/knowledge/...` as the primary docs root.
-- Introduced `AgentQMS/knowledge/agent/*`, canonical artifact rules, bug-report schema/template, and a concise maintainer guide in `AgentQMS/knowledge/meta/MAINTAINERS.md`.
-- Made `AgentQMS/agent_tools/` the canonical implementation layer (with `AgentQMS/toolkit/` as a legacy shim), migrated key governance protocols and references into `AgentQMS/knowledge/*`, and added pre-commit + CI validation flows wired to the new `agent_tools` entrypoints.
-
-### 2025-11-25 – Post-audit fixes: deprecate docs/ and align artifacts path
-- Renamed `docs/` → `docs_deprecated/` to clearly mark project-history content as non-exported.
-- Updated `.agentqms/settings.yaml` to use `artifacts: artifacts` (project-root-relative) and `implementation: agent_tools`.
-- Removed hardcoded `docs/artifacts` defaults from `validate_artifacts.py`; validator now defaults to `artifacts/`.
-- Updated CI workflow (`.github/workflows/agentqms-validation.yml`) to remove `docs/**` path triggers and point link validation at `AgentQMS/knowledge`.
-- Updated `auto_generate_index.py` defaults to `AgentQMS/knowledge` instead of `docs/ai_handbook`.
-- Created empty `artifacts/` directory at project root for host-project artifacts.
-- Cleaned up host-specific content from agent SST (`system.md`) to align with the reusable framework model.
-- Migrated key development/testing protocols to `AgentQMS/knowledge/protocols/` (coding_standards, import_handling, test_organization).
-- Updated `.agentqms/state/architecture.yaml` with full knowledge domain inventory (version 2).
-- Added legacy layout notes to audit framework README and tool_architecture.md.
-
-### 2025-11-25 – Packaging: pyproject.toml and standard installation
-- Added `pyproject.toml` for standard Python packaging (`pip install -e .`).
-- Created `AgentQMS/__init__.py` with `__version__ = "0.3.0"`.
-- Added shim `AgentQMS/agent_tools/core/artifact_templates.py` to expose templates via canonical import path.
-- Updated deployment recommendations with package installation guidance.
-
-### 2025-11-25 – Post-audit implementation plan complete
-- Completed all critical, high, and medium priority tasks from the post-audit implementation plan.
-- Framework is now fully functional with working CI/CD, standard packaging, and clear documentation.
-- Deferred smart context loading (Task 4.2) and extensibility/multi-project support (Task 4.3) as future work requiring in-depth research.
-- See `docs_deprecated/artifacts/implementation_plans/2025-11-24-IMPLEMENTATION_PLAN_post_audit_fixes.md` for full details.
-
-### 2025-11-25 – Plugin architecture for extensibility (Task 4.3)
-- Added plugin system enabling project-level extensions without modifying framework code.
-- **New schemas**: `plugin_artifact_type.json`, `plugin_validators.json`, `plugin_context_bundle.json` for validating plugin definitions.
-- **New module**: `AgentQMS/agent_tools/core/plugins/` with modular architecture (discovery, validation, registry, loader, snapshot, cli).
-- **Plugin discovery**: Scans `AgentQMS/conventions/plugins/` (framework) and `.agentqms/plugins/` (project).
-- **Component integration**: `ArtifactTemplates`, `ArtifactValidator`, and `context_bundle.py` now load extensions from plugin registry.
-- **Sample plugins**: `change_request` artifact type, validator extensions (CR_, DR_, SPEC_ prefixes), `security-review` context bundle.
-- **CLI**: `python -m AgentQMS.agent_tools.core.plugins --list` to inspect registered plugins.
-- **65 unit tests** covering all plugin modules.
-- See `docs_deprecated/artifacts/assessments/2025-11-25_assessment_plugin_architecture_design.md` for design details.
-
 ### 2025-11-26 – CI fixes and documentation improvements
 
 #### Fixed
@@ -111,6 +69,48 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
   - Complete agent interface command reference
   - Plugin system documentation section
 - **Maintainer references**: Added links to maintainer guide and framework design docs in README.
+
+### 2025-11-25 – Plugin architecture for extensibility (Task 4.3)
+- Added plugin system enabling project-level extensions without modifying framework code.
+- **New schemas**: `plugin_artifact_type.json`, `plugin_validators.json`, `plugin_context_bundle.json` for validating plugin definitions.
+- **New module**: `AgentQMS/agent_tools/core/plugins/` with modular architecture (discovery, validation, registry, loader, snapshot, cli).
+- **Plugin discovery**: Scans `AgentQMS/conventions/plugins/` (framework) and `.agentqms/plugins/` (project).
+- **Component integration**: `ArtifactTemplates`, `ArtifactValidator`, and `context_bundle.py` now load extensions from plugin registry.
+- **Sample plugins**: `change_request` artifact type, validator extensions (CR_, DR_, SPEC_ prefixes), `security-review` context bundle.
+- **CLI**: `python -m AgentQMS.agent_tools.core.plugins --list` to inspect registered plugins.
+- **65 unit tests** covering all plugin modules.
+- See `docs_deprecated/artifacts/assessments/2025-11-25_assessment_plugin_architecture_design.md` for design details.
+
+### 2025-11-25 – Post-audit implementation plan complete
+- Completed all critical, high, and medium priority tasks from the post-audit implementation plan.
+- Framework is now fully functional with working CI/CD, standard packaging, and clear documentation.
+- Deferred smart context loading (Task 4.2) and extensibility/multi-project support (Task 4.3) as future work requiring in-depth research.
+- See `docs_deprecated/artifacts/implementation_plans/2025-11-24-IMPLEMENTATION_PLAN_post_audit_fixes.md` for full details.
+
+### 2025-11-25 – Packaging: pyproject.toml and standard installation
+- Added `pyproject.toml` for standard Python packaging (`pip install -e .`).
+- Created `AgentQMS/__init__.py` with `__version__ = "0.3.0"`.
+- Added shim `AgentQMS/agent_tools/core/artifact_templates.py` to expose templates via canonical import path.
+- Updated deployment recommendations with package installation guidance.
+
+### 2025-11-25 – Post-audit fixes: deprecate docs/ and align artifacts path
+- Renamed `docs/` → `docs_deprecated/` to clearly mark project-history content as non-exported.
+- Updated `.agentqms/settings.yaml` to use `artifacts: artifacts` (project-root-relative) and `implementation: agent_tools`.
+- Removed hardcoded `docs/artifacts` defaults from `validate_artifacts.py`; validator now defaults to `artifacts/`.
+- Updated CI workflow (`.github/workflows/agentqms-validation.yml`) to remove `docs/**` path triggers and point link validation at `AgentQMS/knowledge`.
+- Updated `auto_generate_index.py` defaults to `AgentQMS/knowledge` instead of `docs/ai_handbook`.
+- Created empty `artifacts/` directory at project root for host-project artifacts.
+- Cleaned up host-specific content from agent SST (`system.md`) to align with the reusable framework model.
+- Migrated key development/testing protocols to `AgentQMS/knowledge/protocols/` (coding_standards, import_handling, test_organization).
+- Updated `.agentqms/state/architecture.yaml` with full knowledge domain inventory (version 2).
+- Added legacy layout notes to audit framework README and tool_architecture.md.
+
+### 2025-11-24 – Containerized framework audit and knowledge refactor
+- Performed full five-phase audit (`docs_deprecated/audit/2025-11-24_audit.md`) over the containerized AgentQMS framework.
+- Fixed broken agent interface workflows by aligning them with the containerized implementation layer and removing legacy `scripts/agent_tools` paths.
+- Normalized audit framework docs to `AgentQMS/conventions/audit_framework/...` and updated agent-facing docs to use `AgentQMS/knowledge/...` as the primary docs root.
+- Introduced `AgentQMS/knowledge/agent/*`, canonical artifact rules, bug-report schema/template, and a concise maintainer guide in `AgentQMS/knowledge/meta/MAINTAINERS.md`.
+- Made `AgentQMS/agent_tools/` the canonical implementation layer (with `AgentQMS/toolkit/` as a legacy shim), migrated key governance protocols and references into `AgentQMS/knowledge/*`, and added pre-commit + CI validation flows wired to the new `agent_tools` entrypoints.
 
 ## [0.1.0] - 2025-11-09
 
