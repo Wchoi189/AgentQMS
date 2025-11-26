@@ -5,6 +5,90 @@ artifact creation, documentation workflows, and automation for collaborative
 AI coding. The framework is **containerized** so it can travel between projects
 as a pair of directories: `.agentqms/` + `AgentQMS/`.
 
+---
+
+## 🤖 For AI Agents: Getting Started
+
+### First Contact: What to Read
+
+When an AI agent encounters a project using AgentQMS, these are the **entry points** in priority order:
+
+| Priority | File | Purpose |
+|----------|------|---------|
+| 1️⃣ | `AgentQMS/knowledge/agent/system.md` | **Single Source of Truth** – Core rules, do/don't, artifact creation |
+| 2️⃣ | `.agentqms/state/architecture.yaml` | Component map, capabilities, tool locations |
+| 3️⃣ | `AgentQMS/knowledge/agent/tool_catalog.md` | Available automation tools |
+| 4️⃣ | This README | Framework overview and installation |
+
+### Quick Onboarding Prompt
+
+Copy this prompt to quickly orient an AI agent to this framework:
+
+```
+You are working in a project that uses AgentQMS for quality management.
+
+FIRST: Read these files to understand the framework:
+1. AgentQMS/knowledge/agent/system.md (core rules - REQUIRED)
+2. .agentqms/state/architecture.yaml (component map)
+
+KEY RULES:
+- Use automation tools; never create artifacts manually
+- Run `cd AgentQMS/interface && make help` to see available commands
+- Artifacts go in artifacts/ with proper naming: YYYY-MM-DD_HHMM_[type]_name.md
+- Validate changes: `make validate` and `make compliance`
+
+When creating implementation plans, assessments, or bug reports, use:
+  cd AgentQMS/interface && make create-plan NAME=my-plan TITLE="My Title"
+```
+
+### Encouraging Proactive Use
+
+To make the AI agent **proactively** use AgentQMS, include these instructions in your system prompt or project rules:
+
+```
+QUALITY MANAGEMENT RULES:
+1. Before starting any significant task, check if an implementation plan exists
+2. For multi-step work, create an implementation plan first:
+   cd AgentQMS/interface && make create-plan NAME=feature-name TITLE="Feature Title"
+3. After completing work, run validation:
+   cd AgentQMS/interface && make validate && make compliance
+4. Document bugs using the bug report workflow, not ad-hoc notes
+5. When stuck, run `make discover` to see available tools
+```
+
+### Agent Interface Commands
+
+All agent commands are run from `AgentQMS/interface/`:
+
+```bash
+cd AgentQMS/interface
+
+# Discovery & Status
+make help              # Show all available commands
+make discover          # List available tools
+make status            # Framework status check
+
+# Artifact Creation
+make create-plan NAME=my-plan TITLE="My Plan"
+make create-assessment NAME=my-assessment TITLE="My Assessment"
+make create-bug-report NAME=my-bug TITLE="Bug Description"
+
+# Validation
+make validate          # Validate all artifacts
+make compliance        # Full compliance check
+make boundary          # Boundary validation
+
+# Context Loading (for focused work)
+make context TYPE=development    # Load development context
+make context TYPE=debugging      # Load debugging context
+make context TYPE=planning       # Load planning context
+
+# Plugin Management
+make plugin-list       # List registered plugins (if available)
+```
+
+---
+
 ## Framework Contents
 
 ### AgentQMS/ (Framework Container)
@@ -27,10 +111,10 @@ as a pair of directories: `.agentqms/` + `AgentQMS/`.
   - `settings.yaml` – project configuration (if present).
   - `effective.yaml` – resolved configuration snapshot.
   - `state/architecture.yaml` – component and capability map.
-- `docs_deprecated/` – **project history** (not exported, scheduled for removal):
-  - `docs_deprecated/artifacts/` – implementation plans, assessments, bug reports, etc.
-  - `docs_deprecated/audit/` – audit outputs (including `2025-11-24_audit/` for this refactor).
-  - `docs_deprecated/ai_handbook/` – legacy handbook; kept for history, not exported.
+  - `plugins/` – project-specific plugin extensions.
+- `artifacts/` – QMS artifacts (implementation plans, assessments, bug reports).
+
+---
 
 ## Installation
 
@@ -51,49 +135,68 @@ python -c "import AgentQMS; print(AgentQMS.__version__)"
 ```bash
 cp -r AgentQMS/ your_project/
 cp -r .agentqms your_project/
+mkdir -p your_project/artifacts
 ```
 
-(Do **not** copy `docs_deprecated/` – those are project-specific history.)
+---
 
-## Using AgentQMS in a Project
+## Plugin System (Extensibility)
 
-1. **Configure paths and behavior (optional)**
+AgentQMS supports project-level extensions via plugins. Define custom:
 
-   - Preferred: create or edit `your_project/.agentqms/settings.yaml`.
-   - Alternative: use `your_project/config/` with `framework.yaml`, `interface.yaml`, `paths.yaml`.
+- **Artifact Types** – New document types with custom templates
+- **Validators** – Additional validation rules and prefixes
+- **Context Bundles** – Task-specific context file collections
 
-2. **Run basic checks via the interface**
+### Plugin Directory Structure
 
-   ```bash
-   cd your_project/AgentQMS/interface
-   make discover
-   make status
-   make validate
-   make compliance
-   ```
+```
+.agentqms/plugins/
+├── artifact_types/           # Custom artifact type definitions
+│   └── change_request.yaml   # Example: Change request type
+├── validators.yaml           # Validator extensions (prefixes, types, categories)
+└── context_bundles/          # Custom context bundles
+    └── security-review.yaml  # Example: Security review bundle
+```
 
-3. **(Optional) Run project adaptation helpers**
+### Using Plugins
 
-   ```bash
-   python AgentQMS/agent_tools/utilities/adapt_project.py --help
-   ```
+```bash
+# List registered plugins
+python -m AgentQMS.agent_tools.core.plugins --list
+
+# Validate plugin definitions
+python -m AgentQMS.agent_tools.core.plugins --validate
+
+# View specific plugin
+python -m AgentQMS.agent_tools.core.plugins --show change_request
+```
+
+See `AgentQMS/conventions/schemas/plugin_*.json` for plugin schema documentation.
+
+---
 
 ## High-Level Layout
 
 ```text
 project_root/
-├── AgentQMS/
-│   ├── interface/
-│   ├── agent_tools/
-│   ├── conventions/
-│   └── knowledge/
-├── .agentqms/
-├── docs_deprecated/        # project history, not exported
-│   ├── artifacts/
-│   ├── audit/
-│   └── ai_handbook/
+├── AgentQMS/                  # Framework container
+│   ├── interface/             # Agent commands (Makefile)
+│   ├── agent_tools/           # Implementation layer
+│   ├── conventions/           # Schemas, templates, audit framework
+│   └── knowledge/             # Documentation surface
+│       ├── agent/             # AI agent instructions (SST)
+│       ├── protocols/         # Governance, development protocols
+│       └── references/        # Technical references
+├── .agentqms/                 # Framework state
+│   ├── settings.yaml          # Project configuration
+│   ├── state/architecture.yaml
+│   └── plugins/               # Project extensions
+├── artifacts/                 # QMS artifacts
 └── README.md
 ```
+
+---
 
 ## Key Capabilities
 
@@ -105,8 +208,19 @@ project_root/
   `AgentQMS/conventions/audit_framework/` and `AgentQMS/agent_tools/audit/`.
 - **Knowledge surface** – `AgentQMS/knowledge/*` provides agent-first protocols and
   references, with `.agentqms/state/architecture.yaml` acting as a compact index.
+- **Plugin extensibility** – Define custom artifact types, validators, and context
+  bundles in `.agentqms/plugins/`.
+
+---
+
+## For Maintainers
+
+- **Maintainer Guide**: `AgentQMS/knowledge/meta/MAINTAINERS.md`
+- **Framework Design**: `AgentQMS/knowledge/meta/framework_maintenance_design.md`
+- **Audit Framework**: `AgentQMS/conventions/audit_framework/README.md`
+
+---
 
 ## License
 
 This project is licensed under the MIT License – see [LICENSE](LICENSE).
-
