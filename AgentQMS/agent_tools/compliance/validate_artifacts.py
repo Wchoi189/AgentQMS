@@ -442,11 +442,26 @@ class ArtifactValidator:
         results = []
 
         try:
+            # Get project root using utility function
+            from AgentQMS.agent_tools.utils.paths import get_project_root
+            project_root = get_project_root()
+
             available_bundles = list_available_bundles()
 
             for bundle_name in available_bundles:
+                # Determine bundle file path (framework or plugin)
+                framework_bundle_path = project_root / "AgentQMS" / "knowledge" / "context_bundles" / f"{bundle_name}.yaml"
+                plugin_bundle_path = project_root / ".agentqms" / "plugins" / "context_bundles" / f"{bundle_name}.yaml"
+
+                if framework_bundle_path.exists():
+                    bundle_file_display = f"AgentQMS/knowledge/context_bundles/{bundle_name}.yaml"
+                elif plugin_bundle_path.exists():
+                    bundle_file_display = f".agentqms/plugins/context_bundles/{bundle_name}.yaml"
+                else:
+                    bundle_file_display = f"context_bundles/{bundle_name}.yaml"
+
                 bundle_result = {
-                    "file": f"docs/context_bundles/{bundle_name}.yaml",
+                    "file": bundle_file_display,
                     "valid": True,
                     "errors": [],
                     "warnings": [],
@@ -460,7 +475,6 @@ class ArtifactValidator:
                     validate_bundle_files(bundle_def)
 
                     # Check for missing files
-                    project_root = Path(__file__).parent.parent.parent
                     tiers = bundle_def.get("tiers", {})
 
                     for tier_key, tier in tiers.items():
@@ -468,8 +482,10 @@ class ArtifactValidator:
                         for file_spec in tier_files:
                             if isinstance(file_spec, str):
                                 file_path_str = file_spec
+                                is_optional = False
                             elif isinstance(file_spec, dict):
                                 file_path_str = file_spec.get("path", "")
+                                is_optional = file_spec.get("optional", False)
                             else:
                                 continue
 
@@ -480,10 +496,16 @@ class ArtifactValidator:
                             # Check if file exists
                             file_path = project_root / file_path_str
                             if not file_path.exists():
-                                bundle_result["valid"] = False
-                                bundle_result["errors"].append(
-                                    f"Missing file in {bundle_name} bundle: {file_path_str}"
-                                )
+                                if is_optional:
+                                    # Optional files don't fail validation
+                                    bundle_result["warnings"].append(
+                                        f"Optional file missing in {bundle_name} bundle: {file_path_str}"
+                                    )
+                                else:
+                                    bundle_result["valid"] = False
+                                    bundle_result["errors"].append(
+                                        f"Missing file in {bundle_name} bundle: {file_path_str}"
+                                    )
                             elif not is_fresh(file_path, days=30):
                                 bundle_result["warnings"].append(
                                     f"Stale file in {bundle_name} bundle: {file_path_str} "
@@ -507,7 +529,7 @@ class ArtifactValidator:
             # Add error result if bundle system fails
             results.append(
                 {
-                    "file": "docs/context_bundles/",
+                    "file": "context_bundles/",
                     "valid": False,
                     "errors": [f"Error validating bundles: {e!s}"],
                     "warnings": [],
