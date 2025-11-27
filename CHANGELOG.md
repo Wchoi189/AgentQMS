@@ -20,6 +20,7 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - AgentQMS framework with modular architecture
 - Quality management tools and protocols
 - Documentation and handbook for agents
+- Cursor IDE instructions template (`.cursor/plans/instructions.md`) plus README guidance on multi-IDE auto-discovery workflows
 
 ### Changed
 - **2025-11-20**: Refactored configuration hierarchy and removed legacy support

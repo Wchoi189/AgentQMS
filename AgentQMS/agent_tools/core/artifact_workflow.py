@@ -74,12 +74,20 @@ class ArtifactWorkflow:
         self.validator = ArtifactValidator(self.artifacts_root)
 
     def create_artifact(
-        self, artifact_type: str, name: str, title: str, **kwargs
+        self, artifact_type: str, name: str, title: str, auto_validate: bool = True, auto_update_indexes: bool = True, **kwargs
     ) -> str:
         """Create a new artifact following project standards.
 
         Note: Implementation plans use Blueprint Protocol Template (PROTO-GOV-003).
         See AgentQMS/knowledge/protocols/governance/implementation_plan_protocol.md
+        
+        Args:
+            artifact_type: Type of artifact to create
+            name: Artifact name (kebab-case)
+            title: Artifact title
+            auto_validate: Automatically validate after creation (default: True)
+            auto_update_indexes: Automatically update indexes after creation (default: True)
+            **kwargs: Additional arguments passed to create_artifact
         """
         print(f"🚀 Creating {artifact_type} artifact: {name}")
 
@@ -91,24 +99,29 @@ class ArtifactWorkflow:
 
             print(f"✅ Created artifact: {file_path}")
 
-            # Validate the created artifact
-            print("🔍 Validating created artifact...")
-            results = self.validator.validate_single_file(Path(file_path))
+            # Auto-execution: Validate the created artifact
+            if auto_validate:
+                print("🔍 Validating created artifact...")
+                results = self.validator.validate_single_file(Path(file_path))
 
-            if results["valid"]:
-                print("✅ Artifact validation passed")
-            else:
-                print("❌ Artifact validation failed:")
-                for error in results["errors"]:
-                    print(f"   • {error}")
-                return file_path  # Return path even if validation fails
+                if results["valid"]:
+                    print("✅ Artifact validation passed")
+                else:
+                    print("❌ Artifact validation failed:")
+                    for error in results["errors"]:
+                        print(f"   • {error}")
+                    # Continue even if validation fails - return path
 
-            # Update indexes
-            print("📝 Updating indexes...")
-            self.update_indexes()
+            # Auto-execution: Update indexes
+            if auto_update_indexes:
+                print("📝 Updating indexes...")
+                self.update_indexes()
 
             # Hook: Notify bundle system about artifact change
             self.update_bundles_on_artifact_change(file_path)
+
+            # Auto-execution: Suggest next steps
+            self._suggest_next_steps(artifact_type, file_path)
 
             return file_path
 
@@ -214,6 +227,33 @@ class ArtifactWorkflow:
                         print(f"     - {error}")
 
         return compliance_report
+
+    def _suggest_next_steps(self, artifact_type: str, file_path: str) -> None:
+        """Suggest next steps after artifact creation."""
+        print("\n💡 Suggested next steps:")
+        
+        # Suggest validation if not already done
+        print("   1. Review the artifact:")
+        print(f"      {file_path}")
+        
+        # Suggest compliance check
+        print("   2. Run compliance check:")
+        print("      cd AgentQMS/interface && make compliance")
+        
+        # Suggest context loading if applicable
+        if artifact_type == "implementation_plan":
+            print("   3. Load planning context:")
+            print("      cd AgentQMS/interface && make context-plan")
+        elif artifact_type == "bug_report":
+            print("   3. Load debugging context:")
+            print("      cd AgentQMS/interface && make context-debug")
+        
+        # Suggest related workflows
+        if artifact_type in ["implementation_plan", "design"]:
+            print("   4. Consider creating related artifacts:")
+            print("      cd AgentQMS/interface && make create-assessment NAME=... TITLE=...")
+        
+        print()
 
     def update_bundles_on_artifact_change(self, artifact_path: str) -> None:
         """

@@ -9,6 +9,34 @@ as a pair of directories: `.agentqms/` + `AgentQMS/`.
 
 ## 🤖 For AI Agents: Getting Started
 
+### Auto-Discovery (GitHub Copilot Spaces)
+
+**AgentQMS is automatically discoverable in GitHub Copilot Spaces!** No manual instructions needed.
+
+The framework provides auto-discovery files that Copilot automatically reads:
+- **`.github/copilot-instructions.md`** – Primary entry point directing Copilot to framework
+- **`.copilot/context/`** – Auto-scanned context files:
+  - `agentqms-overview.md` – Framework overview
+  - `tool-registry.json` – Machine-readable tool registry
+  - `tool-catalog.md` – Human-readable tool catalog
+  - `workflow-triggers.yaml` – Task → workflow mapping
+  - `context-bundles-index.md` – Available context bundles
+
+**Features**:
+- ✅ **Auto-discovery**: Tools and workflows automatically registered
+- ✅ **Context-aware suggestions**: Detects task type and suggests relevant tools/context
+- ✅ **Workflow automation**: Auto-executes validation after artifact creation
+- ✅ **Proactive guidance**: Suggests next steps based on current task
+
+### Cursor AI Instructions
+
+Cursor doesn't automatically read `.copilot/context/`, so a dedicated ultra-short instruction file is provided for Cursor agents:
+
+- File: `.cursor/plans/instructions.md`
+- Usage: pin or paste into Cursor's Custom Instructions so every session knows to follow the AgentQMS SST, use automation, run validation, and load context via `make context`.
+
+This keeps Cursor aligned with the same rules Copilot uses while staying within Cursor's tighter instruction window.
+
 ### First Contact: What to Read
 
 When an AI agent encounters a project using AgentQMS, these are the **entry points** in priority order:
@@ -17,8 +45,9 @@ When an AI agent encounters a project using AgentQMS, these are the **entry poin
 |----------|------|---------|
 | 1️⃣ | `AgentQMS/knowledge/agent/system.md` | **Single Source of Truth** – Core rules, do/don't, artifact creation |
 | 2️⃣ | `.agentqms/state/architecture.yaml` | Component map, capabilities, tool locations |
-| 3️⃣ | `AgentQMS/knowledge/agent/tool_catalog.md` | Available automation tools |
-| 4️⃣ | This README | Framework overview and installation |
+| 3️⃣ | `.copilot/context/tool-catalog.md` | Available automation tools (auto-generated) |
+| 4️⃣ | `AgentQMS/knowledge/agent/tool_catalog.md` | Legacy tool catalog |
+| 5️⃣ | This README | Framework overview and installation |
 
 ### Quick Onboarding Prompt
 
@@ -85,6 +114,9 @@ make context TYPE=planning       # Load planning context
 
 # Plugin Management
 make plugin-list       # List registered plugins (if available)
+
+# Registry Generation (for auto-discovery)
+make generate-registry  # Regenerate tool registries and context files
 ```
 
 ---
@@ -113,6 +145,13 @@ make plugin-list       # List registered plugins (if available)
   - `state/architecture.yaml` – component and capability map.
   - `plugins/` – project-specific plugin extensions.
 - `artifacts/` – QMS artifacts (implementation plans, assessments, bug reports).
+- `.copilot/context/` – Auto-discovery context files (for GitHub Copilot Spaces):
+  - `agentqms-overview.md` – Framework overview
+  - `tool-registry.json` – Machine-readable tool registry
+  - `tool-catalog.md` – Human-readable tool catalog
+  - `workflow-triggers.yaml` – Task → workflow mapping
+  - `context-bundles-index.md` – Context bundles reference
+- `.cursor/` – Cursor-specific instructions and plans (`.cursor/plans/instructions.md`) for pinning concise SST reminders inside Cursor IDE.
 
 ---
 
@@ -210,6 +249,8 @@ project_root/
   references, with `.agentqms/state/architecture.yaml` acting as a compact index.
 - **Plugin extensibility** – Define custom artifact types, validators, and context
   bundles in `.agentqms/plugins/`.
+- **Auto-discovery** – Automatic tool registration, workflow suggestions, and context
+  loading for GitHub Copilot Spaces and compatible AI agents.
 
 ---
 
