@@ -615,8 +615,8 @@ def main():
     )
     parser.add_argument(
         "--artifacts-root",
-        default="artifacts",
-        help="Root directory for artifacts",
+        default=None,
+        help="Root directory for artifacts (default: from config, typically docs/artifacts)",
     )
     parser.add_argument(
         "--staged",
@@ -635,7 +635,13 @@ def main():
 
     args = parser.parse_args()
 
-    validator = ArtifactValidator(args.artifacts_root)
+    # Use config default if not provided
+    artifacts_root = args.artifacts_root
+    if artifacts_root is None:
+        from AgentQMS.agent_tools.utils.paths import get_artifacts_dir
+        artifacts_root = get_artifacts_dir()
+
+    validator = ArtifactValidator(artifacts_root)
 
     if args.files:
         # Handle positional arguments (from pre-commit hooks passing explicit files)
@@ -650,7 +656,7 @@ def main():
         # Validate only staged files under the artifacts root (git required)
         import subprocess
 
-        rel_artifacts_root = Path(args.artifacts_root)
+        rel_artifacts_root = Path(artifacts_root)
         results = []
 
         try:

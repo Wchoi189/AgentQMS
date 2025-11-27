@@ -1,7 +1,7 @@
 layers:
   settings: .agentqms/settings.yaml
 metadata:
-  generated_at: '2025-11-26T07:54:44.473502Z'
+  generated_at: '2025-11-27T17:52:08.361680Z'
   generator: AgentQMS ConfigLoader
   schema_version: '0.2'
 resolved:
@@ -20,16 +20,12 @@ resolved:
         enabled: false
         validate_artifacts: true
   paths:
-    artifacts: artifacts
+    artifacts: docs/artifacts
     docs: docs_deprecated
     docs_deprecated: docs_deprecated
     agent_interface: interface
     implementation: agent_tools
     project_conventions: conventions
-    scripts: scripts
-    config: config
-    templates: templates
-    config_defaults: AgentQMS/config_defaults
     artifact_categories:
       implementation_plan: implementation_plans
       assessment: assessments

@@ -47,3 +47,8 @@ data/
 outputs/
 .agentqms/state/agent_state.json
 .agentqms/state/*.sqlite
+
+# Python build artifacts
+*.egg-info/
+dist/
+build/

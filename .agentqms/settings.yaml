@@ -14,16 +14,17 @@ framework:
       validate_artifacts: true
 
 paths:
-  artifacts: artifacts
+  artifacts: docs/artifacts
   docs: docs_deprecated
   docs_deprecated: docs_deprecated
   agent_interface: interface
   implementation: agent_tools
   project_conventions: conventions
-  scripts: scripts
-  config: config
-  templates: templates
-  config_defaults: AgentQMS/config_defaults
+  # Optional: keep these only if you plan to add corresponding dirs in the host project
+  # scripts: scripts
+  # config: config
+  # templates: templates
+  # config_defaults: AgentQMS/config_defaults  # remove; unused & non-existent
   artifact_categories:
     implementation_plan: implementation_plans
     assessment: assessments
