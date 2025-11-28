@@ -27,7 +27,7 @@ It also recommends standardizing schema validation and clarifies the responsibil
 - Tooling relies on hard-coded relative paths, making renames and exports fragile.  
 - Lack of schema validation leads to subtle errors when projects customize settings.
 
-Design background: `docs/artifacts/design_documents/2025-11-20_design_config_hierarchy.md`.
+Design background: `docs/artifacts/design_documents/2025-11-20_0000_design-config-hierarchy.md`.
 
 ## 3. Proposal
 

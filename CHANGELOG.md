@@ -80,13 +80,13 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - **Sample plugins**: `change_request` artifact type, validator extensions (CR_, DR_, SPEC_ prefixes), `security-review` context bundle.
 - **CLI**: `python -m AgentQMS.agent_tools.core.plugins --list` to inspect registered plugins.
 - **65 unit tests** covering all plugin modules.
-- See `docs_deprecated/artifacts/assessments/2025-11-25_assessment_plugin_architecture_design.md` for design details.
+- See `docs/artifacts/assessments/2025-11-25_1830_assessment-plugin-architecture-design.md` for design details.
 
 ### 2025-11-25 – Post-audit implementation plan complete
 - Completed all critical, high, and medium priority tasks from the post-audit implementation plan.
 - Framework is now fully functional with working CI/CD, standard packaging, and clear documentation.
 - Deferred smart context loading (Task 4.2) and extensibility/multi-project support (Task 4.3) as future work requiring in-depth research.
-- See `docs_deprecated/artifacts/implementation_plans/2025-11-24-IMPLEMENTATION_PLAN_post_audit_fixes.md` for full details.
+- See `docs/artifacts/implementation_plans/2025-11-24_0000_implementation_plan_post-audit-fixes.md` for full details.
 
 ### 2025-11-25 – Packaging: pyproject.toml and standard installation
 - Added `pyproject.toml` for standard Python packaging (`pip install -e .`).

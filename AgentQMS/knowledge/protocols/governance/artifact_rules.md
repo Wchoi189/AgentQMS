@@ -14,7 +14,16 @@ id: PROTO-GOV-ARTIFACT-RULES
 
 ## Rules
 
-- **File naming**: Always use `YYYY-MM-DD_HHMM_[TYPE]_descriptive-name.md`.
+- **File naming**: Always use `YYYY-MM-DD_HHMM_[PREFIX]descriptive-name.md`.
+  
+  Prefixes by type:
+  - `implementation_plan_` for implementation plans
+  - `assessment-` for assessments
+  - `design-` for design documents
+  - `research-` for research documents
+  - `template-` for templates
+  - `BUG_` for bug reports (format: `BUG_YYYY-MM-DD_HHMM_NNN_descriptive-name.md`)
+  - `SESSION_` for session notes
 - **Directory placement**:
   - Templates → `templates/`
   - Implementation plans → `implementation_plans/`

@@ -589,8 +589,13 @@ class ArtifactValidator:
                     if "Naming:" in error:
                         suggestions.append("   🔧 Rename file to follow convention:")
                         suggestions.append(
-                            "      Format: YYYY-MM-DD_HHMM_[TYPE]_descriptive-name.md"
+                            "      Format: YYYY-MM-DD_HHMM_[PREFIX]descriptive-name.md"
                         )
+                        suggestions.append("      Examples:")
+                        suggestions.append("        - implementation_plan_my-feature.md")
+                        suggestions.append("        - assessment-audit-report.md")
+                        suggestions.append("        - design-architecture.md")
+                        suggestions.append("        - BUG_001_fix-description.md")
                     elif "Directory:" in error:
                         suggestions.append("   🔧 Move file to correct directory")
                     elif "Frontmatter:" in error:

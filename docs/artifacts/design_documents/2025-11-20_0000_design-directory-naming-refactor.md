@@ -24,7 +24,7 @@ This RFT describes the motivation, scope, and migration considerations prior to 
 
 ## 2. Background & Motivation
 
-Recent audit work surfaced overlapping directory names (`agent`, `agent_tools`, `conventions`, `ai_agent`) that cause onboarding friction and path errors. The audit assessment (see `2025-11-20_assessment_framework_structure.md`) and implementation plan (`2025-11-20_IMPLEMENTATION_PLAN_framework_structure_refactor.md`) recommend resolving these conflicts before documentation updates.
+Recent audit work surfaced overlapping directory names (`agent`, `agent_tools`, `conventions`, `ai_agent`) that cause onboarding friction and path errors. The audit assessment (see `2025-11-20_0000_assessment-framework-structure.md`) and implementation plan (`2025-11-20_0000_implementation_plan_framework-structure-refactor.md`) recommend resolving these conflicts before documentation updates.
 
 ## 3. Problem Statement
 

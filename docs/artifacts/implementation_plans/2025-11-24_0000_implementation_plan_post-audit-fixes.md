@@ -75,7 +75,7 @@ You are an autonomous AI agent, my Chief of Staff for implementing the **Post-Au
 | `docs/artifacts/implementation_plans/*` | **legacy-history** | Including this plan; project history |
 | `docs/artifacts/assessments/*` | **legacy-history** | Project history |
 | `docs/artifacts/design_documents/*` | **legacy-history** | Project history |
-| `docs/artifacts/rfcs/*` | **legacy-history** | Project history |
+| `docs/artifacts/design_documents/*` | **legacy-history** | Project history |
 | `docs/artifacts/templates/*` | **legacy-history** | Superseded by `AgentQMS/conventions/templates/` |
 | `docs/artifacts/_archive/*` | **legacy-history** | Already archived |
 | `docs/audit/` | **legacy-history** | Audit outputs; project history |

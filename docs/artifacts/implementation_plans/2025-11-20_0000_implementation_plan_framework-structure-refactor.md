@@ -56,9 +56,9 @@ author: "Framework Maintainers"
 ## Related Artifacts & References
 
 - **Phase 1 Kickoff Notes:** `docs/artifacts/notes/2025-11-20_PHASE1_kickoff.md` (decision checklist, action items, open questions log)
-- **Directory Naming RFT:** `docs/artifacts/rfcs/2025-11-20_RFT_directory_naming_refactor.md`
-- **Configuration Hierarchy RFT:** `docs/artifacts/rfcs/2025-11-20_RFT_configuration_hierarchy.md`
-- **Design Doc – Config Hierarchy:** `docs/artifacts/design_documents/2025-11-20_design_config_hierarchy.md`
+- **Directory Naming RFT:** `docs/artifacts/design_documents/2025-11-20_0000_design-directory-naming-refactor.md`
+- **Configuration Hierarchy RFT:** `docs/artifacts/design_documents/2025-11-20_0000_design-configuration-hierarchy.md`
+- **Design Doc – Config Hierarchy:** `docs/artifacts/design_documents/2025-11-20_0000_design-config-hierarchy.md`
 
 Use this plan alongside the kickoff notes for day-to-day execution tracking; RFTs and design doc remain the canonical decision artifacts.
 
