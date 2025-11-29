@@ -23,6 +23,13 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - Cursor IDE instructions template (`.cursor/plans/instructions.md`) plus README guidance on multi-IDE auto-discovery workflows
 
 ### Changed
+- **2025-11-29**: Updated README.md to reflect framework changes
+  - Fixed artifacts directory path references from `artifacts/` to `docs/artifacts/` (enforced location)
+  - Added audit artifact type to artifact creation examples and documentation
+  - Removed non-existent `make plugin-list` command, replaced with note directing to Plugin System section
+  - Fixed context command syntax to match actual Makefile targets (`context-development`, `context-docs`, etc.)
+  - Updated High-Level Layout diagram and Installation section to use `docs/artifacts/`
+  - Verified all referenced paths and Makefile commands exist
 - **2025-11-20**: Refactored configuration hierarchy and removed legacy support
   - Moved root-level `config/` to `.agentqms/project_config/` to avoid conflicts with consuming projects
   - Renamed runtime config from `.agentqms/config.yaml` to `.agentqms/effective.yaml` for clarity

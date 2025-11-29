@@ -63,10 +63,10 @@ FIRST: Read these files to understand the framework:
 KEY RULES:
 - Use automation tools; never create artifacts manually
 - Run `cd AgentQMS/interface && make help` to see available commands
-- Artifacts go in artifacts/ with proper naming: YYYY-MM-DD_HHMM_[type]_name.md
+- Artifacts go in docs/artifacts/ with proper naming: YYYY-MM-DD_HHMM_[type]_name.md
 - Validate changes: `make validate` and `make compliance`
 
-When creating implementation plans, assessments, or bug reports, use:
+When creating implementation plans, assessments, audits, or bug reports, use:
   cd AgentQMS/interface && make create-plan NAME=my-plan TITLE="My Title"
 ```
 
@@ -100,6 +100,7 @@ make status            # Framework status check
 # Artifact Creation
 make create-plan NAME=my-plan TITLE="My Plan"
 make create-assessment NAME=my-assessment TITLE="My Assessment"
+make create-audit NAME=my-audit TITLE="My Audit"
 make create-bug-report NAME=my-bug TITLE="Bug Description"
 
 # Validation
@@ -108,12 +109,14 @@ make compliance        # Full compliance check
 make boundary          # Boundary validation
 
 # Context Loading (for focused work)
-make context TYPE=development    # Load development context
-make context TYPE=debugging      # Load debugging context
-make context TYPE=planning       # Load planning context
+make context TASK="task description"  # Generate context bundle for specific task
+make context-development    # Load development context bundle
+make context-docs           # Load documentation context bundle
+make context-debug          # Load debugging context bundle
+make context-plan           # Load planning context bundle
 
 # Plugin Management
-make plugin-list       # List registered plugins (if available)
+# Note: Plugin commands use Python module syntax (see Plugin System section below)
 
 # Registry Generation (for auto-discovery)
 make generate-registry  # Regenerate tool registries and context files
@@ -144,7 +147,7 @@ make generate-registry  # Regenerate tool registries and context files
   - `effective.yaml` – resolved configuration snapshot.
   - `state/architecture.yaml` – component and capability map.
   - `plugins/` – project-specific plugin extensions.
-- `artifacts/` – QMS artifacts (implementation plans, assessments, bug reports).
+- `docs/artifacts/` – QMS artifacts (implementation plans, assessments, bug reports, audits).
 - `.copilot/context/` – Auto-discovery context files (for GitHub Copilot Spaces):
   - `agentqms-overview.md` – Framework overview
   - `tool-registry.json` – Machine-readable tool registry
@@ -174,7 +177,7 @@ python -c "import AgentQMS; print(AgentQMS.__version__)"
 ```bash
 cp -r AgentQMS/ your_project/
 cp -r .agentqms your_project/
-mkdir -p your_project/artifacts
+mkdir -p your_project/docs/artifacts
 ```
 
 ---
@@ -231,7 +234,7 @@ project_root/
 │   ├── settings.yaml          # Project configuration
 │   ├── state/architecture.yaml
 │   └── plugins/               # Project extensions
-├── artifacts/                 # QMS artifacts
+├── docs/artifacts/             # QMS artifacts
 └── README.md
 ```
 
