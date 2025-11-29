@@ -15,6 +15,7 @@ Usage:
 
 import argparse
 import subprocess
+import sys
 from pathlib import Path
 from typing import cast
 
@@ -171,7 +172,8 @@ class ArtifactWorkflow:
                 [
                     sys.executable,
                     str(
-                        Path(__file__).parent.parent
+                        Path(__file__).parent.parent.parent
+                        / "toolkit"
                         / "documentation"
                         / "update_artifact_indexes.py"
                     ),

@@ -15,6 +15,12 @@ import argparse
 from datetime import datetime
 from pathlib import Path
 
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+
+ensure_project_root_on_sys_path()
+
+from AgentQMS.agent_tools.utils.paths import get_project_root
+
 
 class ArtifactIndexUpdater:
     """Updates INDEX.md files in artifact directories."""
@@ -22,15 +28,23 @@ class ArtifactIndexUpdater:
     def __init__(
         self, artifacts_root: str = "docs/artifacts", public_only: bool = True
     ):
-        self.artifacts_root = Path(artifacts_root)
+        artifacts_root_path = Path(artifacts_root)
+        if not artifacts_root_path.is_absolute():
+            artifacts_root_path = get_project_root() / artifacts_root_path
+        self.artifacts_root = artifacts_root_path
         self.public_only = public_only
 
         # Define directory structure and their purposes
         self.directories = {
             "assessments": {
                 "title": "Assessments",
-                "description": "Audits, evaluations, and assessments of system components and processes.",
+                "description": "Evaluations and assessments of system components and processes.",
                 "icon": "📊",
+            },
+            "audits": {
+                "title": "Audits",
+                "description": "Framework audits, compliance checks, and quality evaluations. Completed audits trigger automated implementation plan generation via GitHub Actions.",
+                "icon": "🔍",
             },
             "bug_reports": {
                 "title": "Bug Reports",

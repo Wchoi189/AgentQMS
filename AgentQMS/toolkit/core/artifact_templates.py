@@ -581,12 +581,13 @@ Another example here
 *This template follows the project's standardized format for reusable templates.*""",
             },
             "bug_report": {
-                "filename_pattern": "BUG_YYYY-MM-DD_HHMM_NNN_{name}.md",
+                "filename_pattern": "YYYY-MM-DD_HHMM_BUG_NNN_{name}.md",
                 "directory": "bug_reports/",
                 "frontmatter": {
                     "type": "bug_report",
                     "category": "troubleshooting",
-                    "status": "open",
+                    "status": "active",
+                    "severity": "medium",
                     "version": "1.0",
                     "tags": ["bug", "issue", "troubleshooting"],
                 },
@@ -595,6 +596,7 @@ Another example here
 ## Bug ID
 BUG-{bug_id}
 
+<!-- REQUIRED: Fill these sections when creating the initial bug report -->
 ## Summary
 Brief description of the bug.
 
@@ -628,6 +630,7 @@ If applicable, include screenshots or relevant log entries.
 - **Affected Users**: Who is affected
 - **Workaround**: Any temporary workarounds
 
+<!-- OPTIONAL: Resolution sections - fill these during investigation and fixing -->
 ## Investigation
 
 ### Root Cause Analysis
@@ -662,7 +665,7 @@ How to test the fix.
 Who is working on this bug.
 
 ## Priority
-High/Medium/Low
+High/Medium/Low (urgency for fixing, separate from severity above)
 
 ---
 
@@ -775,6 +778,7 @@ High/Medium/Low
 
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d_%H%M")
+        date_only = now.strftime("%Y-%m-%d")
 
         # Handle special case for bug reports (need bug ID)
         if template_type == "bug_report":
@@ -792,11 +796,26 @@ High/Medium/Low
                 .replace("NNN", bug_id)
             )
         else:
-            return str(
-                template["filename_pattern"]
-                .format(name=normalized_name)
-                .replace("YYYY-MM-DD_HHMM", timestamp)
-            )
+            # For plugin-based templates, use .format() with available variables
+            # Build context with all possible filename variables
+            filename_context = {
+                "name": normalized_name,
+                "date": timestamp,  # Plugin {date} gets full timestamp
+            }
+            
+            filename = template["filename_pattern"]
+            
+            # Try to format with context (for plugin templates)
+            try:
+                filename = filename.format(**filename_context)
+            except KeyError:
+                # Fallback: format with just name
+                filename = filename.format(name=normalized_name)
+            
+            # Replace builtin pattern for legacy compatibility
+            filename = filename.replace("YYYY-MM-DD_HHMM", timestamp)
+            
+            return str(filename)
 
     def create_frontmatter(self, template_type: str, title: str, **kwargs) -> str:
         """Create frontmatter for an artifact."""

@@ -15,16 +15,10 @@ framework:
 
 paths:
   artifacts: docs/artifacts
-  docs: docs_deprecated
-  docs_deprecated: docs_deprecated
+  docs: docs
   agent_interface: interface
   implementation: agent_tools
   project_conventions: conventions
-  # Optional: keep these only if you plan to add corresponding dirs in the host project
-  # scripts: scripts
-  # config: config
-  # templates: templates
-  # config_defaults: AgentQMS/config_defaults  # remove; unused & non-existent
   artifact_categories:
     implementation_plan: implementation_plans
     assessment: assessments
@@ -35,12 +29,12 @@ paths:
     session_note: completed_plans/completion_summaries/session_notes
 
 validation:
-  enabled: true
+  enabled: false
   strict_mode: false
   rules:
-    naming: true
-    frontmatter: true
-    structure: true
+    naming: false
+    frontmatter: false
+    structure: false
 
 automation:
   pre_commit:

@@ -50,6 +50,9 @@ create-plan: ## Create implementation plan (usage: make create-plan NAME=my-plan
 create-assessment: ## Create assessment (usage: make create-assessment NAME=my-assessment TITLE="My Assessment")
 	python ../agent_tools/core/artifact_workflow.py create --type assessment --name $(NAME) --title "$(TITLE)"
 
+create-audit: ## Create audit (usage: make create-audit NAME=my-audit TITLE="My Audit")
+	python ../agent_tools/core/artifact_workflow.py create --type audit --name $(NAME) --title "$(TITLE)"
+
 create-design: ## Create design document (usage: make create-design NAME=my-design TITLE="My Design")
 	python ../agent_tools/core/artifact_workflow.py create --type design --name $(NAME) --title "$(TITLE)"
 
@@ -65,6 +68,32 @@ create-bug-report: ## Create bug report (usage: make create-bug-report NAME=my-b
 # Validation and Compliance
 validate: ## Validate all artifacts
 	python ../agent_tools/compliance/validate_artifacts.py --all
+
+.PHONY: reindex
+reindex: ## Reindex artifacts
+	python ../agent_tools/documentation/reindex_artifacts.py
+
+.PHONY: check-links
+check-links: ## Check Markdown links referring to artifacts
+	python ../agent_tools/documentation/check_links.py
+
+.PHONY: fix
+fix: ## Safe autofix pipeline
+	python ../agent_tools/utilities/autofix_artifacts.py $(ARGS)
+
+.PHONY: commit-fixes
+commit-fixes: ## Commit artifact fixes with standard message (usage: make commit-fixes MSG="description")
+	@if git diff --quiet && git diff --staged --quiet; then \
+		echo "⚠️  No changes to commit"; \
+	else \
+		git add docs/artifacts/ AgentQMS/; \
+		if [ -z "$(MSG)" ]; then \
+			git commit -m "AgentQMS: artifact fixes"; \
+		else \
+			git commit -m "AgentQMS: $(MSG)"; \
+		fi; \
+		echo "✅ Changes committed"; \
+	fi
 
 validate-file: ## Validate specific file (usage: make validate-file FILE=path/to/file.md)
 	python ../agent_tools/compliance/validate_artifacts.py --file $(FILE)

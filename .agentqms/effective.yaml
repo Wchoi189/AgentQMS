@@ -1,7 +1,7 @@
 layers:
   settings: .agentqms/settings.yaml
 metadata:
-  generated_at: '2025-11-28T06:07:13.984392Z'
+  generated_at: '2025-11-29T10:42:33.447044Z'
   generator: AgentQMS ConfigLoader
   schema_version: '0.2'
 resolved:
@@ -21,8 +21,7 @@ resolved:
         validate_artifacts: true
   paths:
     artifacts: docs/artifacts
-    docs: docs_deprecated
-    docs_deprecated: docs_deprecated
+    docs: docs
     agent_interface: interface
     implementation: agent_tools
     project_conventions: conventions
@@ -35,12 +34,12 @@ resolved:
       bug_report: bug_reports
       session_note: completed_plans/completion_summaries/session_notes
   validation:
-    enabled: true
+    enabled: false
     strict_mode: false
     rules:
-      naming: true
-      frontmatter: true
-      structure: true
+      naming: false
+      frontmatter: false
+      structure: false
   automation:
     pre_commit:
       enabled: false

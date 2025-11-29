@@ -38,8 +38,9 @@ class FileReorganizer:
 
         # Define valid prefixes and their expected directories
         self.valid_prefixes = {
-            "IMPLEMENTATION_PLAN_": "implementation_plans/",
+            "implementation_plan_": "implementation_plans/",
             "assessment-": "assessments/",
+            "audit-": "audits/",
             "design-": "design_documents/",
             "research-": "research/",
             "template-": "templates/",
@@ -51,13 +52,18 @@ class FileReorganizer:
         self.directory_structure = {
             "implementation_plans": {
                 "description": "Implementation plans and blueprints",
-                "prefixes": ["IMPLEMENTATION_PLAN_"],
+                "prefixes": ["implementation_plan_"],
                 "types": ["implementation_plan"],
             },
             "assessments": {
                 "description": "Assessments and evaluations",
                 "prefixes": ["assessment-"],
                 "types": ["assessment"],
+            },
+            "audits": {
+                "description": "Framework audits, compliance checks, and quality evaluations",
+                "prefixes": ["audit-"],
+                "types": ["audit"],
             },
             "design_documents": {
                 "description": "Design documents and architecture",
@@ -104,14 +110,24 @@ class FileReorganizer:
             "assessment": [
                 r"assessment",
                 r"evaluation",
-                r"audit",
                 r"review",
                 r"analysis",
-                r"compliance\s+check",
                 r"quality\s+assessment",
                 r"performance\s+review",
                 r"risk\s+assessment",
+            ],
+            "audit": [
+                r"audit",
+                r"compliance\s+status",
+                r"findings",
+                r"recommendations",
+                r"executive\s+summary",
+                r"framework\s+audit",
+                r"quality\s+audit",
                 r"security\s+audit",
+                r"accessibility\s+audit",
+                r"performance\s+audit",
+                r"compliance\s+check",
             ],
             "design": [
                 r"design\s+document",
@@ -184,8 +200,21 @@ class FileReorganizer:
         """Analyze if file is in correct directory and suggest move if needed"""
         filename = file_path.name
 
-        # Skip INDEX.md files
+        # Skip INDEX.md and registry files
         if filename == "INDEX.md":
+            return None
+        
+        # Skip common registry/index files that shouldn't be moved
+        skip_patterns = [
+            "MASTER_INDEX.md",
+            "REGISTRY.md", 
+            "README.md",
+            "CHANGELOG.md",
+            "_index.md",
+            "index.md"
+        ]
+        if any(filename.upper() == pattern.upper() for pattern in skip_patterns):
+            print(f"ℹ️  Skipping registry/index file: {filename}")
             return None
 
         # Determine expected directory from filename prefix
@@ -197,14 +226,22 @@ class FileReorganizer:
 
         if not expected_dir:
             # No prefix found, try to determine from content
-            expected_dir = self._determine_directory_from_content(file_path)
-            if expected_dir:
+            expected_dir, confidence = self._determine_directory_from_content(file_path)
+            if expected_dir and confidence >= 0.85:  # Only move if confidence is high enough
+                # Check if already in correct directory
+                current_dir = str(file_path.parent.relative_to(self.artifacts_root))
+                if current_dir == expected_dir:
+                    print(f"✅ {file_path.relative_to(self.artifacts_root)} is already in correct directory")
+                    return None
+                    
                 return MoveOperation(
                     old_path=str(file_path),
                     new_path=str(self.artifacts_root / expected_dir / filename),
                     reason=f"Move to {expected_dir} based on content analysis",
-                    confidence=0.7,
+                    confidence=confidence,
                 )
+            elif expected_dir and confidence < 0.85:
+                print(f"⚠️  Skipping {file_path}: confidence too low ({confidence:.2f} < 0.85)")
             return None
 
         # Check current directory
@@ -220,31 +257,85 @@ class FileReorganizer:
 
         return None
 
-    def _determine_directory_from_content(self, file_path: Path) -> str | None:
-        """Determine correct directory from file content analysis"""
+    def _determine_directory_from_content(self, file_path: Path) -> tuple[str | None, float]:
+        """Determine correct directory from file content analysis
+        
+        Returns:
+            tuple: (directory_name, confidence_score)
+        """
         try:
             with open(file_path, encoding="utf-8") as f:
                 content = f.read()
         except Exception:
-            return None
+            return None, 0.0
 
-        # Check frontmatter first
+        # Check frontmatter first - highest confidence
         frontmatter_type = self._extract_type_from_frontmatter(content)
         if frontmatter_type:
             directory = self._get_directory_for_type(frontmatter_type)
             if directory:
-                return directory
+                return directory, 0.95  # High confidence for frontmatter
 
-        # Analyze content for type patterns
+        # Get current directory to use as tie-breaker
+        try:
+            current_dir = str(file_path.parent.relative_to(self.artifacts_root))
+        except ValueError:
+            current_dir = None
+
+        # Analyze content for type patterns - lower confidence
         content_lower = content.lower()
+        match_count = {}
+        
+        # Priority weights for different types (higher = more specific)
+        type_priority = {
+            "audit": 1.5,  # Highest - very specific
+            "assessment": 1.5,  # Also very specific
+            "implementation_plan": 1.4,
+            "design": 1.3,
+            "bug_report": 1.2,
+            "research": 1.1,
+            "session_note": 1.0,
+            "completion_summary": 1.0,
+            "template": 0.7,  # Lowest priority for generic type
+        }
+        
         for artifact_type, patterns in self.type_patterns.items():
+            matches = 0
             for pattern in patterns:
                 if re.search(pattern, content_lower, re.IGNORECASE):
-                    directory = self._get_directory_for_type(artifact_type)
-                    if directory:
-                        return directory
+                    matches += 1
+            if matches > 0:
+                # Apply priority weighting
+                weight = type_priority.get(artifact_type, 1.0)
+                match_count[artifact_type] = matches * weight
+        
+        if match_count:
+            # Get type with highest weighted score
+            best_type = max(match_count, key=match_count.get)
+            directory = self._get_directory_for_type(best_type)
+            
+            # If current directory matches a valid type and has decent matches, prefer it
+            if current_dir and current_dir in [v for v in self.directory_structure.keys()]:
+                current_type = None
+                for atype, dirs in [(k, v.get("types", [])) for k, v in self.directory_structure.items()]:
+                    if current_dir in self.directory_structure and atype in match_count:
+                        if match_count.get(atype, 0) >= match_count[best_type] * 0.7:
+                            # Current location has decent matches, keep it there
+                            best_type = atype
+                            directory = current_dir
+                            break
+            
+            # Confidence based on match strength (capped at 0.85)
+            base_confidence = min(0.5 + (match_count[best_type] * 0.05), 0.85)
+            
+            # Reduce confidence if type is "template" (too generic)
+            if best_type == "template":
+                base_confidence = min(base_confidence, 0.75)
+            
+            if directory:
+                return directory, base_confidence
 
-        return None
+        return None, 0.0
 
     def _extract_type_from_frontmatter(self, content: str) -> str | None:
         """Extract type from frontmatter"""
@@ -307,15 +398,9 @@ class FileReorganizer:
 
             # Check if target file already exists
             if new_path.exists():
-                print(f"⚠️  Target file already exists: {new_path}")
-                # Generate unique name
-                counter = 1
-                while new_path.exists():
-                    stem = new_path.stem
-                    suffix = new_path.suffix
-                    new_path = new_path.parent / f"{stem}_{counter}{suffix}"
-                    counter += 1
-                print(f"   Using unique name: {new_path}")
+                print(f"❌ Target file already exists: {new_path}")
+                print(f"   Skipping move to avoid conflict")
+                return False
 
             # Perform move
             shutil.move(str(old_path), str(new_path))
@@ -334,7 +419,7 @@ class FileReorganizer:
         operation = self.analyze_file_placement(file_path)
 
         if not operation:
-            print(f"✅ {file_path} is already in correct directory")
+            # Message already printed by analyze_file_placement
             return None
 
         print(f"🔧 Found misplaced file: {file_path}")
@@ -345,18 +430,63 @@ class FileReorganizer:
         else:
             return None
 
+    def validate_operations(self, operations: dict[str, MoveOperation]) -> tuple[bool, list[str]]:
+        """Validate all operations before execution
+        
+        Returns:
+            tuple: (all_valid, list_of_issues)
+        """
+        issues = []
+        target_paths = set()
+        
+        for old_path, operation in operations.items():
+            new_path = operation.new_path
+            
+            # Check for duplicate target paths (two files trying to move to same location)
+            if new_path in target_paths:
+                issues.append(f"Conflict: Multiple files trying to move to {new_path}")
+            else:
+                target_paths.add(new_path)
+            
+            # Check if target already exists
+            if Path(new_path).exists():
+                issues.append(f"Target exists: {new_path}")
+            
+            # Check if source file still exists
+            if not Path(old_path).exists():
+                issues.append(f"Source missing: {old_path}")
+        
+        return len(issues) == 0, issues
+
     def reorganize_directory(
-        self, directory: Path, dry_run: bool = False
+        self, directory: Path, dry_run: bool = False, limit: int | None = None, validate: bool = True
     ) -> dict[str, MoveOperation]:
         """Reorganize all files in a directory"""
         results = {}
+        files_processed = 0
 
         for file_path in directory.rglob("*.md"):
             if file_path.is_file():
                 operation = self.reorganize_file(file_path, dry_run)
                 if operation:
                     results[str(file_path)] = operation
+                    files_processed += 1
+                    
+                    # Check limit
+                    if limit is not None and files_processed >= limit:
+                        print(f"✋ Reached file limit ({limit}). Stopping.")
+                        break
 
+        # Validate operations before returning
+        if validate and results and not dry_run:
+            valid, issues = self.validate_operations(results)
+            if not valid:
+                print("\n⚠️  Validation issues detected:")
+                for issue in issues:
+                    print(f"   • {issue}")
+                print("\nℹ️  No changes will be made. Use --dry-run to preview.")
+                return {}
+        
         return results
 
     def generate_reorganization_report(self, results: dict[str, MoveOperation]) -> str:
@@ -506,6 +636,11 @@ def main():
         default="docs/artifacts",
         help="Root directory for artifacts",
     )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        help="Maximum number of files to process",
+    )
 
     args = parser.parse_args()
 
@@ -545,7 +680,7 @@ def main():
     else:
         # Process directory
         directory = Path(args.directory)
-        results = reorganizer.reorganize_directory(directory, dry_run=args.dry_run)
+        results = reorganizer.reorganize_directory(directory, dry_run=args.dry_run, limit=args.limit)
 
     # Generate report
     report = reorganizer.generate_reorganization_report(results)

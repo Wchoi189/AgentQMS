@@ -1,0 +1,6 @@
+{
+  "status": "in_progress",
+  "step": "preflight_checks",
+  "tar_file": "agentqms-export.tar.gz",
+  "workspace": "/workspaces/agent_qms"
+}
