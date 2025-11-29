@@ -1,11 +1,11 @@
 ---
-type: "rfc"
-category: "framework-structure"
-status: "draft"
-version: "0.1"
-tags: ["rfc", "naming", "structure"]
 title: "RFT: Directory Naming & Documentation Consolidation"
 date: "2025-11-20 00:00 (KST)"
+type: "design"
+category: "architecture"
+status: "draft"
+version: "0.1"
+tags: ["design", "naming", "structure"]
 author: "Framework Maintainers"
 ---
 

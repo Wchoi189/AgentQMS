@@ -1,6 +1,6 @@
 ---
-type: "design_document"
-category: "configuration"
+type: "design"
+category: "architecture"
 status: "draft"
 version: "0.1"
 tags: ["configuration", "hierarchy", "paths", "refactor"]

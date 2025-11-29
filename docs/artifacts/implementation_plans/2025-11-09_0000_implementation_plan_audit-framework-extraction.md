@@ -1,11 +1,11 @@
 ---
+title: "Implementation Plan: Extract Reusable Audit Framework from Current Audit Documents"
+date: "2025-11-09 00:00 (KST)"
 type: "implementation_plan"
-category: "framework-development"
+category: "development"
 status: "draft"
 version: "1.0"
 tags: ["audit", "framework", "methodology", "templates"]
-title: "Implementation Plan: Extract Reusable Audit Framework from Current Audit Documents"
-date: "2025-11-09 00:00 (KST)"
 author: "Framework Maintainers"
 ---
 

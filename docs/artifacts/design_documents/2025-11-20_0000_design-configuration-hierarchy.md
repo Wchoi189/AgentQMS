@@ -1,11 +1,11 @@
 ---
-type: "rfc"
-category: "configuration"
-status: "draft"
-version: "0.1"
-tags: ["rfc", "configuration", "hierarchy"]
 title: "RFT: Unified Configuration Hierarchy"
 date: "2025-11-20 00:00 (KST)"
+type: "design"
+category: "architecture"
+status: "draft"
+version: "0.1"
+tags: ["design", "configuration", "hierarchy"]
 author: "Framework Maintainers"
 ---
 

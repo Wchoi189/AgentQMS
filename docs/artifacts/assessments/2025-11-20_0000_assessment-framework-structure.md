@@ -1,6 +1,6 @@
 ---
 type: "assessment"
-category: "framework-structure"
+category: "architecture"
 status: "draft"
 version: "0.1"
 tags: ["structure", "naming", "configuration", "audit"]

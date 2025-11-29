@@ -1,11 +1,11 @@
 ---
-type: "implementation_plan"
-category: "restructure"
-status: "completed"
-version: "1.0"
-tags: ["restructure", "containerization", "documentation", "framework"]
 title: "AI Documentation Framework Restructure Implementation Plan"
 date: "2025-11-09 00:00 (KST)"
+type: "implementation_plan"
+category: "development"
+status: "completed"
+version: "1.0"
+tags: ["development", "containerization", "documentation", "framework"]
 author: "Framework Maintainers"
 ---
 

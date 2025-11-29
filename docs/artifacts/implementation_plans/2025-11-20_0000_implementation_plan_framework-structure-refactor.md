@@ -1,11 +1,11 @@
 ---
+title: "Implementation Plan: Framework Structure & Configuration Refactor"
+date: "2025-11-20 00:00 (KST)"
 type: "implementation_plan"
-category: "framework-structure"
+category: "development"
 status: "draft"
 version: "0.1"
 tags: ["structure", "naming", "configuration"]
-title: "Implementation Plan: Framework Structure & Configuration Refactor"
-date: "2025-11-20 00:00 (KST)"
 author: "Framework Maintainers"
 ---
 

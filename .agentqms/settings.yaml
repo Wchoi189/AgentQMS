@@ -29,12 +29,15 @@ paths:
     session_note: completed_plans/completion_summaries/session_notes
 
 validation:
-  enabled: false
-  strict_mode: false
+  enabled: true
+  strict_mode: true
+  ignore_directories:
+    - docs_deprecated
+    - artifacts
   rules:
-    naming: false
-    frontmatter: false
-    structure: false
+    naming: true
+    frontmatter: true
+    structure: true
 
 automation:
   pre_commit:

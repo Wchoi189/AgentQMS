@@ -1,3 +1,13 @@
+---
+title: "Test Audit Report Template"
+date: "2025-11-07 00:00 (KST)"
+type: "template"
+category: "development"
+status: "active"
+version: "1.0"
+tags: ["audit", "testing", "template"]
+---
+
 # Test Audit Report Template
 
 **Document ID**: `TEMPLATE-AUDIT-001`

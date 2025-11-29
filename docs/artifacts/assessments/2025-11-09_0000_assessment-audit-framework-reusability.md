@@ -1,6 +1,6 @@
 ---
 type: "assessment"
-category: "framework-design"
+category: "architecture"
 status: "active"
 version: "1.0"
 tags: ["audit", "framework", "reusability", "methodology"]

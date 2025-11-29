@@ -1,12 +1,12 @@
 ---
 title: "{{ title }}"
-author: "{{ author }}"
-timestamp: "{{ timestamp }}"
-branch: "{{ branch }}"
-type: "{{ type }}"
-category: "{{ category }}"
+date: "2025-11-27 23:42 (KST)"
+type: "template"
+category: "development"
 status: "draft"
-tags: []
+version: "1.0"
+author: "{{ author }}"
+tags: ["template", "blueprint", "implementation"]
 ---
 
 # Master Prompt
