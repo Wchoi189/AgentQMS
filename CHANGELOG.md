@@ -22,6 +22,17 @@ This changelog should stay **scannable and brief**; use it as an index, not a na
 - Documentation and handbook for agents
 - Cursor IDE instructions template (`.cursor/plans/instructions.md`) plus README guidance on multi-IDE auto-discovery workflows
 
+
+## Bug Fixes (2025-11-30)
+
+### [2025-12-01 00:33] - Fixed ineffective --include-agentqms argument (TRANSFERRED FIX)
+**File**: `AgentQMS/agent_tools/documentation/check_links.py`
+**Issue**: `action="store_true"` with `default=True` made flag non-functional
+**Fix**: Changed to `--no-agentqms` with `action="store_false"`
+**Impact**: Users can now exclude AgentQMS directory via CLI (default: included)
+**Test**: Added `test_check_links.py` with pytest coverage
+**Related**: Bug discovered by Cursor Bugbot post-merge of PR#7
+
 ### Changed
 - **2025-11-29**: Updated README.md to reflect framework changes
   - Fixed artifacts directory path references from `artifacts/` to `docs/artifacts/` (enforced location)

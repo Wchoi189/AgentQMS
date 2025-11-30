@@ -154,24 +154,6 @@ class ArtifactValidator:
 
         self.violations = []
         
-        # Load ignore directories from config
-        try:
-            from AgentQMS.agent_tools.utils.config import load_config
-            from AgentQMS.agent_tools.utils.paths import get_project_root
-            
-            config = load_config()
-            validation_config = config.get("validation", {})
-            ignore_list = validation_config.get("ignore_directories", [])
-            
-            # Convert to Path objects relative to project root
-            project_root = get_project_root()
-            self.ignore_directories = [
-                project_root / Path(ignore_dir) for ignore_dir in ignore_list
-            ]
-        except Exception:
-            # If config loading fails, use empty ignore list
-            self.ignore_directories = []
-        
         # Load rules from YAML schema if available
         self.rules = ARTIFACT_RULES
         self.rules_loaded = self.rules is not None
@@ -397,12 +379,22 @@ class ArtifactValidator:
         type_details = self.artifact_type_details.get(matched_type, {})
         expected_case = type_details.get("case", "lowercase")
 
-        # Check for ALL CAPS or uppercase words in descriptive part
-        if expected_case != "uppercase_prefix":
-            if descriptive_part.isupper() or any(
-                word.isupper() and len(word) > 1
-                for word in descriptive_part.replace("-", "_").split("_")
-            ):
+        # Check for ALL CAPS, uppercase, or mixed case words in descriptive part
+        # Always validate - descriptive part must be lowercase for ALL types
+        words = descriptive_part.replace("-", "_").split("_")
+        has_uppercase_or_mixed = any(
+            (word.isupper() or (not word.islower() and not word.isdigit())) and len(word) > 1
+            for word in words
+        )
+        
+        if descriptive_part.isupper() or has_uppercase_or_mixed:
+            if expected_case == "uppercase_prefix":
+                return (
+                    False,
+                    "Artifact filenames with uppercase prefix must have lowercase descriptive part. "
+                    f"Example: {matched_type}001_lowercase-name.md (not {matched_type}001_UPPERCASE-NAME.md)",
+                )
+            else:
                 return (
                     False,
                     "Artifact filenames must be lowercase. No ALL CAPS allowed. Use kebab-case (lowercase with hyphens)",
@@ -716,20 +708,7 @@ class ArtifactValidator:
         # Validate all artifacts in subdirectories
         for subdirectory in self.artifacts_root.iterdir():
             if subdirectory.is_dir() and not subdirectory.name.startswith("_"):
-                # Check if this directory should be ignored
-                should_ignore = False
-                for ignore_dir in self.ignore_directories:
-                    try:
-                        # Check if subdirectory is within or matches an ignored directory
-                        subdirectory.resolve().relative_to(ignore_dir.resolve())
-                        should_ignore = True
-                        break
-                    except (ValueError, AttributeError):
-                        # Not within this ignored directory, continue checking
-                        pass
-                
-                if not should_ignore:
-                    results.extend(self.validate_directory(subdirectory))
+                results.extend(self.validate_directory(subdirectory))
 
         # Add bundle validation results if available
         if CONTEXT_BUNDLES_AVAILABLE:
