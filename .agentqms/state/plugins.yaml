@@ -1,10 +1,10 @@
 metadata:
-  generated_at: '2025-11-29T16:21:18.619145+00:00'
+  generated_at: '2025-11-30T03:38:54.754751+00:00'
   generator: AgentQMS PluginLoader
   schema_version: '1.0'
 discovery_paths:
-  framework: /workspaces/agent_qms/AgentQMS/conventions/plugins
-  project: /workspaces/agent_qms/.agentqms/plugins
+  framework: /home/runner/work/AgentQMS/AgentQMS/AgentQMS/conventions/plugins
+  project: /home/runner/work/AgentQMS/AgentQMS/.agentqms/plugins
 plugins_loaded:
   artifact_types:
   - change_request
@@ -16,23 +16,23 @@ plugin_metadata:
   type: artifact_type
   version: '1.0'
   source: project
-  path: /workspaces/agent_qms/.agentqms/plugins/artifact_types/change_request.yaml
+  path: /home/runner/work/AgentQMS/AgentQMS/.agentqms/plugins/artifact_types/change_request.yaml
 - name: validators
   type: validator
   version: '1.0'
   source: project
-  path: /workspaces/agent_qms/.agentqms/plugins/validators.yaml
+  path: /home/runner/work/AgentQMS/AgentQMS/.agentqms/plugins/validators.yaml
 - name: security-review
   type: context_bundle
   version: '1.0'
   source: project
-  path: /workspaces/agent_qms/.agentqms/plugins/context_bundles/security-review.yaml
+  path: /home/runner/work/AgentQMS/AgentQMS/.agentqms/plugins/context_bundles/security-review.yaml
 validation_errors:
-- path: /workspaces/agent_qms/.agentqms/plugins/artifact_types/audit.yaml
+- path: /home/runner/work/AgentQMS/AgentQMS/.agentqms/plugins/artifact_types/audit.yaml
   type: artifact_type
   error: 'Additional properties are not allowed (''allowed_categories'' was unexpected)
     (path: [''validation''])'
-  schema_path: /workspaces/agent_qms/AgentQMS/conventions/schemas/plugin_artifact_type.json
+  schema_path: /home/runner/work/AgentQMS/AgentQMS/AgentQMS/conventions/schemas/plugin_artifact_type.json
 resolved:
   artifact_types:
     change_request:

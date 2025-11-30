@@ -1,25 +1,24 @@
-# 📊 Assessments
+# Assessments
 
-Audits, evaluations, and assessments of system components and processes.
+Active assessments and development roadmaps.
 
-**Last Updated**: 2025-11-28 14:39:14
+**Last Updated**: 2025-11-30 03:38:55
 **Total Artifacts**: 5
 
-## Active (2)
+## Active (5)
 
-- [Plugin Architecture Design Assessment](2025-11-25_1830_assessment-plugin-architecture-design.md) (📅 2025-11-25 18:30 (KS, 📊 assessment) - This assessment evaluates extension point candidates in AgentQMS, analyzes plugin architecture patterns, and proposes a minimal viable plugin system that enables multi-project extensibility while pres...
-- [Assessment: Converting Audit Documents into Reusable Auditing Framework](2025-11-09_0000_assessment-audit-framework-reusability.md) (📅 2025-11-09 00:00 (KS, 📊 assessment) - The audit documents in `docs/audit/` demonstrate a systematic, sequential methodology for evaluating framework state. While some content is project-specific, the **methodology and structure** have sig...
-
-## Draft (1)
-
-- [Assessment: Framework Directory Structure & Naming Conflicts](2025-11-20_0000_assessment-framework-structure.md) (📅 2025-11-20 00:00 (KS, 📊 assessment) - Multiple framework directories use overlapping names (`agent`, `config`, `conventions`, `ai_agent`) that are no longer self-explanatory after the audit framework additions. This assessment captures th...
+- [Assessment: Converting Audit Documents into Reusable Auditing Framework](2025-11-09_0000_assessment-audit-framework-reusability.md) (📅 2025-11-09 00:00 (KST), 📄 assessment) - The audit documents in `docs/audit/` demonstrate a systematic, sequential methodology for evaluating
+- [Assessment: Framework Directory Structure & Naming Conflicts](2025-11-20_0000_assessment-framework-structure.md) (📅 2025-11-20 00:00 (KST), 📄 assessment) - Multiple framework directories use overlapping names (`agent`, `config`, `conventions`, `ai_agent`) 
+- [Assessment: Plugin Architecture Readiness](2025-11-25_0000_assessment-plugin-architecture-readiness.md) (📅 2025-11-25 00:00 (KST), 📄 assessment) - Great question. Let me analyze the project's readiness for a plugin architecture and identify what i
+- [Assessment: Plugin Implementation Summary](2025-11-25_0000_assessment-plugin-impl-summary.md) (📅 2025-11-25 00:00 (KST), 📄 assessment) - Excellent! Let's proceed with component integration. I'll start by examining the current implementat
+- [Plugin Architecture Design Assessment](2025-11-25_1830_assessment-plugin-architecture-design.md) (📅 2025-11-25 18:30 (KST), 📄 assessment) - This assessment evaluates extension point candidates in AgentQMS, analyzes plugin architecture patte
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| Active | 2 |
-| Draft | 1 |
+| Active | 5 |
+| Completed | 0 |
 
 ---
 
