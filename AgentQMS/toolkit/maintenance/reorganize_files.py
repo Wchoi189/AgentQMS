@@ -316,7 +316,6 @@ class FileReorganizer:
             
             # If current directory matches a valid type and has decent matches, prefer it
             if current_dir and current_dir in [v for v in self.directory_structure.keys()]:
-                current_type = None
                 for atype, dirs in [(k, v.get("types", [])) for k, v in self.directory_structure.items()]:
                     if current_dir in self.directory_structure and atype in match_count:
                         if match_count.get(atype, 0) >= match_count[best_type] * 0.7:
@@ -399,7 +398,7 @@ class FileReorganizer:
             # Check if target file already exists
             if new_path.exists():
                 print(f"❌ Target file already exists: {new_path}")
-                print(f"   Skipping move to avoid conflict")
+                print("   Skipping move to avoid conflict")
                 return False
 
             # Perform move

@@ -12,7 +12,7 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict
 
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
 from AgentQMS.toolkit.utils.paths import get_project_conventions_dir

@@ -21,10 +21,9 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+from AgentQMS.agent_tools.compliance.validate_artifacts import ArtifactValidator
 
 ensure_project_root_on_sys_path()
-
-from AgentQMS.agent_tools.compliance.validate_artifacts import ArtifactValidator
 
 
 class ArtifactMonitor:

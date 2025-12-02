@@ -3,20 +3,13 @@
 
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
 import argparse
 import json
 from dataclasses import dataclass
-from pathlib import Path
 from typing import List, Optional
-import sys
-
-PROJECT_ROOT = Path(__file__).resolve().parents[3]
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
-
-ensure_project_root_on_sys_path()
 
 from AgentQMS.toolkit.utils.config import load_config
 from AgentQMS.toolkit.utils.migration import log_migration_event
@@ -25,6 +18,10 @@ from AgentQMS.toolkit.utils.paths import (
     get_framework_root,
     get_project_root,
 )
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 
 DEFAULT_PROJECT_FRAMEWORK = """framework:

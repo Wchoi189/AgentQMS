@@ -26,7 +26,7 @@ import glob
 import sys
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 try:
     import yaml
@@ -36,7 +36,7 @@ except ImportError:
     )
     sys.exit(1)
 
-from AgentQMS.agent_tools.utils.paths import get_docs_dir, get_project_root
+from AgentQMS.agent_tools.utils.paths import get_project_root
 from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
 
 ensure_project_root_on_sys_path()
@@ -474,11 +474,11 @@ def main():
         for f in suggestions['bundle_files']:
             print(f"  - {f}")
         if suggestions.get("suggested_workflows"):
-            print(f"\nSuggested Workflows:")
+            print("\nSuggested Workflows:")
             for wf in suggestions["suggested_workflows"]:
                 print(f"  - {wf}")
         if suggestions.get("suggested_tools"):
-            print(f"\nSuggested Tools:")
+            print("\nSuggested Tools:")
             for tool in suggestions["suggested_tools"]:
                 print(f"  - {tool}")
     elif args.task:

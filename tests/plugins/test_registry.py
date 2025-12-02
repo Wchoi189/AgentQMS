@@ -1,5 +1,4 @@
 """Unit tests for the PluginRegistry module."""
-import pytest
 from AgentQMS.agent_tools.core.plugins.registry import (
     PluginRegistry,
     PluginMetadata,

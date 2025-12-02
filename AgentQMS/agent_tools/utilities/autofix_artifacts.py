@@ -266,7 +266,7 @@ def apply_fixes(
                 
                 # Update links if requested
                 if update_links:
-                    print(f"   🔗 Updating links...")
+                    print("   🔗 Updating links...")
                     updated = rewrite_links_after_move(source, target, project_root, dry_run)
                     if updated > 0:
                         print(f"   ✅ Updated {updated} files with new links")

@@ -308,7 +308,6 @@ class FrontmatterGenerator:
 def main():
     """Main execution function"""
     import argparse
-    import subprocess
     from pathlib import Path
 
     parser = argparse.ArgumentParser(description="Add frontmatter to files missing it")

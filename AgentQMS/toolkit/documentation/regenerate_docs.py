@@ -6,7 +6,6 @@ This script is designed to be run from pre-commit hooks and manual workflows.
 
 import subprocess
 import sys
-from pathlib import Path
 
 from AgentQMS.toolkit.utils.paths import get_docs_dir, get_project_root
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
