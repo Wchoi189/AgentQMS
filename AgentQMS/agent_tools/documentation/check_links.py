@@ -10,7 +10,7 @@ import json
 import sys
 import re
 from pathlib import Path
-from typing import List, Tuple, Dict, Any, Optional
+from typing import List, Tuple, Dict, Any
 
 
 def extract_markdown_links(file_path: Path) -> List[Tuple[int, str, str]]:
@@ -187,7 +187,7 @@ def main():
         }
         print(json.dumps(result, indent=2))
     else:
-        print(f"🔍 Checking links in documentation")
+        print("🔍 Checking links in documentation")
         print(f"\n📊 Checked {total_checked} files, {total_links} links")
         
         if all_broken_links:

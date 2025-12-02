@@ -6,8 +6,7 @@ Scans docs/artifacts/** by type and builds stable, sorted indexes.
 import sys
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple
-import re
+from typing import Dict
 
 def extract_frontmatter(file_path: Path) -> Dict[str, str]:
     """Extract frontmatter from artifact markdown file."""
@@ -51,7 +50,7 @@ def generate_index_content(directory: Path, artifact_type: str) -> str:
             lines = content.split("---", 2)
             if len(lines) >= 3:
                 body = lines[2].strip().split("\n")
-                preview = next((l.strip("# ").strip() for l in body if l.strip() and not l.startswith("#")), "")[:100]
+                preview = next((line.strip("# ").strip() for line in body if line.strip() and not line.startswith("#")), "")[:100]
             else:
                 preview = ""
         except Exception:

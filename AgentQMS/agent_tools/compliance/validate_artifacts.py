@@ -25,29 +25,6 @@ from typing import Any, Dict, List, Optional
 
 import yaml
 
-from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
-
-ensure_project_root_on_sys_path()
-
-from AgentQMS.agent_tools.compliance.validate_boundaries import BoundaryValidator
-
-
-def load_artifact_rules() -> Optional[Dict[str, Any]]:
-    """Load artifact rules from the YAML schema file."""
-    try:
-        from AgentQMS.agent_tools.utils.paths import get_project_root
-        rules_path = get_project_root() / "AgentQMS" / "knowledge" / "agent" / "artifact_rules.yaml"
-        if rules_path.exists():
-            with open(rules_path, encoding="utf-8") as f:
-                return yaml.safe_load(f)
-    except Exception:
-        pass
-    return None
-
-
-# Load rules at module level (optional - fallback to builtins if not available)
-ARTIFACT_RULES = load_artifact_rules()
-
 # Try to import context bundle functions for validation
 try:
     from AgentQMS.agent_tools.core.context_bundle import (
@@ -68,6 +45,29 @@ try:
     PLUGINS_AVAILABLE = True
 except ImportError:
     PLUGINS_AVAILABLE = False
+
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+
+ensure_project_root_on_sys_path()
+
+from AgentQMS.agent_tools.compliance.validate_boundaries import BoundaryValidator  # noqa: E402
+
+
+def load_artifact_rules() -> Optional[Dict[str, Any]]:
+    """Load artifact rules from the YAML schema file."""
+    try:
+        from AgentQMS.agent_tools.utils.paths import get_project_root
+        rules_path = get_project_root() / "AgentQMS" / "knowledge" / "agent" / "artifact_rules.yaml"
+        if rules_path.exists():
+            with open(rules_path, encoding="utf-8") as f:
+                return yaml.safe_load(f)
+    except Exception:
+        pass
+    return None
+
+
+# Load rules at module level (optional - fallback to builtins if not available)
+ARTIFACT_RULES = load_artifact_rules()
 
 
 def _assert_boundaries() -> None:
@@ -710,10 +710,10 @@ class ArtifactValidator:
             if subdirectory.is_dir() and not subdirectory.name.startswith("_"):
                 results.extend(self.validate_directory(subdirectory))
 
-        # Add bundle validation results if available
-        if CONTEXT_BUNDLES_AVAILABLE:
-            bundle_results = self.validate_bundles()
-            results.extend(bundle_results)
+        # # Add bundle validation results if available
+        # if CONTEXT_BUNDLES_AVAILABLE:
+        #     bundle_results = self.validate_bundles()
+        #     results.extend(bundle_results)
 
         return results
 

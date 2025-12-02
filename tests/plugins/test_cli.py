@@ -1,11 +1,8 @@
 """Unit tests for the Plugin CLI module."""
-import tempfile
-import sys
 from pathlib import Path
 from unittest.mock import patch, Mock
 import argparse
 import json
-import yaml
 
 from AgentQMS.agent_tools.core.plugins.cli import (
     create_parser,
@@ -13,7 +10,7 @@ from AgentQMS.agent_tools.core.plugins.cli import (
     format_json_output,
     main
 )
-from AgentQMS.agent_tools.core.plugins.registry import PluginRegistry, PluginMetadata, PluginValidationError
+from AgentQMS.agent_tools.core.plugins.registry import PluginRegistry, PluginValidationError
 
 
 def test_create_parser():

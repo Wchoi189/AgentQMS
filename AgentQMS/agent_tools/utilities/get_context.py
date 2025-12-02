@@ -1,5 +1,14 @@
 from __future__ import annotations
 
+import argparse
+import json
+import sys
+from pathlib import Path
+from typing import Any
+
+from AgentQMS.agent_tools.utils.paths import get_docs_dir
+from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
+
 """Lookup utility for documentation context bundles.
 
 This is the canonical implementation in agent_tools.
@@ -14,15 +23,6 @@ Usage examples:
     PYTHONPATH=. python AgentQMS/agent_tools/utilities/get_context.py --bundle bundle-name
     PYTHONPATH=. python AgentQMS/agent_tools/utilities/get_context.py --list-bundles
 """
-
-import argparse
-import json
-import sys
-from pathlib import Path
-from typing import Any
-
-from AgentQMS.agent_tools.utils.paths import get_docs_dir
-from AgentQMS.agent_tools.utils.runtime import ensure_project_root_on_sys_path
 
 ensure_project_root_on_sys_path()
 

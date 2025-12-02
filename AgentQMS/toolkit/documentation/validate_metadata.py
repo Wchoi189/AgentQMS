@@ -29,10 +29,9 @@ import sys
 from pathlib import Path
 
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
+from ui.apps.inference.services.checkpoint.validator import MetadataValidator
 
 ensure_project_root_on_sys_path()
-
-from ui.apps.inference.services.checkpoint.validator import MetadataValidator
 
 # Configure logging
 logging.basicConfig(

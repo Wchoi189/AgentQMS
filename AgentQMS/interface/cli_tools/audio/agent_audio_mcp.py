@@ -12,6 +12,14 @@ from pathlib import Path
 from typing import Any
 
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
+from agent.tools.audio.message_templates import (
+    get_message,
+    get_random_message,
+    list_categories,
+    list_messages,
+    suggest_message,
+    validate_message,
+)
 
 PROJECT_ROOT = ensure_project_root_on_sys_path()
 PLAY_AUDIO_PATH = PROJECT_ROOT / "AgentQMS" / "scripts" / "maintenance" / "play_audio.py"
@@ -28,16 +36,6 @@ if PLAY_AUDIO_PATH.exists():
         raise ImportError(f"Failed to load play_audio from {PLAY_AUDIO_PATH}")
 else:
     raise ImportError(f"Could not find play_audio at {PLAY_AUDIO_PATH}")
-
-# Import message templates (this should work as agent.tools.audio is a package)
-from agent.tools.audio.message_templates import (
-    get_message,
-    get_random_message,
-    list_categories,
-    list_messages,
-    suggest_message,
-    validate_message,
-)
 
 
 class AudioMCPServer:

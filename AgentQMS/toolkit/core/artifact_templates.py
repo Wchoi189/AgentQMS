@@ -778,7 +778,6 @@ High/Medium/Low (urgency for fixing, separate from severity above)
 
         now = datetime.now()
         timestamp = now.strftime("%Y-%m-%d_%H%M")
-        date_only = now.strftime("%Y-%m-%d")
 
         # Handle special case for bug reports (need bug ID)
         if template_type == "bug_report":

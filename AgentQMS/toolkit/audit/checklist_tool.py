@@ -13,7 +13,7 @@ Usage:
 import argparse
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
 from AgentQMS.toolkit.utils.paths import get_project_conventions_dir
@@ -222,7 +222,7 @@ def generate_progress_report(audit_dir: Path) -> str:
     report_lines.extend([
         "---",
         "",
-        f"## Overall Progress",
+        "## Overall Progress",
         f"- **Total Items**: {total_items}",
         f"- **Completed**: {completed_items}",
         f"- **Remaining**: {total_items - completed_items}",

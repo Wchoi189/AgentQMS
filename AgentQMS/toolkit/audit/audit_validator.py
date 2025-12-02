@@ -14,7 +14,7 @@ import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import List, Optional
+from typing import List
 
 from AgentQMS.toolkit.utils.runtime import ensure_project_root_on_sys_path
 
@@ -227,7 +227,6 @@ def validate_document(document_path: Path) -> ValidationResult:
     document_name = document_path.name
     
     errors = []
-    warnings = []
     
     # Check required sections
     errors.extend(check_required_sections(content, document_name))
@@ -307,7 +306,7 @@ def validate_audit(audit_dir: Path) -> None:
     print(f"📋 Completeness: {completeness['found']}/{completeness['total']} documents")
     
     if completeness["missing"]:
-        print(f"⚠️  Missing documents:")
+        print("⚠️  Missing documents:")
         for doc in completeness["missing"]:
             print(f"   - {doc}")
     print()
@@ -335,9 +334,9 @@ def validate_audit(audit_dir: Path) -> None:
     
     print()
     if all_valid and completeness["complete"]:
-        print(f"✅ All documents valid and complete!")
+        print("✅ All documents valid and complete!")
     else:
-        print(f"❌ Validation failed:")
+        print("❌ Validation failed:")
         if not completeness["complete"]:
             print(f"   - {len(completeness['missing'])} missing document(s)")
         if total_errors > 0:

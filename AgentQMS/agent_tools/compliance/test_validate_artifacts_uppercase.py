@@ -4,7 +4,6 @@ Unit tests for uppercase validation in validate_artifacts.py
 Tests the fix for Bug 2: uppercase validation skip for uppercase_prefix artifact types.
 """
 import pytest
-from pathlib import Path
 from validate_artifacts import ArtifactValidator
 
 

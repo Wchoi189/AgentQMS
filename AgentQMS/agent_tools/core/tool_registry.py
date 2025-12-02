@@ -302,7 +302,6 @@ def generate_markdown_catalog(tools: list[ToolMetadata], workflows: list[Workflo
             lines.append("|---|---|---|---|")
         
         cli_mark = "✓" if tool.is_cli else "✗"
-        usage = tool.usage_hint if tool.usage_hint else "-"
         rel_path = tool.path.replace("\\", "/")
         lines.append(f"| **{tool.name}** | {tool.description} | {cli_mark} | `{rel_path}` |")
     
